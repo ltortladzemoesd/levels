@@ -1,53 +1,192 @@
-To match your site menu style, center-align the main tabs (English Language Courses, Art Courses) and subtabs, while keeping the current subtab design. Here’s the updated CSS and HTML section for tabs and subtabs:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Levels Academy – Courses Plugin</title>
+  <style>
+    :root{
+      --bg:#f4f5f5;           /* page bg */
+      --card:#aee2d7;         /* greenish card */
+      --pill:#ffe453;         /* yellow badge */
+      --text:#10201a;         /* primary text */
+      --muted:#2b3c34;        /* secondary text */
+      --shadow: 0 18px 30px rgba(0,0,0,.08);
+      --accent:#17b890;       /* site accent */
+      --bar:#333;             /* dark bar like site menu */
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow-x:hidden}
+    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
 
-```html
-<style>
-  .tabs, .subtabs {
-    display: flex;
-    justify-content: center; /* center align */
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 22px;
-  }
-  .tab-btn, .subtab-btn {
-    padding: 16px 24px;
-    border-radius: 999px;
-    border: 0;
-    cursor: pointer;
-    background: #fff;
-    box-shadow: var(--shadow);
-    font-weight: 800;
-    font-size: 18px;
-    transition: transform .15s ease, background .2s ease;
-  }
-  .tab-btn[aria-selected="true"], .subtab-btn[aria-selected="true"] {
-    background: var(--card);
-  }
-  .tab-btn:hover, .subtab-btn:hover {
-    transform: scale(1.04);
-  }
-    /* --- Main tabbar styled like site menu --- */
-    .tabbar{display:flex;justify-content:center;align-items:center;gap:40px;background:#333;border-radius:999px;padding:14px 22px;margin-bottom:22px;max-width:1100px;margin-left:auto;margin-right:auto;color:#fff}
-    .main-tab{background:transparent;border:0;color:#fff;font-weight:800;font-size:22px;cursor:pointer;padding:8px 4px;letter-spacing:.2px;transition:opacity .15s ease}
-    .main-tab[aria-selected="true"]{color:#17b890}
+    .wrap{max-width:100%;margin:28px auto;padding:0 25px 48px}
+
+    /* --- Main tabbar styled like site header --- */
+    .tabbar{display:flex;justify-content:center;align-items:center;gap:40px;background:var(--bar);border-radius:999px;padding:14px 22px;margin-bottom:22px;max-width:1100px;margin-left:auto;margin-right:auto;color:#fff}
+    .main-tab{background:transparent;border:0;color:#fff;font-weight:800;font-size:22px;cursor:pointer;padding:8px 4px;letter-spacing:.2px;transition:opacity .15s ease,color .2s ease}
+    .main-tab[aria-selected="true"]{color:var(--accent)}
     .main-tab:hover{opacity:.9}
-    /* center subtabs under the bar */
-    .subtabs{justify-content:center}
-  </style>
 
-<nav class="tabbar" role="tablist" aria-label="Course families">
+    /* Subtabs (centered) */
+    .subtabs{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;justify-content:center}
+    .subtab-btn{padding:16px 24px;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:800;font-size:18px;transition:transform .15s ease,background .2s ease}
+    .subtab-btn[aria-selected="true"]{background:var(--card)}
+    .subtab-btn:hover{transform:scale(1.04)}
+
+    /* Grid + Cards */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:24px}
+    .card{background:var(--card);border-radius:28px;padding:30px;box-shadow:var(--shadow);position:relative;display:flex;flex-direction:column;min-height:380px;transition:transform .2s ease}
+    .card:hover{transform:translateY(-2px) scale(1.01)}
+    .title{font-size:26px;line-height:1.2;margin:4px 0 12px;font-weight:900}
+    .age{display:inline-block;background:var(--pill);border-radius:28px;padding:6px 12px;font-weight:800;max-width:max-content}
+    .desc{color:var(--muted);margin:16px 0 18px;line-height:1.5;word-break:break-word;hyphens:auto}
+    .chips{display:flex;flex-wrap:wrap;gap:14px;margin-top:auto}
+    .chip{background:#fff;border-radius:28px;padding:10px 16px;font-weight:800;box-shadow:var(--shadow)}
+    .price{display:flex;align-items:baseline;gap:8px;margin-top:18px;font-size:28px;font-weight:900}
+    .per{font-size:16px;font-weight:700}
+
+    .hidden{display:none !important}
+
+    /* Full-card link overlay */
+    .card .card-overlay{position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5}
+    .card .card-overlay:focus{outline:none}
+
+    /* Mobile tweaks */
+    @media (max-width: 480px){
+      .wrap{padding:0 14px 40px}
+      .tabbar{gap:22px;padding:10px 14px}
+      .main-tab{font-size:18px}
+      .subtabs{gap:10px}
+      .subtab-btn{font-size:16px;padding:12px 16px;max-width:100%}
+      .grid{grid-template-columns:1fr}
+      .card{padding:20px;min-height:auto}
+      .title{font-size:clamp(20px,6vw,24px)}
+      .chip{padding:8px 12px}
+      .price{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <nav class="tabbar" role="tablist" aria-label="Course families">
       <button class="main-tab" id="tab-en" aria-selected="true">English Language Courses</button>
       <button class="main-tab" id="tab-art" aria-selected="false">Art Courses</button>
     </nav>
-<div id="subtabs-en" class="subtabs" role="tablist">
-  <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
-  <button class="subtab-btn" id="sub-teenagers" aria-selected="false">teenagers</button>
-  <button class="subtab-btn" id="sub-adults" aria-selected="false">adults</button>
-  <button class="subtab-btn" id="sub-corporate" aria-selected="false">corporate</button>
-</div>
-```
 
-This ensures:
-- Main tabs are center-aligned and styled like your site menu.
-- Subtabs remain in the same style but also center-aligned.
-- No change to subtab coloring logic.
+    <div id="subtabs-en" class="subtabs" role="tablist">
+      <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
+      <button class="subtab-btn" id="sub-teenagers" aria-selected="false">teenagers</button>
+      <button class="subtab-btn" id="sub-adults" aria-selected="false">adults</button>
+      <button class="subtab-btn" id="sub-corporate" aria-selected="false">corporate</button>
+    </div>
+
+    <section id="panel-en" role="tabpanel">
+      <div id="subpanel-children" role="tabpanel"><div class="grid" data-grid="children"></div></div>
+      <div id="subpanel-teenagers" role="tabpanel" class="hidden"><div class="grid" data-grid="teenagers"></div></div>
+      <div id="subpanel-adults" role="tabpanel" class="hidden"><div class="grid" data-grid="adults"></div></div>
+      <div id="subpanel-corporate" role="tabpanel" class="hidden"><div class="grid" data-grid="corporate"></div></div>
+    </section>
+
+    <section id="panel-art" role="tabpanel" class="hidden"><div class="grid" data-grid="art"></div></section>
+  </div>
+
+  <script>
+    // ---- DATA --------------------------------------------------------------
+    const data = {
+      children: [
+        { title: "Sunday School", age: "6 – 10 y.o.", desc: base(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
+        { title: "Saturday School", age: "6 – 10 y.o.", desc: base(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
+        { title: "General English", age: "6 – 10 y.o.", desc: base(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
+      ],
+      teenagers: [
+        { title:"IELTS", age:"from 16 y.o.", desc: base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
+        { title:"General English", age:"11 – 17 y.o.", desc: base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general" },
+        { title:"Private Lessons", age:"from 11 y.o.", desc: base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
+        { title:"FCE   PET   CAE", age:"from 16 y.o.", desc: base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
+        { title:"National Exam", age:"from 16 y.o.", desc: base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
+      ],
+      adults: [
+        { title:"IELTS", age:"from 18 y.o.", desc: base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
+        { title:"General English", age:"from 18 y.o.", desc: base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general" },
+        { title:"Conversational English", age:"from 18 y.o.", desc: base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"full course", link:"#adults-conv" },
+        { title:"Private Lessons", age:"from 18 y.o.", desc: base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private" },
+        { title:"Professional English", age:"from 18 y.o.", desc: "The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro" },
+        { title:"FCE   PET   CAE", age:"from 18 y.o.", desc: base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce" },
+      ],
+      corporate: [
+        { title:"Corporate Courses", age:"for companies", desc: base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6" },
+      ],
+      art: [
+        { title:"Painting & Graphics", age:"7 – 15 y.o.", desc: base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids" },
+        { title:"Painting & Graphics", age:"from 16 y.o.", desc: base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen" },
+        { title:"Portfolio Creation", age:"from 16 y.o.", desc: base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio" },
+      ],
+    };
+    function base(){return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service."}
+    const currency = "₾";
+
+    // ---- Render ------------------------------------------------------------
+    function renderGroup(name){
+      const grid = document.querySelector(`[data-grid="${name}"]`);
+      if(!grid) return;
+      grid.innerHTML = data[name].map(c=>{
+        const chips = c.chips.map(ch=>`<span class=\"chip\">${ch}</span>`).join('');
+        const price = c.price === 'ind.'
+          ? `<div class=\"price\"><span>ind.</span><span class=\"per\">tailored pricing</span></div>`
+          : `<div class=\"price\"><span>${currency}${c.price}</span><span class=\"per\">${c.priceNote}</span></div>`;
+        return `<article class=\"card\"><a class=\"card-overlay\" href=\"${c.link}\" target=\"_blank\" rel=\"noopener\" aria-label=\"Open ${c.title}\"></a>
+          <div class=\"title\">${c.title}</div>
+          <span class=\"age\">${c.age}</span>
+          <p class=\"desc\">${c.desc}</p>
+          <div class=\"chips\">${chips}</div>
+          ${price}
+        </article>`;
+      }).join('');
+    }
+    ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
+
+    // ---- Tab logic ---------------------------------------------------------
+    document.getElementById('tab-en').addEventListener('click', ()=>{
+      document.getElementById('tab-en').setAttribute('aria-selected','true');
+      document.getElementById('tab-art').setAttribute('aria-selected','false');
+      document.getElementById('panel-en').classList.remove('hidden');
+      document.getElementById('panel-art').classList.add('hidden');
+      document.getElementById('subtabs-en').classList.remove('hidden');
+      sendHeight();
+    });
+    document.getElementById('tab-art').addEventListener('click', ()=>{
+      document.getElementById('tab-en').setAttribute('aria-selected','false');
+      document.getElementById('tab-art').setAttribute('aria-selected','true');
+      document.getElementById('panel-en').classList.add('hidden');
+      document.getElementById('panel-art').classList.remove('hidden');
+      document.getElementById('subtabs-en').classList.add('hidden');
+      sendHeight();
+    });
+
+    ["children","teenagers","adults","corporate"].forEach(id=>{
+      document.getElementById(`sub-${id}`).addEventListener('click', ()=>{
+        ["children","teenagers","adults","corporate"].forEach(o=>{
+          document.getElementById(`sub-${o}`).setAttribute('aria-selected', o===id ? 'true':'false');
+          document.getElementById(`subpanel-${o}`).classList.toggle('hidden', o!==id);
+        });
+        sendHeight();
+      })
+    });
+
+    // ---- iframe auto-resize to Wix parent ---------------------------------
+    function sendHeight(){
+      requestAnimationFrame(()=>{
+        const h = Math.ceil(document.documentElement.scrollHeight);
+        window.parent && window.parent.postMessage({ type:'LA_HEIGHT', height:h }, '*');
+      });
+    }
+    // initial + dynamic
+    window.addEventListener('load', sendHeight);
+    document.addEventListener('DOMContentLoaded', sendHeight);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(sendHeight); }
+    new ResizeObserver(sendHeight).observe(document.body);
+    window.addEventListener('resize', sendHeight);
+    setTimeout(sendHeight, 0);
+  </script>
+</body>
+</html>
