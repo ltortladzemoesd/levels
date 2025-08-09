@@ -21,15 +21,15 @@
 
     .wrap{max-width:100%;margin:28px auto;padding:0 20px 48px}
 
-    /* Main tabs: equal width, slightly larger than subtabs */
+    /* Main tabs */
     .tabbar{display:flex;gap:20px;justify-content:center;width:100%;margin-bottom:22px}
-    .main-tab{flex:1;max-width:520px;text-align:center;background:var(--bar);color:#fff;border:0;border-radius:999px;padding:16px 0;font-weight:500;font-size:19px;cursor:pointer;transition:background .2s ease,color .2s ease}
+    .main-tab{flex:1;text-align:center;background:var(--bar);color:var(--text);border:0;border-radius:999px;padding:18px 0;font-weight:500;font-size:20px;cursor:pointer;transition:background .2s ease,color .2s ease, box-shadow .2s ease;box-shadow:var(--shadow)}
     .main-tab[aria-selected="true"]{background:var(--card);color:var(--text)}
     .main-tab:hover{opacity:.9}
 
-    /* Subtabs: equal width pills, thinner and not bold */
+    /* Subtabs */
     .subtabs{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;margin-bottom:22px}
-    .subtab-btn{flex:1 1 220px;max-width:280px;text-align:center;padding:11px 0;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:400;font-size:16px;transition:transform .15s ease,background .2s ease}
+    .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px);text-align:center;padding:10px 0;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:400;font-size:16px;transition:transform .15s ease,background .2s ease}
     .subtab-btn[aria-selected="true"]{background:var(--card)}
     .subtab-btn:hover{transform:scale(1.02)}
 
@@ -53,8 +53,8 @@
     @media (max-width: 640px){
       .wrap{padding:0 14px 40px}
       .tabbar{flex-direction:column}
-      .main-tab{width:100%;max-width:none;font-size:17px;padding:14px 0}
-      .subtab-btn{flex-basis:100%;max-width:none}
+      .main-tab{width:100%;max-width:none;font-size:18px;padding:16px 0}
+      .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
       .grid{grid-template-columns:1fr}
       .card{padding:20px;min-height:auto}
       .title{font-size:clamp(18px,6vw,22px)}
