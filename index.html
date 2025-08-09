@@ -36,6 +36,8 @@
 
     .hidden{display:none !important}
     @media (max-width:640px){.tab-btn,.subtab-btn{font-size:16px;padding:12px 18px}.grid{grid-template-columns:1fr}}
+      .card .card-overlay{position:absolute;inset:0;border-radius:28px;}
+    .card .card-overlay:focus{outline:3px solid #111;outline-offset:-3px}
   </style>
 </head>
 <body>
@@ -65,7 +67,7 @@
     // ---- DATA (restored) ---------------------------------------------------
     const data = {
       children: [
-        { title: "Sunday School", age: "6 – 10 y.o.", desc: "This is the space to describe the service and explain how customers or clients can benefit from it.", chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
+        { title: "Sunday School", age: "6 – 10 y.o.", desc: "This is the space to describe the service and explain how customers or clients can benefit from it.", chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"#children-sunday" },
         { title: "Saturday School", age: "6 – 10 y.o.", desc: "This is the space to describe the service and explain how customers or clients can benefit from it.", chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"#children-saturday" },
         { title: "General English", age: "6 – 10 y.o.", desc: "This is the space to describe the service and explain how customers or clients can benefit from it.", chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"#children-general" },
       ],
@@ -105,7 +107,7 @@
         const price = c.price === 'ind.'
           ? `<div class="price"><span>ind.</span><span class="per">tailored pricing</span></div>`
           : `<div class="price"><span>${currency}${c.price}</span><span class="per">${c.priceNote}</span></div>`;
-        return `<article class="card" onclick="location.href='${c.link}'">
+        return `<article class="card"><a class="card-overlay" href="${c.link}" target="_top" rel="noopener" aria-label="Open ${c.title}"></a>
           <div class="title">${c.title}</div>
           <span class="age">${c.age}</span>
           <p class="desc">${c.desc}</p>
