@@ -21,17 +21,17 @@
 
     .wrap{max-width:100%;margin:28px auto;padding:0 20px 48px}
 
-    /* Main tabs: now two separate pills */
-    .tabbar{display:flex;justify-content:center;gap:40px;width:100%;margin-bottom:22px;padding:6px 20px}
-    .main-tab{background:var(--bar);color:#fff;border:0;border-radius:999px;padding:10px 30px;font-weight:400;font-size:16px;cursor:pointer;transition:background .2s ease,color .2s ease}
+    /* Main tabs: equal width, slightly larger than subtabs */
+    .tabbar{display:flex;gap:20px;justify-content:center;width:100%;margin-bottom:22px}
+    .main-tab{flex:1;max-width:520px;text-align:center;background:var(--bar);color:#fff;border:0;border-radius:999px;padding:16px 0;font-weight:500;font-size:19px;cursor:pointer;transition:background .2s ease,color .2s ease}
     .main-tab[aria-selected="true"]{background:var(--card);color:var(--text)}
     .main-tab:hover{opacity:.9}
 
-    /* Subtabs: thinner and not bold */
-    .subtabs{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;justify-content:center}
-    .subtab-btn{padding:12px 20px;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:400;font-size:18px;transition:transform .15s ease,background .2s ease}
+    /* Subtabs: equal width pills, thinner and not bold */
+    .subtabs{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;margin-bottom:22px}
+    .subtab-btn{flex:1 1 220px;max-width:280px;text-align:center;padding:11px 0;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:400;font-size:16px;transition:transform .15s ease,background .2s ease}
     .subtab-btn[aria-selected="true"]{background:var(--card)}
-    .subtab-btn:hover{transform:scale(1.04)}
+    .subtab-btn:hover{transform:scale(1.02)}
 
     /* Grid + Cards */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:24px}
@@ -47,17 +47,14 @@
 
     .hidden{display:none !important}
 
-    /* Full-card link overlay */
     .card .card-overlay{position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5}
     .card .card-overlay:focus{outline:none}
 
-    /* Mobile tweaks */
-    @media (max-width: 480px){
+    @media (max-width: 640px){
       .wrap{padding:0 14px 40px}
-      .tabbar{gap:22px;padding:6px 14px;flex-direction:column;align-items:center}
-      .main-tab{width:100%;text-align:center;font-size:14px}
-      .subtabs{gap:10px}
-      .subtab-btn{font-size:16px;padding:10px 14px;max-width:100%}
+      .tabbar{flex-direction:column}
+      .main-tab{width:100%;max-width:none;font-size:17px;padding:14px 0}
+      .subtab-btn{flex-basis:100%;max-width:none}
       .grid{grid-template-columns:1fr}
       .card{padding:20px;min-height:auto}
       .title{font-size:clamp(18px,6vw,22px)}
