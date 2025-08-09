@@ -21,15 +21,15 @@
 
     .wrap{max-width:100%;margin:28px auto;padding:0 20px 48px}
 
-    /* --- Main tabbar (thin, full-width, centered items) --- */
-    .tabbar{display:flex;justify-content:center;align-items:center;gap:40px;background:var(--bar);border-radius:999px;padding:4px 20px;margin-bottom:22px;width:100%;color:#fff}
-    .main-tab{background:transparent;border:0;color:#fff;font-weight:400;font-size:16px;cursor:pointer;padding:4px 4px;letter-spacing:.2px;transition:opacity .15s ease,color .2s ease}
-    .main-tab[aria-selected="true"]{color:var(--accent)}
+    /* Main tabs: now two separate pills */
+    .tabbar{display:flex;justify-content:center;gap:40px;width:100%;margin-bottom:22px;padding:6px 20px}
+    .main-tab{background:var(--bar);color:#fff;border:0;border-radius:999px;padding:10px 30px;font-weight:400;font-size:16px;cursor:pointer;transition:background .2s ease,color .2s ease}
+    .main-tab[aria-selected="true"]{background:var(--card);color:var(--text)}
     .main-tab:hover{opacity:.9}
 
-    /* Subtabs (centered pills) */
+    /* Subtabs: thinner and not bold */
     .subtabs{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:22px;justify-content:center}
-    .subtab-btn{padding:16px 24px;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:800;font-size:20px;transition:transform .15s ease,background .2s ease}
+    .subtab-btn{padding:12px 20px;border-radius:999px;border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);font-weight:400;font-size:18px;transition:transform .15s ease,background .2s ease}
     .subtab-btn[aria-selected="true"]{background:var(--card)}
     .subtab-btn:hover{transform:scale(1.04)}
 
@@ -54,10 +54,10 @@
     /* Mobile tweaks */
     @media (max-width: 480px){
       .wrap{padding:0 14px 40px}
-      .tabbar{gap:22px;padding:4px 14px}
-      .main-tab{font-size:14px}
+      .tabbar{gap:22px;padding:6px 14px;flex-direction:column;align-items:center}
+      .main-tab{width:100%;text-align:center;font-size:14px}
       .subtabs{gap:10px}
-      .subtab-btn{font-size:18px;padding:12px 16px;max-width:100%}
+      .subtab-btn{font-size:16px;padding:10px 14px;max-width:100%}
       .grid{grid-template-columns:1fr}
       .card{padding:20px;min-height:auto}
       .title{font-size:clamp(18px,6vw,22px)}
@@ -68,10 +68,10 @@
 </head>
 <body>
   <div class="wrap" id="app">
-    <nav class="tabbar" role="tablist" aria-label="Course families">
+    <div class="tabbar" role="tablist" aria-label="Course families">
       <button class="main-tab" id="tab-en" aria-selected="true">English Language Courses</button>
       <button class="main-tab" id="tab-art" aria-selected="false">Art Courses</button>
-    </nav>
+    </div>
 
     <div id="subtabs-en" class="subtabs" role="tablist">
       <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
