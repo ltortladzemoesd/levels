@@ -45,19 +45,11 @@ body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;bac
   display:flex;flex-direction:column;min-height:380px;transition:transform .2s}
 .card:hover{transform:translateY(-2px) scale(1.01)}
 
-/* Icon row (no background squares; we color icons with CSS masks) */
+/* Icon row: two icons, no background */
 .icon-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
-.icon{width:40px;height:40px;display:inline-block;flex:0 0 auto;
-  background:var(--icon-color, #23B899);
-  -webkit-mask: var(--icon-url) no-repeat center / contain;
-          mask: var(--icon-url) no-repeat center / contain;
-  filter: blur(0px);
-  opacity:1;
-  transform: translate3d(0,0,0);
-  transition: filter .18s linear, opacity .18s linear;
-}
-/* No accidental backgrounds */
-.icon, .icon * { background-color: transparent !important; }
+.icon{width:40px;height:40px;display:inline-block;flex:0 0 auto;pointer-events:none;
+  transform:translate3d(0,0,0);filter:blur(0px);opacity:1;transition:filter .18s linear, opacity .18s linear}
+.icon img{width:100%;height:100%;display:block;object-fit:contain;background:transparent!important}
 
 /* Title / age / text */
 .title{font-size:var(--title-size);line-height:1.2;margin:4px 0 6px;font-weight:900;color:#333}
@@ -133,7 +125,7 @@ function kidsdesc(){
   return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
 }
 
-/* -------- Data (removed Adults → Conversational English) -------- */
+/* -------- Data (Adults → Conversational English removed) -------- */
 const data = {
   children: [
     { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
@@ -165,7 +157,7 @@ const data = {
 };
 const currency = "₾";
 
-/* -------- Icon sources & palette -------- */
+/* -------- Icon sources (your URLs) -------- */
 const ICON_URLS = [
   "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
   "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
@@ -191,18 +183,21 @@ const ICON_URLS = [
   "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
   "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg",
 ];
-const COLORS = ["#3F85C6","#F1E073","#23B899","#333333","#F66E6E","#FFFFFF"];
 
-/* pick two different items */
-function pickTwoDistinct(arr){ const a = Math.floor(Math.random()*arr.length); let b = Math.floor(Math.random()*arr.length); if(b===a) b=(a+1)%arr.length; return [arr[a], arr[b]]; }
+/* pick two distinct items */
+function pickTwoDistinct(arr){
+  const a = Math.floor(Math.random()*arr.length);
+  let b = Math.floor(Math.random()*arr.length);
+  if(b===a) b=(a+1)%arr.length;
+  return [arr[a], arr[b]];
+}
 
 /* -------- Render -------- */
 function renderGroup(name){
   const grid = document.querySelector(`[data-grid="${name}"]`);
   if(!grid) return;
-  grid.innerHTML = data[name].map((c, idx)=>{
+  grid.innerHTML = data[name].map((c)=>{
     const [icon1, icon2] = pickTwoDistinct(ICON_URLS);
-    const [col1, col2]   = pickTwoDistinct(COLORS);
     const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
     const price = c.price === 'ind.'
       ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
@@ -211,8 +206,8 @@ function renderGroup(name){
       <article class="card">
         <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
         <div class="icon-row">
-          <span class="icon" style="--icon-url:url('${icon1}'); --icon-color:${col1}"></span>
-          <span class="icon" style="--icon-url:url('${icon2}'); --icon-color:${col2}"></span>
+          <span class="icon"><img alt="" src="${icon1}" loading="lazy"></span>
+          <span class="icon"><img alt="" src="${icon2}" loading="lazy"></span>
         </div>
         <div class="title">${c.title}</div>
         <div class="age-text">${c.age}</div>
@@ -224,81 +219,48 @@ function renderGroup(name){
 }
 ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
-/* -------- “Obscure” animation (follow mouse + blur/fade) --------
-   - Max shift: 15px
-   - Blur increases with distance (up to 6px)
-   - Opacity fades to 0.35 when far, 1 when close
-*/
+/* -------- “Obscure” animation (15px drift + blur/fade) -------- */
 function attachObscure(card){
-  const MAX_SHIFT = 15; // px
-  const MAX_BLUR  = 6;  // px
-  const MIN_OPACITY = 0.35;
-  const MAX_DIST = 200; // px influence radius
+  const MAX_SHIFT = 15, MAX_BLUR = 6, MIN_OPACITY = 0.35, MAX_DIST = 200;
   const icons = Array.from(card.querySelectorAll('.icon'));
   if(!icons.length) return;
 
-  // per-icon state for smooth lerp
-  const state = icons.map(()=>({tx:0, ty:0, blur:0, op:1, x:0, y:0, b:0, o:1}));
+  const state = icons.map(()=>({tx:0,ty:0,blur:0,op:1,x:0,y:0,b:0,o:1}));
+  let raf=null;
 
   function update(ev){
     const rect = card.getBoundingClientRect();
-    const mx = ev.clientX - rect.left;
-    const my = ev.clientY - rect.top;
-
-    icons.forEach((icon, i)=>{
+    const mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
+    icons.forEach((icon,i)=>{
       const r = icon.getBoundingClientRect();
-      const cx = r.left - rect.left + r.width/2;
-      const cy = r.top  - rect.top  + r.height/2;
-      const dx = mx - cx;
-      const dy = my - cy;
-      const dist = Math.hypot(dx,dy);
-      const t = Math.min(dist / MAX_DIST, 1);           // 0 near → 1 far
-      const shift = MAX_SHIFT * t;                       // farther = more shift
-      const nx = dist ? dx / dist : 0;                   // direction toward mouse
-      const ny = dist ? dy / dist : 0;
-
-      state[i].tx = nx * shift;
-      state[i].ty = ny * shift;
-      state[i].blur = MAX_BLUR * t;                      // blur with distance
-      state[i].op = 1 - (1 - MIN_OPACITY) * t;           // fade with distance
+      const cx = r.left - rect.left + r.width/2, cy = r.top - rect.top + r.height/2;
+      const dx = mx - cx, dy = my - cy, dist = Math.hypot(dx,dy);
+      const t = Math.min(dist/MAX_DIST,1), shift = MAX_SHIFT*t;
+      const nx = dist ? dx/dist : 0, ny = dist ? dy/dist : 0;
+      const s = state[i];
+      s.tx = nx*shift; s.ty = ny*shift; s.blur = MAX_BLUR*t; s.op = 1 - (1-MIN_OPACITY)*t;
     });
-    if (!raf) loop();
+    if(!raf) loop();
   }
+  function reset(){ state.forEach(s=>{s.tx=0;s.ty=0;s.blur=0;s.op=1}); if(!raf) loop(); }
 
-  function reset(){
-    state.forEach(s=>{s.tx=0; s.ty=0; s.blur=0; s.op=1;});
-    if (!raf) loop();
-  }
-
-  let raf = null;
   function loop(){
     raf = requestAnimationFrame(()=>{
-      let still = true;
-      const ease = 0.18; // smoothness similar to Wix "Pointer velocity ~0.7"
-      state.forEach((s, i)=>{
-        s.x += (s.tx - s.x) * ease;
-        s.y += (s.ty - s.y) * ease;
-        s.b += (s.blur - s.b) * ease;
-        s.o += (s.op   - s.o) * ease;
-
-        const icon = icons[i];
-        icon.style.transform = `translate3d(${s.x}px, ${s.y}px, 0)`;
-        icon.style.filter = `blur(${s.b}px)`;
-        icon.style.opacity = String(s.o);
-
-        if (Math.abs(s.tx - s.x) > 0.1 || Math.abs(s.ty - s.y) > 0.1 ||
-            Math.abs(s.blur - s.b) > 0.1 || Math.abs(s.op - s.o) > 0.01) {
-          still = false;
-        }
+      let still=true, ease=0.18;
+      state.forEach((s,i)=>{
+        s.x += (s.tx - s.x)*ease; s.y += (s.ty - s.y)*ease;
+        s.b += (s.blur - s.b)*ease; s.o += (s.op - s.o)*ease;
+        const el = icons[i];
+        el.style.transform = `translate3d(${s.x}px,${s.y}px,0)`;
+        el.style.filter = `blur(${s.b}px)`; el.style.opacity = String(s.o);
+        if(Math.abs(s.tx-s.x)>0.1 || Math.abs(s.ty-s.y)>0.1 || Math.abs(s.blur-s.b)>0.1 || Math.abs(s.op-s.o)>0.01) still=false;
       });
-      if (!still) { loop(); } else { raf = null; }
+      if(!still) loop(); else raf=null;
     });
   }
-
   card.addEventListener('mousemove', update, {passive:true});
   card.addEventListener('mouseleave', reset);
 }
-
 function attachAllObscure(){ document.querySelectorAll('.card').forEach(attachObscure); }
 
 /* -------- Tabs -------- */
@@ -350,3 +312,4 @@ window.addEventListener('load', attachAllObscure);
 </script>
 </body>
 </html>
+
