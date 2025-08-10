@@ -6,32 +6,49 @@
   <title>Levels Academy – Courses Plugin</title>
   <style>
     :root{
-      --bg:#f4f5f5;
-      --card:#aee2d7;   /* greenish card */
+      --bg:#f4f5f5;   /* page background */
+      --card:#aee2d7; /* card green */
       --text:#10201a;
       --muted:#2b3c34;
       --shadow: 0 18px 30px rgba(0,0,0,.08);
-      --chip:#23B899;   /* green chips */
+      --chip:#23B899; /* chips + selected main-tab text */
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html,body{height:100%;overflow-x:hidden}
     body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
 
-    .wrap{max-width:100%;margin:28px auto;padding:0 20px 48px}
+    /* Frame: rounded card container */
+    .wrap{
+      max-width:100%;
+      margin:28px auto;
+      padding:0 20px 48px;
+      background:#ffffff;        /* white so the rounded corners are visible */
+      border-radius:20px;        /* requested 20px corners */
+    }
 
-    /* Main tabs: equal width, thinner, dark background */
-    .tabbar{display:flex;gap:20px;justify-content:center;width:100%;margin-bottom:22px}
+    /* Main tabs: dark, thinner, equal width; desktop gets ~30% narrower + centered */
+    .tabbar{display:flex;gap:20px;justify-content:center;width:100%;margin:22px auto}
     .main-tab{
-      flex:1; text-align:center; background:#333; color:#fff;
-      border:0; border-radius:999px; padding:10px 0;
-      font-weight:500; font-size:18px; cursor:pointer;
+      flex:1;
+      text-align:center;
+      background:#333333;        /* dark bar */
+      color:#ffffff;             /* white text by default */
+      border:0;border-radius:999px;
+      padding:10px 0;            /* thin vertical height */
+      font-weight:500;font-size:18px;
+      cursor:pointer;
       transition:color .2s ease,opacity .2s ease, box-shadow .2s ease;
       box-shadow:var(--shadow)
     }
-    .main-tab[aria-selected="true"]{ color:var(--chip); }
+    .main-tab[aria-selected="true"]{ color:var(--chip); } /* selected = green text */
     .main-tab:hover{ opacity:.95 }
 
-    /* Subtabs */
+    /* Desktop: make each main tab ~30% narrower and keep centered */
+    @media (min-width:1025px){
+      .main-tab{ flex:0 0 32%; max-width:320px; }
+    }
+
+    /* Subtabs: compact pills */
     .subtabs{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;width:100%;margin-bottom:22px}
     .subtab-btn{
       flex:0 1 200px;max-width:200px;text-align:center;padding:10px 0;border-radius:999px;
@@ -129,7 +146,7 @@
   </div>
 
   <script>
-    /* Helpers FIRST so nothing races */
+    /* Helpers FIRST */
     function base(){
       return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service.";
     }
@@ -148,7 +165,7 @@
         { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general" },
         { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
         { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
-        { title:"National Exam", age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
+        { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
       ],
       adults: [
         { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
