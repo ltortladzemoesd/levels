@@ -3,149 +3,194 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Levels Academy – Courses Plugin (with icons)</title>
+<title>Levels Academy – Courses Plugin</title>
 <style>
-  :root{
-    --bg: transparent;          /* you asked for transparent behind the wrap */
-    --wrap-bg:#f4f5f5;
-    --wrap-radius:20px 20px 20px 20px; /* you can change top corners later */
-    --wrap-pad:25px;
+:root{
+  --bg: transparent;   /* page background is transparent behind the frame */
+  --card:#aee2d7;      /* card green */
+  --text:#10201a;
+  --muted:#2b3c34;
+  --shadow: 0 18px 30px rgba(0,0,0,.08);
+  --chip:#23B899;      /* green used in your UI */
+  --pill:#FFE453;      /* yellow you’ve used before */
+  --title-size:24px;   /* title + price unified size */
+}
 
-    --card:#aee2d7;
-    --text:#333333;
-    --muted:#2b3c34;
-    --shadow:0 18px 30px rgba(0,0,0,.08);
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden}
+body{
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+}
 
-    --bar:#333333;              /* main tabs background (idle) */
-    --bar-text:#ffffff;         /* main tabs text (idle) */
-    --bar-active-bg:#aee2d7;    /* main tabs pressed look – back to before */
-    --bar-active-text:#23B899;  /* pressed text color */
+/* Frame container: top corners 0, bottom 20px */
+.wrap{
+  max-width:100%;
+  margin:28px auto;
+  padding:25px 20px;           /* 25px top/bottom as requested */
+  background:#ffffff;
+  border-radius:0 0 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
+}
 
-    --chip:#23B899;             /* green chips on cards */
-  }
+/* Main tabs: revert pressed look; width matches subtabs on desktop */
+.tabbar{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  margin-bottom:22px;
+  max-width:calc(4 * 200px + 3 * 14px); /* match 4 subtabs width + gaps */
+  margin-left:auto;margin-right:auto;
+}
+.main-tab{
+  flex:1;
+  text-align:center;
+  background:#333333;        /* dark bar always */
+  color:#ffffff;             /* unpressed text = white */
+  border:0;border-radius:999px;
+  padding:10px 0;
+  font-weight:500;font-size:18px;
+  cursor:pointer;
+  transition:color .2s ease,opacity .2s ease, box-shadow .2s ease;
+  box-shadow:var(--shadow)
+}
+.main-tab[aria-selected="true"]{
+  background:#333333;        /* keep background */
+  color:var(--chip);         /* pressed text = green */
+}
+.main-tab:hover{opacity:.95}
 
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;overflow-x:hidden}
-  body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+/* Subtabs */
+.subtabs{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
+}
+.subtab-btn{
+  flex:0 1 200px;max-width:200px;text-align:center;padding:10px 0;border-radius:999px;
+  border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);
+  font-weight:400;font-size:16px;transition:transform .15s ease,background .2s ease
+}
+.subtab-btn[aria-selected="true"]{background:var(--card)}
+.subtab-btn:hover{transform:scale(1.02)}
 
-  /* outer frame */
-  .wrap{
-    max-width:1200px;
-    margin:28px auto;
-    padding:var(--wrap-pad);
-    background:var(--wrap-bg);
-    border-radius:var(--wrap-radius);
-  }
+/* Grid + Cards */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
+  gap:24px;
+}
+.card{
+  background:var(--card);
+  border-radius:28px;
+  padding:46px 30px 30px; /* +16px top to give space for icons */
+  box-shadow:var(--shadow);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:380px;
+  transition:transform .2s ease;
+}
+.card:hover{transform:translateY(-2px) scale(1.01)}
 
-  /* main tabs row (centered and same total width as subtabs on desktop) */
-  .tabbar{
-    display:flex;
-    gap:20px;
-    justify-content:center;
-    margin-bottom:22px;
-  }
-  .main-tab{
-    flex:0 1 280px;                 /* 2 tabs ~= width of subtabs row */
-    text-align:center;
-    background:var(--bar);
-    color:var(--bar-text);
-    border:0;border-radius:999px;
-    padding:10px 0;                 /* thinner vertically */
-    font-weight:500;font-size:18px;
-    cursor:pointer;
-    transition:background .2s ease,color .2s ease,box-shadow .2s ease;
-    box-shadow:var(--shadow);
-  }
-  .main-tab[aria-selected="true"]{
-    background:var(--bar-active-bg);
-    color:var(--bar-active-text);
-  }
+/* two small icons in the top-right (no shadow) */
+.card-icons{
+  position:absolute;top:14px;right:14px;
+  display:flex;gap:10px;z-index:1;
+}
+.card-icons .icon{
+  width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;
+}
+.card-icons .icon svg{width:100%;height:100%;display:block}
+.card-icons .icon svg path{fill:currentColor}
 
-  /* subtabs (centered pills, two per row on mobile) */
-  .subtabs{
-    display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
-  }
-  .subtab-btn{
-    flex:0 1 200px;max-width:200px;
-    text-align:center;padding:10px 0;border-radius:999px;border:0;cursor:pointer;
-    background:#fff;box-shadow:var(--shadow);font-weight:400;font-size:16px;
-    transition:transform .15s ease,background .2s ease
-  }
-  .subtab-btn[aria-selected="true"]{background:var(--card)}
-  .subtab-btn:hover{transform:scale(1.02)}
+/* Title a bit larger and dark text */
+.title{
+  font-size:var(--title-size);
+  line-height:1.2;
+  margin:4px 0 6px;
+  font-weight:900;
+  color:#333333;
+}
 
-  /* grid and cards */
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:24px}
-  .card{
-    position:relative;
-    background:var(--card);
-    border-radius:28px;
-    padding:30px;
-    box-shadow:var(--shadow);
-    display:flex;flex-direction:column;
-    min-height:380px;
-    transition:transform .2s ease;
-    color:var(--text);
-  }
-  .card:hover{transform:translateY(-2px) scale(1.01)}
+/* Age line under title, italic, smaller, dark */
+.age-text{
+  font-size:14px;
+  font-style:italic;
+  color:#333333;
+  margin-bottom:12px;
+}
 
-  /* icon badge */
-  .icon-badge{
-    position:absolute;top:18px;left:18px;
-    width:44px;height:44px;border-radius:50%;
-    background:rgba(255,255,255,.35);
-    display:flex;align-items:center;justify-content:center;
-    color:#333;              /* icon color; change per category if you like */
-    box-shadow:0 8px 16px rgba(0,0,0,.08) inset;
-  }
-  .icon-badge svg{width:22px;height:22px;display:block}
-  .icon-badge svg path{fill:currentColor}
+.desc{
+  color:var(--muted);
+  margin:16px 0 18px;
+  line-height:1.5;
+  word-break:break-word;
+  hyphens:auto;
+}
 
-  /* content */
-  .title{font-size:24px;line-height:1.2;margin:6px 0 6px;font-weight:900}
-  .age-text{font-style:italic;font-size:14px;opacity:.85;margin-bottom:12px}
-  .desc{color:var(--muted);margin:8px 0 18px;line-height:1.5}
+/* Chips: equal widths, 3 per row */
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:auto;
+}
+.chip{
+  background:var(--chip);
+  color:#fff;
+  border-radius:28px;
+  padding:8px 12px;
+  font-weight:400; /* not bold */
+  flex:1 1 calc(33.333% - 14px);
+  text-align:center;
+  box-shadow:var(--shadow);
+  font-size:14px;
+  white-space:nowrap;
+}
 
-  /* chips row: three equal-width pills that fit on one line */
-  .chips{display:flex;gap:12px;margin-top:auto}
-  .chip{
-    flex:1 1 0;                 /* equal width */
-    text-align:center;
-    background:var(--chip);color:#fff;
-    border-radius:999px;padding:8px 10px;font-weight:600; /* not bold */
-    box-shadow:var(--shadow);white-space:nowrap;font-size:14px;
-  }
+/* Price: same size as title, aligned right, dark text */
+.price{
+  display:block;
+  text-align:right;
+  margin-top:18px;
+  font-size:var(--title-size);
+  font-weight:900;
+  color:#333333;
+}
+.per{
+  font-size:14px;
+  font-weight:700;
+  color:#333333;
+  margin-left:6px;
+}
 
-  /* price on the right, same size as title */
-  .price-row{
-    display:flex;align-items:center;justify-content:flex-end;margin-top:16px
-  }
-  .price{font-size:24px;font-weight:900}
-  .per{font-size:16px;font-weight:700;margin-left:8px}
+/* Hidden + overlay */
+.hidden{display:none !important}
+.card .card-overlay{
+  position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:2 /* above icons so card is fully clickable */
+}
+.card .card-overlay:focus{outline:none}
 
-  .hidden{display:none !important}
-  .card .card-overlay{position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5}
-  .card .card-overlay:focus{outline:none}
+/* Tablet */
+@media (min-width:641px) and (max-width:1024px){
+  .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
+  .card{min-height:440px}
+}
 
-  /* tablet: 2 columns, taller cards */
-  @media (min-width:641px) and (max-width:1024px){
-    .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
-    .card{min-height:440px}
-  }
-
-  /* mobile */
-  @media (max-width:640px){
-    .wrap{padding:var(--wrap-pad)}
-    .tabbar{flex-direction:column}
-    .main-tab{width:100%;max-width:none}
-    .subtabs{justify-content:space-between}
-    .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
-    .grid{grid-template-columns:1fr}
-    .card{padding:20px;min-height:auto}
-    .desc{display:none} /* hide mid description on smartphone */
-    .title{font-size:22px}
-    .price{font-size:22px}
-  }
+/* Mobile */
+@media (max-width:640px){
+  .wrap{padding:25px 14px}
+  .tabbar{flex-direction:column;max-width:none}
+  .main-tab{width:100%;max-width:none;font-size:18px;padding:14px 0}
+  .subtabs{justify-content:space-between}
+  .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
+  .grid{grid-template-columns:1fr}
+  .card{padding:40px 20px 20px}
+  .desc{display:none}
+  .chips{margin-top:8px}
+  .title{font-size:clamp(20px,6vw,var(--title-size))}
+  .price{font-size:clamp(20px,6vw,var(--title-size))}
+}
 </style>
 </head>
 <body>
@@ -173,75 +218,64 @@
 </div>
 
 <script>
-/* ---------- ICON LIBRARY (SVG strings; recolor via CSS currentColor) ---------- */
+/* ---------- Small icon set (simple shapes; color via currentColor) ---------- */
 const ICONS = {
-  Brush:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M253,12.41c-1.33,3.58-2.91,9.13-5.38,14.25-16.28,33.84-36,65.5-60.53,94-8.9,10.37-18.42,20.21-27.89,30.06-4.77,5-6.45,4.74-11.25,0-14.34-14.32-28.55-28.76-43-42.91-4-3.87-4.16-6.53-.27-10.71C134,65.49,168.47,40.73,206.07,20.17,217.64,13.84,230,8.86,242.25,3.9,248.67,1.3,253,4.42,253,12.41Z"/><path d="M69.57,159.45c3-14.83,9.3-27.92,17.62-40.09,3.81-5.57,5.2-5.8,10-1q20.25,20.2,40.44,40.47c4.92,4.93,4.73,6.48-1.17,10.52-10.68,7.33-22.07,13.13-34.69,16.46-1.91.51-4.83,3.06-4.73,4.48,1.39,18.48-8,30.14-23,39.06-18,10.74-36.72,19.39-57.44,23.27-9.75,1.83-15.22-3.23-13.25-13A165.24,165.24,0,0,1,33.18,173c6.87-9.26,16.73-13.73,28.44-13.59C64,159.47,66.37,159.45,69.57,159.45Z"/></svg>`,
-  Pen:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M222,70.78c-1.79,2.54-3.08,5-4.95,6.94q-45.65,46.46-91.42,92.76c-7,7.07-14.61,13.6-20.72,21.4-13.53,17.27-31.81,26.64-51.1,34.68-13.1,5.47-13.1,5.47-23.41-5.2-7.49-7.75-6.83-7.42-2.31-17.1,14.12-30.21,37.4-52.52,60.21-75.32s45.27-45.49,67.93-68.21c7.5-7.51,15.15-14.86,22.62-22.4,4.24-4.3,7.76-5.32,12.47-.08,8.49,9.46,17.63,18.3,26.46,27.43C219.17,67.14,220.36,68.8,222,70.78Z"/><path d="M252.8,39.34a19.75,19.75,0,0,1-2.2,3.82c-5.23,5.53-10.55,11-15.87,16.4-3,3.12-6.09,2.6-8.92-.29-9.68-9.88-19.29-19.83-29-29.7-2.73-2.79-3.11-5.79-.5-8.61C201.66,15.2,207,9.47,212.81,4.21c1.28-1.17,5.22-1.38,6.33-.3,10.86,10.63,21.39,21.61,32,32.55A14,14,0,0,1,252.8,39.34Z"/><path d="M17.8,221.51l11.79,13.38c.6.69,1.17,1.4,2.39,2.84L4.13,253.21l-1.33-1Z"/></svg>`,
-  Enlarger:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M157.37,179.44c-49.21,32.77-105,17.37-133.94-19.33C-6.1,122.62-3.41,67.88,30.16,32.67,62.65-1.41,117-6.69,155.39,19.73,194.27,46.5,214.5,105.79,179.74,157c7.59,7.54,15.25,15.13,22.89,22.75q22.13,22.1,44.19,44.22c7.64,7.7,8.22,17.64,1.62,24.11-7.12,7-16.58,6.48-24.52-1.44q-31.15-31.06-62.22-62.23C160.21,182.94,158.93,181.25,157.37,179.44ZM32.6,100.34C32.94,138.43,63,168,101.27,167.78c37.19-.21,67-30.74,66.56-68.26-.39-37.25-30.51-67.14-67.4-66.89C62.55,32.89,32.27,63.12,32.6,100.34Z"/></svg>`,
-  SquareInSquare:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M253,127.74q0,34.38,0,68.76c0,31.79-24.3,56.32-56.1,56.41q-69.07.21-138.15,0c-30.45-.06-55.32-24.27-55.51-54.63q-.45-70.5,0-141c.18-29.07,24.61-53.76,53.73-54q71.09-.58,142.19,0c28.83.2,53,24.6,53.81,53.4,0,.58.05,1.15.05,1.73Zm-93.9-30.45H97.14v61.63h62Z"/></svg>`,
-  ArrowInSquare:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M252.94,127.44c0,20.8,0,41.6,0,62.39-.07,35.14-27.11,62.76-62.17,63q-63.27.38-126.54,0C31.41,252.6,3.7,225.45,3.35,192.73Q2.66,128,3.29,63.34c.3-32.18,27.64-59.63,59.76-60q65-.68,130-.05c32.15.34,59.15,27.76,59.74,60,.4,21.36.08,42.74.08,64.11ZM120.15,109.86v6.52c0,15.39,0,30.78,0,46.18a25.06,25.06,0,0,0,.78,6.22c1.1,4.19,4.23,6,8.28,5.45,5.25-.67,6.69-4.64,6.7-9.24.06-16.35,0-32.71,0-49.06,0-1.81.19-3.62.26-4.93,5.07,4.74,10.12,9.41,15.1,14.13,4.15,3.93,9.08,4.45,12.23,1.19s2.77-7.87-.9-11.79c-9.2-9.82-18.42-19.61-27.77-29.28-4.83-5-8.84-5-13.76.09-9.09,9.38-18,18.9-27,28.45-4.59,4.92-5,9.15-1.52,12.61,3.66,3.65,7.77,3,12.9-2.12C110.14,119.74,114.73,115.22,120.15,109.86Z"/></svg>`,
-  JustSquare:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M253,127.87c0,23.71.09,47.43,0,71.14-.12,25.37-15.82,46-39.86,52.15a61.62,61.62,0,0,1-14.83,1.74q-70.27.18-140.54,0C26,252.9,3.1,230,3.05,198.4q-.1-70.28,0-140.55C3.09,25.86,26,3.07,58,3Q128,3,198,3c32,0,54.88,22.86,55,54.85C253,81.22,253,104.54,253,127.87Z"/></svg>`,
-  CheckCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M252.91,123.28c2.52,65.63-46.62,122.49-111.74,129.05-73.28,7.38-131-47-137.48-110.69C-3.79,68.17,50.6,10.29,114.5,3.69,187.61-3.87,250.37,51.9,252.91,123.28ZM101.08,152.1c-6.67-6.77-12.59-13-18.81-19-5.48-5.25-13.63-5.42-18.72-.81-5.7,5.17-6.8,13.24-1.29,18.92C75,164.36,88.32,177,102.3,190.67c12-12.36,24-24.95,36.31-37.33,16.18-16.34,32.56-32.48,48.77-48.79,3.68-3.7,5.66-8.15,4.13-13.55-3.06-10.71-15-13.7-23.1-5.62-20.4,20.25-40.67,40.64-61,60.94C105.53,148.19,103.5,149.9,101.08,152.1Z"/></svg>`,
-  Pacman:`<svg viewBox="0 0 213.98 250" xmlns="http://www.w3.org/2000/svg"><path d="M21.63,215.83l87.11-87L21,41.19C58.82-.43,133.93-14.32,189.39,31.67A124.67,124.67,0,0,1,197.75,217C145.49,268.63,64.68,261.6,21.63,215.83Z"/></svg>`,
-  Flower:`<svg viewBox="0 0 259 250" xmlns="http://www.w3.org/2000/svg"><path d="M128.22,197.77c-9.5,43.7-45.16,56.76-68.84,55-34.9-2.6-59.51-28.32-60.62-60.23-.94-26.91,15.3-55.77,57.74-64.78-20.17-3.25-35.2-11.61-45.88-26.14C-.21,86.88-4,70.06.14,52.58,7.1,23.29,30.88,3.41,63,3c32.51-.42,57.81,21.34,64.66,54.63,11.67-40.33,37.48-60.81,80.62-52.22,33.24,6.62,49.2,34.11,49,60.08C257,94.25,239,119.87,199.5,128.25c20.17,3.24,35.2,11.61,45.88,26.14,10.83,14.73,14.63,31.55,10.48,49-7,29.29-30.74,49.17-62.86,49.57C160.49,253.41,135.19,231.65,128.22,197.77Z"/></svg>`,
-  Flash:`<svg viewBox="0 0 188.85 250" xmlns="http://www.w3.org/2000/svg"><path d="M120.57,161.66H76.24c-11.42,0-22.83.07-34.25,0-8.4-.07-10.51-3.65-6.32-10.8Q73,87.21,110.45,23.64c3.12-5.31,5.77-10.92,9.35-15.89,1.59-2.23,4.93-3.21,7.47-4.75,1.3,2.49,3.69,5,3.72,7.48.27,26.3.17,52.6.17,78.91v7.38h8.05c24.77,0,49.54-.13,74.31.17,3,0,6.84,1.65,8.58,3.87,1,1.33-.66,5.63-2.13,8q-39.94,64.08-80.19,128c-2.55,4.06-4.88,8.33-7.92,12-1.71,2.05-4.75,4.35-7.08,4.25-4.12-.19-4.2-4.25-4.2-7.61q0-38,0-76Z"/></svg>`,
-  LCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M252.91,123.21c2.49,65.38-46,122.23-111.24,129.06C68.16,260,10.1,205.53,3.67,141.44c-7.35-73.2,46.67-131,110.6-137.73C187.4-4,250.26,51.63,252.91,123.21Zm-175.59,1c0,15.34,0,30.68,0,46,0,7.7,3.31,11.59,11,11.63,31.43.18,62.88.14,94.32,0,5.93,0,9.58-3.88,9.76-9.8.16-5.36.14-10.74,0-16.1-.22-8.84-3.48-12-12.31-12-16.87,0-33.74.12-50.61,0-12-.12-14.36-2.72-14.36-14.69,0-17.06,0-34.12,0-51.19,0-7.79-3.42-11.11-11.2-11.18-5.17-.05-10.35-.06-15.52,0-7.74.08-11,3.42-11.06,11.29Q77.29,101.2,77.32,124.2Z"/></svg>`,
-  TriangleCircle:`<svg viewBox="0 0 250.21 250" xmlns="http://www.w3.org/2000/svg"><path d="M253.09,129.84C252,198.8,194.71,254.27,125.87,253s-124-58.18-123-126.82C4,57.2,61.29,1.73,130.13,3S254.16,61.2,253.09,129.84Zm-125,21.44c8.87,0,17.74-.08,26.61,0,3.8.06,8.14.19,9.09-4,.65-2.85-.47-6.79-2.16-9.36-8.87-13.51-18.14-26.75-27.33-40-3.82-5.52-8.62-5.67-12.42-.2-9.63,13.83-19.2,27.7-28.47,41.76-1.36,2.06-2.13,6-1.06,7.77,1.25,2.08,4.78,3.75,7.41,3.88C109.17,151.55,118.63,151.28,128.08,151.28Z"/></svg>`,
-  ThickCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M126.25,253C57.31,252,1.79,194.76,3,126S61.11,2,129.75,3C198.69,4,254.21,61.24,253,130S194.89,254,126.25,253Zm1.32-61.84a63.25,63.25,0,0,0,63.59-62.57c.42-33.46-26.63-63-62.46-63.8C94.53,64,65.78,92,64.82,127.72,63.92,161.68,92,190.05,127.57,191.15Z"/></svg>`,
-  DiamondCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M130,3c69,1.17,124.41,58.44,123,127.23S194.69,254.15,126,253C57,251.81,1.63,194.54,3,125.75S61.31,1.85,130,3Zm-1.33,74.22L78.16,127.86l49.64,49.7L178.43,127C162.15,110.76,145.25,93.87,128.63,77.24Z"/></svg>`,
-  MenuCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M126.22,253C57.26,252,1.76,194.71,3,125.93S61.15,2,129.78,3c69,1,124.46,58.28,123.2,127.06S194.85,254,126.22,253ZM77.33,132H178.68v-8.13H77.33Zm.19-45.94v8H178.58v-8Zm-.17,83.66H178.63v-7.91H77.35Z"/></svg>`,
-  SharpStamp:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M53,217.13v-4.66c0-7.2-2.12-9.37-9.35-9.49-3.88-.06-7.79.23-11.64-.08-6.59-.53-9-3.76-7.45-10.24.95-3.94,2.68-7.69,4.05-11.52,2.37-6.62,1.21-9.1-5.48-11.5-3.11-1.12-6.35-1.93-9.4-3.21-8-3.34-9.16-9-3.39-15.52,1.67-1.9,3.53-3.64,5.16-5.57,5.66-6.7,5.19-9.85-1.71-15.19a54.45,54.45,0,0,1-8.11-7.5c-4-4.64-3.51-8.24,1.5-11.67,3.51-2.41,7.43-4.23,11.09-6.43,5-3,5.88-6.09,3.13-11.25-1.82-3.42-4.16-6.59-5.81-10.09-3.37-7.14-1.53-11,6.09-12.8,3.77-.91,7.65-1.33,11.47-2,5.7-1,7.64-3.75,6.68-9.41-.72-4.2-1.78-8.36-2.15-12.58-.59-6.76,3.29-10.14,10.05-9,4,.66,8,1.8,12,2.28,5,.6,8.28-1.32,8.84-6.81A78.44,78.44,0,0,1,70.28,22.5c2.07-8.63,6.12-10.5,14-6.53,3.11,1.57,6,3.48,9.11,5.14,6.08,3.28,8.83,2.37,12.12-3.8a90.87,90.87,0,0,1,5.74-10.09c3.79-5.36,8.65-5.62,13.19-.75,2.78,3,5,6.44,7.73,9.49,4,4.52,6.75,4.63,11.46.82,3.47-2.82,6.79-5.86,10.45-8.41,4.51-3.15,8-2.53,10.77,2.26,2,3.45,3.19,7.41,4.45,11.23,2.57,7.79,5.37,9.25,13,6.37,3.1-1.17,6.08-2.64,9.23-3.64,6.78-2.13,11.08.69,11.64,7.79.33,4.23,0,8.51.1,12.77.13,4.88,2.51,7.53,7.65,7.51,4.85,0,9.77-.23,14.54.43,6,.83,7.72,3.51,6.27,9.37a100.14,100.14,0,0,1-4.47,13.21c-1.94,4.84-.38,7.89,4.28,9.62,3.46,1.3,7,2.39,10.46,3.69,8.34,3.11,9.83,8,4.51,15.16-2.2,3-4.88,5.56-7.11,8.49-3.7,4.87-3.3,7.44,1.26,11.38,3.23,2.79,6.7,5.4,9.47,8.6,4.39,5.06,3.76,8.87-1.73,12.55-3.87,2.6-8,4.84-12,7.24-3,1.8-3.87,4.25-2.18,7.4,2.2,4.09,4.56,8.1,6.64,12.25,3.75,7.47,2.15,11-6,13.23-3.74,1-7.62,1.46-11.44,2.14-5.09.9-7.52,3.64-6.52,9,.68,3.61,1.11,7.27,1.77,10.9,1.47,8.14-1.85,11.86-10.05,10.91-3.66-.42-7.26-1.35-10.91-1.92-6.05-1-8.71.86-9.88,6.81-.83,4.19-1.2,8.48-2.25,12.6-1.41,5.56-5.2,7.55-10.53,5.45a68.63,68.63,0,0,1-10.25-5.39c-7.2-4.32-9.91-3.76-14.16,3.26-2.21,3.64-4.09,7.52-6.65,10.89-3.06,4-7,4-10.53.5s-6.57-7.15-9.74-10.83-6.45-4.15-10.18-1.16c-2.88,2.31-5.59,4.83-8.48,7.13-7.43,5.92-12.62,4.59-16.12-4.17-1.14-2.86-1.87-5.88-2.89-8.79-2.25-6.38-5.38-7.77-11.62-5.33-3.24,1.27-6.47,2.63-9.8,3.62-7.59,2.27-11.17-.24-11.59-7.95-.11-1.93,0-3.88,0-5.81Z"/></svg>`,
-  JustStamp:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M229.82,64.17c-1.2,6,1.21,10.24,7.54,13.29,9.24,4.46,10.36,7.56,6.35,17.29-2.63,6.4-1.57,10.91,3.49,15.55,7.35,6.75,7.6,10.22,1.42,18-4.43,5.57-4.59,10.5-.87,16.47,4.77,7.67,3.52,12.19-3.8,17.38s-7.82,6.62-5.87,15.21c2.27,10,.68,12.88-9,16.3-8,2.84-9.18,4.38-9.53,12.58-.42,9.85-3.35,13.2-13.19,13.1-6.81-.07-10.32,2.81-12.64,8.9-4.19,11-5.71,11.67-16.9,9.28-5.9-1.26-10.43-.1-14,5.48-5.63,8.72-10.46,9.63-19.08,3.95-5.23-3.45-9.42-3.06-14.31.7-9.64,7.41-11.77,7.31-20.25-1.48-4.36-4.53-8.67-5-14.2-3-11.39,4.15-13.11,3.58-18.4-7-2.79-5.55-6.82-7.48-12.78-7-11.91,1-13.74-.47-15.76-12.43-.82-4.9-3.44-7.67-8-8.86-2.27-.59-4.59-1-6.85-1.62-5-1.37-7.58-4.58-7.37-9.85.08-2.14.15-4.29.38-6.42.57-5.15-1.74-8.4-6.21-10.81-11.16-6-11.79-7.34-7.4-19.33,2-5.36,1-9.26-2.81-13.21C1.12,137.75.94,136,8.2,126.36c3.66-4.85,3.85-9.17.72-14.42-5.69-9.55-5-12.53,4.26-18.8,5.7-3.85,6.44-8.71,5.11-14.75-2.29-10.44-1-12.9,8.82-16,6.16-2,9.18-5.35,9.43-12.17C37,39,39.33,36.91,50.25,36.47c5.91-.23,9.65-2.38,11.78-8.36C66.1,16.69,67.81,16,79.87,18.64c5.72,1.27,9.7-.63,13.12-5.19,7.21-9.62,9.72-10.09,19.86-3.82,4.88,3,9.09,2.38,13.43-1,9.84-7.63,11.2-7.67,19.61.79,4.63,4.66,9.27,5.49,15.25,2.79,8.92-4,12.91-2.72,16.93,5.93,3,6.48,7.38,8.89,14.41,8.11,10-1.1,12.8.68,14.6,10.62,1.32,7.31,5,10.72,12,12C229.05,50.81,230.63,53.33,229.82,64.17Z"/></svg>`,
-  XCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M253,130.26c-1.5,69-58.69,124.2-127.23,122.71C56.7,251.47,1.54,194.28,3,125.74,4.53,56.7,61.72,1.54,130.26,3,199.3,4.53,254.46,61.72,253,130.26Zm-125.29,6.09c12,12,23.37,23.35,34.65,34.73,3.34,3.36,6.93,7.38,11.46,2.72s.14-8.19-3.11-11.44c-7.82-7.8-15.6-15.64-23.44-23.42-3.64-3.61-7.4-7.1-12.21-11.7,2.39-1.71,4.28-2.73,5.75-4.17q15.89-15.51,31.58-31.17c2.74-2.74,5.21-5.94,1.45-9.64-3.5-3.45-6.82-1.93-9.79,1Q155.14,92.1,146.33,101c-6.11,6.16-12.18,12.36-18.55,18.83C115.49,107.4,103.89,95.72,92.32,84c-3.21-3.25-7.06-5.72-10.72-1.69-3.32,3.65-.69,7.32,2.3,10.3,6,6,12,12.12,18.14,18.11,5.74,5.63,11.59,11.16,18.25,17.56-3,2.44-5.1,3.87-6.87,5.62C103.06,144.18,92.58,154.34,82.65,165c-1.6,1.71-1.87,6.5-.63,8.61,2,3.35,5.73,2.57,8.61,0,1.4-1.25,2.69-2.61,4-3.94C105.5,158.73,116.35,147.78,127.68,136.35Z"/></svg>`,
-  FourArrowStar:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M253,128c-3.36,3.11-5.11,5.79-7.54,6.81-12.45,5.19-25.17,9.73-37.62,14.91-24,10-42.5,26.6-54.35,49.64C146,213.92,141,229.8,134.81,245.05c-.92,2.24-2,4.73-3.8,6.23-3.77,3.21-8.77,1.78-10.71-3.08-3.76-9.41-7.27-18.92-10.66-28.47C96.86,183.72,72.8,159,37.1,145.88c-8.77-3.23-17.5-6.58-26.27-9.79-3.92-1.44-7.58-3.13-7.82-8s3.43-6.38,7.1-7.8c11.86-4.61,23.82-9,35.54-13.89,26.46-11.12,45.87-30,58-56.07,6-12.83,10.15-26.49,15.51-39.62,1.12-2.75,3.41-5.77,6-7,3.83-1.88,7,.4,8.54,4.37,3.55,9.28,7.16,18.53,10.44,27.9q19.08,54.47,72.86,74.25c9.13,3.35,18.34,6.53,27.28,10.34C247.1,121.77,249.29,124.77,253,128Z"/></svg>`,
+  Star:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M58.52,253c-8.26.27-13.1-6.33-11.09-13.76 3.79-14 8-27.92 12-41.87 2.68-9.3 5.4-18.6 8-27.91 2.16-7.55.85-11.23-5.38-16.16L9.74,105c-3.58-2.86-2.25-8.35 2.47-8.46l66.48-1.36c3.97-.08 5.84-2.2 7.31-6.68l21.23-63.56c2.14-6.43 9.58-6.28 11.9.37l23.24,69.58c1.56,4.68 3.96,6.59 8.8,6.68l64.17,1.21c5.89.11 8.46 7.35 3.34 11.35l-52.57,41.73c-3.91,3.09-4.65,6.03-3.2,11l19.56,67.66c1.76,6-4.41,10-9.65,6.2l-44.06-32.43c-3.83-2.82-6.5-2.54-10.93.71l-53.79,39c-4.02,2.92-9.48.75-8.86-4.78Z"/></svg>`,
   Heart:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M3.24,252.3c-.05-2.09-.16-4.16-.16-6.23Q3,160.26,3,74.44C3,35,34.89,3.58,74.3,3A72.69,72.69,0,0,1,147.83,77.3c-.13,10.12-.08,20.25-.12,32.55,12.41-.47,24.43-1.85,36.35-1.22a72,72,0,0,1,58.21,109.76c-13.67,22.65-34.55,34.35-60.89,34.49-58.73.32-117.47-.1-176.2-.23A12.67,12.67,0,0,1,3.24,252.3Z"/></svg>`,
-  HeartCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M126.37,253C57.45,252.08,1.88,194.91,3,126.08S61,2.1,129.64,3C198.56,3.92,254.12,61.1,253,129.92S195.06,253.89,126.37,253Zm1.4-154.45c-4.36-4.65-8-8.91-12-12.73A35.61,35.61,0,0,0,59,96.45c-6.92,14.6-3.54,30.24,9.66,43.53q27.91,28.11,56,56c1,1.05,2.25,1.93,3.38,2.88l-1.26-1.8c21.68-20.79,43.87-41.09,64.87-62.55,13.06-13.35,11.29-36-1.94-48.42-14.37-13.49-36-13.46-50,.15C135.87,90,132.24,93.94,127.77,98.54Z"/></svg>`,
-  Star:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M58.52,253c-8.26.27-13.1-6.33-11.09-13.76,3.79-14,8-27.92,12-41.87,2.68-9.3,5.4-18.6,8-27.91,2.16-7.55.85-11.23-5.38-16.16-17.64-13.95-35.35-27.81-52.78-42a18.39,18.39,0,0,1-6.13-9.61C1.93,95.43,7,90.66,14,90.49q33.24-.78,66.48-1.36C90.66,89,92.53,87.84,96,77.5c7.12-21.17,14-42.44,21.23-63.56,1.18-3.42,3.23-7.15,5.94-9.2,5.26-4,12-.82,14.61,6.52,4.22,12.1,8.06,24.35,12.12,36.51,3.68,11,7.47,22,11.12,33.07,1.91,5.77,5.82,8.19,11.43,8.28q32.08.57,64.17,1.21c1.16,0,2.32.13,3.47.11,5.64-.11,10.55,1.5,12.41,7.68s-1.8,9.89-6,13.22q-26.3,20.86-52.57,41.73c-6.94,5.49-7.95,8.56-5.47,17.14,6.52,22.55,12.89,45.16,19.56,67.66,1.58,5.33,1,9.68-3.2,13s-8.73,2.44-12.85-.55Q164,230,136.18,209.66c-6.63-4.86-9.3-5.14-16.14-.21-18,13-35.83,26.05-53.79,39A79.31,79.31,0,0,1,58.52,253Z"/></svg>`,
-  Sun:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M151,113c16-6.6,30.53-12.57,45-18.58Q217,85.65,238,76.83c2.75-1.16,4.75-1.18,5.57,2.34A45.92,45.92,0,0,0,245.87,85l-88.13,36.59.16,1H253V133H157.49l-.39,1.38,88.61,36.78c-1.17,3.21-2.26,6.19-3.56,9.79l-88.48-36.51-.24.7,67.85,67.65-8.21,7.08-66.92-67-1.61,1c12.07,29.21,24.15,58.42,36.36,88l-9.63,4-37-89-.71,0V253H123.09V157.47l-1.13-.3c-4,9.42-8.13,18.8-12,28.27q-11.6,28-23,56.19c-1.36,3.38-3.07,4.67-6.47,2.59-1.46-.89-3.09-1.51-5.09-2.46l36.5-88.3-67.7,67.73-8.57-8.67,67-67-.36-1L14.37,180.9l-4.13-9.59,89.12-37-.15-.87H3V122.92H98.66l.27-1.13L10.51,85.09l3.73-9.71,89.22,36.8L34.92,43.69,43.2,36l67.09,67.15,1.37-.8c-12.08-29.26-24.16-58.52-36.32-88l9.57-4.11L121.7,98.82l1.16-.25V3H133V98.59l1.47.42c12.17-29.3,24.35-58.59,36.77-88.47l9.66,3.83c-12.25,29.69-24.31,58.93-36.38,88.17l.79.34,67.48-67.51,7.81,8Z"/></svg>`,
-  StarCircle:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M252.91,132.27C250.05,204.21,189.72,255.36,124,252.92,51.78,250.23.49,189.57,3.1,123.74,6,51.57,66.61.32,132.54,3.11,204.66,6.16,255.48,66.65,252.91,132.27ZM99.23,167.11c.11,4.72,2.94,6.51,7,4.5,7.37-3.64,14.73-7.33,21.85-11.43,3.05-1.75,5.35-1.83,8.37-.13,6.82,3.84,13.75,7.51,20.81,10.87,2,1,5.75,1.65,6.65.64,1.46-1.63,1.9-4.86,1.57-7.26-1-7.56-2.85-15-3.78-22.56a9.77,9.77,0,0,1,2.31-7c5.58-6.05,11.73-11.57,17.43-17.52,1.22-1.28,2.42-4,1.87-5.23a7.5,7.5,0,0,0-5-3.54c-8.08-1.47-16.29-2.28-24.37-3.8a8.86,8.86,0,0,1-5.46-3.86c-3.91-7-7.17-14.37-11-21.42-1-1.91-3.13-4.15-5-4.42-1.42-.2-3.84,2.17-4.8,3.94Q122.11,89.27,117.28,100c-1.42,3.18-3.26,4.64-6.77,5-8,.87-15.92,2-23.79,3.49a7.57,7.57,0,0,0-5,3.78c-.51,1.24,1,3.85,2.3,5.2,5.44,5.67,11,11.23,16.79,16.53,2.77,2.54,3.38,5.06,2.67,8.64C101.82,150.91,100.57,159.24,99.23,167.11Z"/></svg>`,
-  StarSquare:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M125.94,253q-48.7,0-97.42,0c-20.11,0-25.17-5-25.21-24.4C3.17,162.27,2.87,96,3.06,29.69a38.78,38.78,0,0,1,5-18.59c2.06-3.58,7.79-5.58,12.28-7.33,2.91-1.13,6.55-.68,9.86-.68q96.54,0,193.08,0c20.51,0,29.21,8.41,29.25,28.14q.21,97.74.45,195.48c0,18.88-7.44,26.13-27.29,26.25-18.78.12-37.56,0-56.34,0ZM71.23,191.33c-.28,4.81,2.62,6.52,7.3,4.48,13.67-5.95,27.41-11.75,40.86-18.13,4.94-2.34,8.94-2.22,13.77-.06,13.94,6.25,28,12.2,42.16,18,1.79.74,5.05.78,6.15-.28s1.12-4.12.52-6c-4.14-12.66-8.4-25.29-13-37.79-1.45-3.93-.68-6.76,2-9.7,10-11.05,20-22.1,29.75-33.34,1.41-1.62,2.4-4.51,1.89-6.39-.32-1.2-3.72-2.27-5.77-2.31-12.9-.25-25.82-.35-38.72-.15-4.56.08-7.18-1.5-9.1-5.43-5.39-11-10.93-22-16.77-32.84-1.2-2.23-3.93-5-6-5.08s-4.91,2.73-6.08,4.93c-5.7,10.65-11.06,21.47-16.3,32.34-2,4.19-4.57,6.26-9.76,6.25-12.69,0-25.39.5-38.06,1.11-2.25.11-5.62,1.16-6.3,2.67s.78,4.62,2.23,6.28c6.66,7.62,13,15.75,20.69,22.24,11.37,9.54,13.22,19.53,7,32.57C75.63,173.2,73.89,182.66,71.23,191.33Z"/></svg>`
+  Check:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M101.08,152.1c-6.67-6.77-12.59-13-18.81-19-5.48-5.25-13.63-5.42-18.72-.81-5.7,5.17-6.8,13.24-1.29,18.92C75,164.36,88.32,177,102.3,190.67c12-12.36,24-24.95,36.31-37.33 16.18-16.34 32.56-32.48 48.77-48.79 8.15-8.19-.66-19.17-11.29-18.17-3.61.34-6.54,2.56-9.13,5.13l-61,60.94c-1.93,1.94-3.96,3.65-6.38,5.85Z"/></svg>`,
+  Sun:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M151,113l87-36.17 2.3,8.21L157.1,121.6 253,133v8H157.1l88.26,36.94-3.56,9.79-88.71-36.57 36.1,87.65-9.63,4-37-89V253h-9.9V157.47l-35.86,87.86-5.09-2.46 36.42-88.4L14.37,180.9 10.24,171.31 99.5,134.25H3v-11.3H98.93L10.51,85.09l3.73-9.71 89.22,36.8-36-88 9.57-4.11 38.9,97.75V3h9.9v98.59l36.77-88.47 9.66,3.83-36.38,88.17 67.48-67.51 7.81,8Z"/></svg>`
 };
 
-/* ---------- DATA (add `icon: "<Name>"` to use an icon) ---------- */
-const currency = "₾";
-function base(){return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service."}
-function kidsdesc(){return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers."}
+/* Helper text first */
+function base(){
+  return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service.";
+}
+function kidsdesc(){
+  return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
+}
 
 const data = {
   children: [
-    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4", icon:"StarCircle" },
-    { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7", icon:"Sun" },
-    { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2", icon:"HeartCircle" },
+    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
+    { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7", icons:[{name:'Check', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
+    { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2", icons:[{name:'Heart', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
   ],
   teenagers: [
-    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10", icon:"CheckCircle" },
-    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general", icon:"MenuCircle" },
-    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private", icon:"LCircle" },
-    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce", icon:"DiamondCircle" },
-    { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national", icon:"TriangleCircle" },
+    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
+    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private", icons:[{name:'Heart', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
+    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce", icons:[{name:'Star', color:'#23B899'},{name:'Check', color:'#FFE453'}] },
+    { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
   ],
   adults: [
-    { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts", icon:"ArrowInSquare" },
-    { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general", icon:"SquareInSquare" },
-    { title:"Conversational English", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"full course", link:"#adults-conv", icon:"StarSquare" },
-    { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private", icon:"Heart" },
-    { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro", icon:"FourArrowStar" },
-    { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce", icon:"XCircle" },
+    { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
+    { title:"Conversational English", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"full course", link:"#adults-conv", icons:[{name:'Heart', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
+    { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private", icons:[{name:'Heart', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce", icons:[{name:'Star', color:'#23B899'},{name:'Check', color:'#FFE453'}] },
   ],
   corporate: [
-    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6", icon:"JustSquare" },
+    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
   ],
   art: [
-    { title:"Painting & Graphics", age:"7 – 15 y.o.",  desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids", icon:"Brush" },
-    { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen", icon:"Pen" },
-    { title:"Portfolio Creation", age:"from 16 y.o.",  desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio", icon:"Flash" },
+    { title:"Painting & Graphics", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
+    { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen", icons:[{name:'Heart', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
+    { title:"Portfolio Creation",  age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
   ],
 };
+const currency = "₾";
 
-/* ---------- RENDER ---------- */
-function renderIcon(name){
-  if(!name || !ICONS[name]) return '';
-  return `<span class="icon-badge" aria-hidden="true">${ICONS[name]}</span>`;
+/* Render */
+function renderIcons(pair){
+  if(!pair || !pair.length) return '';
+  return `<div class="card-icons">${
+    pair.slice(0,2).map(ic=>{
+      const svg = ICONS[ic.name] || '';
+      const color = ic.color || '#333';
+      return `<span class="icon" style="color:${color}">${svg}</span>`;
+    }).join('')
+  }</div>`;
 }
 
 function renderGroup(name){
@@ -250,10 +284,10 @@ function renderGroup(name){
   grid.innerHTML = data[name].map(c=>{
     const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
     const price = c.price === 'ind.'
-      ? `<div class="price-row"><span class="price">ind.</span><span class="per">tailored pricing</span></div>`
-      : `<div class="price-row"><span class="price">${currency}${c.price}</span><span class="per">${c.priceNote}</span></div>`;
+      ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
+      : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
     return `<article class="card">
-      ${renderIcon(c.icon)}
+      ${renderIcons(c.icons)}
       <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
       <div class="title">${c.title}</div>
       <div class="age-text">${c.age}</div>
@@ -265,7 +299,7 @@ function renderGroup(name){
 }
 ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
-/* ---------- TABS ---------- */
+/* Tabs */
 function showMain(which){
   const en = which === 'en';
   document.getElementById('tab-en').setAttribute('aria-selected', en);
@@ -276,7 +310,8 @@ function showMain(which){
   LA_sendHeight();
 }
 function showSub(which){
-  ['children','teenagers','adults','corporate'].forEach(id=>{
+  const ids = ['children','teenagers','adults','corporate'];
+  ids.forEach(id=>{
     document.getElementById(`sub-${id}`).setAttribute('aria-selected', id===which);
     document.getElementById(`subpanel-${id}`).classList.toggle('hidden', id!==which);
   });
@@ -288,19 +323,21 @@ document.getElementById('tab-art').addEventListener('click', ()=>showMain('art')
   document.getElementById(`sub-${id}`).addEventListener('click', ()=>showSub(id));
 });
 
-/* ---------- Auto-resize the Wix HTML iframe ---------- */
+/* Auto-resize for Wix iframe */
 (function () {
   function sendHeight() {
     requestAnimationFrame(() => {
       const h = Math.ceil(document.documentElement.scrollHeight);
-      if (window.parent) window.parent.postMessage({ type: 'LA_HEIGHT', height: h }, '*');
+      if (window.parent) {
+        window.parent.postMessage({ type: 'LA_HEIGHT', height: h }, '*');
+      }
     });
   }
   window.addEventListener('load', sendHeight);
   document.addEventListener('DOMContentLoaded', sendHeight);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(sendHeight);
   new ResizeObserver(sendHeight).observe(document.body);
-  new MutationObserver(sendHeight).observe(document.body, { subtree:true, childList:true, attributes:true, characterData:true });
+  new MutationObserver(sendHeight).observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true });
   window.addEventListener('resize', sendHeight);
   setTimeout(sendHeight, 0);
   window.LA_sendHeight = sendHeight;
