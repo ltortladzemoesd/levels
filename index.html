@@ -6,15 +6,13 @@
 <title>Levels Academy – Courses Plugin</title>
 <style>
 :root{
-  --bg: transparent;   /* transparent page background */
-  --card:#aee2d7;
-  --pill:#ffe453;
+  --bg: transparent;   /* page background is transparent behind the frame */
+  --card:#aee2d7;      /* card green */
   --text:#10201a;
   --muted:#2b3c34;
   --shadow: 0 18px 30px rgba(0,0,0,.08);
-  --accent:#17b890;
-  --bar:#333333;       /* main tab default background */
   --chip:#23B899;
+  --title-size:24px;   /* title + price unified size */
 }
 
 /* Reset */
@@ -26,66 +24,50 @@ body{
   color:var(--text);
 }
 
-/* Frame container */
+/* Frame container: top corners 0, bottom 20px */
 .wrap{
   max-width:100%;
   margin:28px auto;
-  padding:25px 20px; /* top/bottom 25px */
+  padding:25px 20px;           /* 25px top/bottom as requested */
   background:#ffffff;
-  border-radius:20px;
+  border-radius:0 0 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
 }
 
-/* Main tabs (desktop width matches subtabs total width) */
+/* Main tabs: revert pressed look; width matches subtabs on desktop */
 .tabbar{
   display:flex;
   gap:20px;
   justify-content:center;
   margin-bottom:22px;
   max-width:calc(4 * 200px + 3 * 14px); /* match 4 subtabs width + gaps */
-  margin-left:auto;
-  margin-right:auto;
+  margin-left:auto;margin-right:auto;
 }
-.main-tab {
+.main-tab{
   flex:1;
   text-align:center;
-  background:var(--bar);
-  color:#fff; /* static text color white */
-  border:0;
-  border-radius:999px;
+  background:#333333;        /* dark bar always */
+  color:#ffffff;             /* unpressed text = white */
+  border:0;border-radius:999px;
   padding:10px 0;
-  font-weight:500;
-  font-size:18px;
+  font-weight:500;font-size:18px;
   cursor:pointer;
-  transition:background .2s ease, color .2s ease, box-shadow .2s ease;
-  box-shadow:var(--shadow);
+  transition:color .2s ease,opacity .2s ease, box-shadow .2s ease;
+  box-shadow:var(--shadow)
 }
 .main-tab[aria-selected="true"]{
-  background:var(--card);
-  color:var(--chip); /* pressed = green text */
+  background:#333333;        /* keep background */
+  color:var(--chip);         /* pressed text = green */
 }
 .main-tab:hover{opacity:.95}
 
 /* Subtabs */
 .subtabs{
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-bottom:22px;
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
 }
 .subtab-btn{
-  flex:0 1 200px;
-  max-width:200px;
-  text-align:center;
-  padding:10px 0;
-  border-radius:999px;
-  border:0;
-  cursor:pointer;
-  background:#fff;
-  box-shadow:var(--shadow);
-  font-weight:400;
-  font-size:16px;
-  transition:transform .15s ease,background .2s ease;
+  flex:0 1 200px;max-width:200px;text-align:center;padding:10px 0;border-radius:999px;
+  border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);
+  font-weight:400;font-size:16px;transition:transform .15s ease,background .2s ease
 }
 .subtab-btn[aria-selected="true"]{background:var(--card)}
 .subtab-btn:hover{transform:scale(1.02)}
@@ -108,19 +90,24 @@ body{
   transition:transform .2s ease;
 }
 .card:hover{transform:translateY(-2px) scale(1.01)}
+
+/* Title a bit larger and dark text */
 .title{
-  font-size:22px;
+  font-size:var(--title-size);
   line-height:1.2;
   margin:4px 0 6px;
   font-weight:900;
-  color:white; /* title text white */
+  color:#333333; /* was white; now dark */
 }
+
+/* Age line under title, italic, smaller, dark */
 .age-text{
   font-size:14px;
   font-style:italic;
-  color:white; /* age text white */
+  color:#333333;
   margin-bottom:12px;
 }
+
 .desc{
   color:var(--muted);
   margin:16px 0 18px;
@@ -129,7 +116,7 @@ body{
   hyphens:auto;
 }
 
-/* Chips uniform width & text */
+/* Chips: equal widths, 3 per row */
 .chips{
   display:flex;
   flex-wrap:wrap;
@@ -141,51 +128,45 @@ body{
   color:#fff;
   border-radius:28px;
   padding:8px 12px;
-  font-weight:400; /* no bold */
+  font-weight:400; /* not bold */
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
   box-shadow:var(--shadow);
   font-size:14px;
+  white-space:nowrap;
 }
 
-/* Yellow pill same as chip sizing */
-.chip.yellow{
-  background:var(--pill);
-  color:#000;
-}
-
-/* Price */
+/* Price: same size as title, aligned right, dark text */
 .price{
-  display:flex;
-  align-items:baseline;
-  gap:8px;
+  display:block;             /* block so text-align applies cleanly */
+  text-align:right;          /* move to the right */
   margin-top:18px;
-  font-size:28px;
+  font-size:var(--title-size); /* same as title */
   font-weight:900;
-  color:white; /* price text white */
+  color:#333333;             /* was white; now dark */
 }
-.per{font-size:16px;font-weight:700;color:white}
+.per{
+  font-size:14px;
+  font-weight:700;
+  color:#333333;             /* was white; now dark */
+  margin-left:6px;
+}
 
-/* Hidden */
+/* Hidden + overlay */
 .hidden{display:none !important}
 .card .card-overlay{
-  position:absolute;
-  inset:0;
-  border-radius:28px;
-  display:block;
-  text-decoration:none;
-  z-index:5;
+  position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5
 }
 .card .card-overlay:focus{outline:none}
 
 /* Tablet */
-@media (min-width: 641px) and (max-width: 1024px){
+@media (min-width:641px) and (max-width:1024px){
   .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
   .card{min-height:440px}
 }
 
 /* Mobile */
-@media (max-width: 640px){
+@media (max-width:640px){
   .wrap{padding:25px 14px}
   .tabbar{flex-direction:column;max-width:none}
   .main-tab{width:100%;max-width:none;font-size:18px;padding:14px 0}
@@ -193,10 +174,10 @@ body{
   .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
   .grid{grid-template-columns:1fr}
   .card{padding:20px;min-height:auto}
-  .desc{display:none}
-  .title{font-size:clamp(18px,6vw,22px)}
-  .chip{padding:6px 8px;font-size:13px}
-  .price{font-size:24px}
+  .desc{display:none}           /* hide description on smartphones */
+  .chips{margin-top:8px}
+  .title{font-size:clamp(20px,6vw,var(--title-size))} /* keep slightly larger */
+  .price{font-size:clamp(20px,6vw,var(--title-size))}
 }
 </style>
 </head>
@@ -225,18 +206,26 @@ body{
 </div>
 
 <script>
+/* Helper text first */
+function base(){
+  return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service.";
+}
+function kidsdesc(){
+  return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
+}
+
 const data = {
   children: [
-    { title:"Sunday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
+    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
     { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
     { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
   ],
   teenagers: [
-    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#teen-ielts" },
+    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
     { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general" },
     { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
     { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
-    { title:"National Exam", age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
+    { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
   ],
   adults: [
     { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
@@ -252,21 +241,20 @@ const data = {
   art: [
     { title:"Painting & Graphics", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids" },
     { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen" },
-    { title:"Portfolio Creation", age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio" },
+    { title:"Portfolio Creation",  age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio" },
   ],
 };
-function base(){return "This is the space to describe the service and explain how customers or clients can benefit from it."}
-function kidsdesc(){return "A fun and interactive English course for children aged 6-10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers."}
 const currency = "₾";
 
+/* Render */
 function renderGroup(name){
   const grid = document.querySelector(`[data-grid="${name}"]`);
   if(!grid) return;
   grid.innerHTML = data[name].map(c=>{
     const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
     const price = c.price === 'ind.'
-      ? `<div class="price"><span>ind.</span><span class="per">tailored pricing</span></div>`
-      : `<div class="price"><span>${currency}${c.price}</span><span class="per">${c.priceNote}</span></div>`;
+      ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
+      : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
     return `<article class="card"><a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
       <div class="title">${c.title}</div>
       <div class="age-text">${c.age}</div>
@@ -278,6 +266,7 @@ function renderGroup(name){
 }
 ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
+/* Tabs */
 function showMain(which){
   const en = which === 'en';
   document.getElementById('tab-en').setAttribute('aria-selected', en);
