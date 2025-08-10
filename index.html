@@ -28,12 +28,12 @@ body{
 .wrap{
   max-width:100%;
   margin:28px auto;
-  padding:25px 20px;
+  padding:25px 20px;           /* 25px top/bottom */
   background:#ffffff;
   border-radius:0 0 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
 }
 
-/* Main tabs */
+/* Main tabs: revert pressed look; width matches subtabs on desktop */
 .tabbar{
   display:flex;
   gap:20px;
@@ -45,8 +45,8 @@ body{
 .main-tab{
   flex:1;
   text-align:center;
-  background:#333333;
-  color:#ffffff;
+  background:#333333;        /* dark bar always */
+  color:#ffffff;             /* unpressed text = white */
   border:0;border-radius:999px;
   padding:10px 0;
   font-weight:500;font-size:18px;
@@ -54,7 +54,10 @@ body{
   transition:color .2s ease,opacity .2s ease, box-shadow .2s ease;
   box-shadow:var(--shadow)
 }
-.main-tab[aria-selected="true"]{ background:#333333; color:var(--chip); }
+.main-tab[aria-selected="true"]{
+  background:#333333;        /* keep background */
+  color:var(--chip);         /* pressed text = green */
+}
 .main-tab:hover{opacity:.95}
 
 /* Subtabs */
@@ -88,21 +91,33 @@ body{
 }
 .card:hover{transform:translateY(-2px) scale(1.01)}
 
-/* ICONS ROW (left, above title) */
-.card-icons{
+/* Icon row (LEFT above title) */
+.icon-row{
   display:flex;
   gap:10px;
+  align-items:center;
   margin-bottom:8px;
-  pointer-events:none; /* icons shouldn’t “eat” the hover */
 }
-.icon-mask{
-  width:28px;height:28px;display:inline-block;
-  background-color:#333;            /* will be overridden per-icon */
-  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
-  -webkit-mask-position:center;mask-position:center;
-  -webkit-mask-size:contain;mask-size:contain;
-  transition:transform .15s ease, opacity .15s ease;  /* smooth micro-motion */
-  will-change:transform, opacity;
+.icon-chip{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  background:rgba(255,255,255,.65); /* small tile behind the mask */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .25s ease-out, opacity .25s ease-out, filter .25s ease-out;
+  will-change: transform, opacity;
+  box-shadow: var(--shadow);
+}
+.icon-chip .i{
+  width:22px;
+  height:22px;
+  background-color: var(--iColor);          /* icon color */
+  /* colorize external SVG via mask */
+  -webkit-mask: center / contain no-repeat;
+          mask: center / contain no-repeat;
+  display:block;
 }
 
 /* Title */
@@ -114,7 +129,7 @@ body{
   color:#333333;
 }
 
-/* Age line */
+/* Age line under title, italic, smaller */
 .age-text{
   font-size:14px;
   font-style:italic;
@@ -122,7 +137,6 @@ body{
   margin-bottom:12px;
 }
 
-/* Description */
 .desc{
   color:var(--muted);
   margin:16px 0 18px;
@@ -143,7 +157,7 @@ body{
   color:#fff;
   border-radius:28px;
   padding:8px 12px;
-  font-weight:400;
+  font-weight:400; /* not bold */
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
   box-shadow:var(--shadow);
@@ -189,7 +203,7 @@ body{
   .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
   .grid{grid-template-columns:1fr}
   .card{padding:20px;min-height:auto}
-  .desc{display:none}
+  .desc{display:none}           /* hide description on smartphones */
   .chips{margin-top:8px}
   .title{font-size:clamp(20px,6vw,var(--title-size))}
   .price{font-size:clamp(20px,6vw,var(--title-size))}
@@ -221,35 +235,7 @@ body{
 </div>
 
 <script>
-/* ---------- icon URLs & colors ---------- */
-const ICON_URLS = [
-  "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
-  "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
-  "https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
-  "https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
-  "https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
-  "https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg",
-  "https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
-  "https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
-  "https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg",
-  "https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
-  "https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
-  "https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg",
-  "https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
-  "https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg",
-  "https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg",
-  "https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
-  "https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
-  "https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
-  "https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
-  "https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
-  "https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
-  "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
-  "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg"
-];
-const ICON_COLORS = ["#3F85C6","#F1E073","#23B899","#333333","#F66E6E","#23B899","#FFFFFF"];
-
-/* Helper text first */
+/* ---- Text helpers ---- */
 function base(){
   return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service.";
 }
@@ -257,24 +243,10 @@ function kidsdesc(){
   return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
 }
 
-/* DATA
-   - Adults: 'Conversational English' REMOVED
-   - Sunday School: icons pinned and second icon changed
-*/
+/* ---- Data ---- */
 const data = {
   children: [
-    {
-      title:"Sunday School",
-      age:"6 – 10 y.o.",
-      desc:kidsdesc(),
-      chips:["10 months","43 sessions","86 hours"],
-      price:"155", priceNote:"per month",
-      link:"https://levelscenter.wixstudio.com/my-site/blank-4",
-      icons: [
-        "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
-        "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg"
-      ]
-    },
+    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
     { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
     { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
   ],
@@ -303,52 +275,139 @@ const data = {
 };
 const currency = "₾";
 
-/* utility: pick 2 distinct array items */
-function pickTwoDistinct(arr){
-  const a = Math.floor(Math.random()*arr.length);
-  let b = Math.floor(Math.random()*arr.length);
-  if (b===a) b = (b+1) % arr.length;
+/* ---- Icon library & colors ---- */
+const ICON_URLS = [
+  "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
+  "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
+  "https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
+  "https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+  "https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg",
+  "https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+  "https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
+  "https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg",
+  "https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
+  "https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
+  "https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg",
+  "https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
+  "https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg",
+  "https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg",
+  "https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
+  "https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
+  "https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
+  "https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
+  "https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
+  "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg"
+];
+const PALETTE = ["#3F85C6","#F1E073","#23B899","#333333","#F66E6E","#FFFFFF"];
+
+/* helpers to pick two different items */
+function pickTwoDistinct(arr, seed){
+  const a = Math.abs(seed) % arr.length;
+  let b = (a + 1 + (seed>>3)) % arr.length;
+  if(b === a) b = (b+1) % arr.length;
   return [arr[a], arr[b]];
 }
-function pickTwoDistinctColors(){
-  const [c1, c2] = pickTwoDistinct(ICON_COLORS);
-  return [c1, c2];
-}
-function iconSpan(url, color){
-  return `<span class="icon-mask" style="background-color:${color};-webkit-mask-image:url('${url}');mask-image:url('${url}');"></span>`;
-}
-function renderIconsRow(pinned){
-  const icons = pinned && pinned.length === 2 ? pinned : pickTwoDistinct(ICON_URLS);
-  const [col1, col2] = pickTwoDistinctColors();   // ensure different colors
-  return `<div class="card-icons">${iconSpan(icons[0], col1)}${iconSpan(icons[1], col2)}</div>`;
+function hash(s){
+  let h=0; for(let i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h|=0; }
+  return Math.abs(h);
 }
 
-/* Render cards */
+/* ---- Render ---- */
 function renderGroup(name){
   const grid = document.querySelector(`[data-grid="${name}"]`);
   if(!grid) return;
-  grid.innerHTML = data[name].map(c=>{
+
+  grid.innerHTML = data[name].map((c, idx)=>{
+    // seed by title + idx so Sunday/Saturday differ; ensures two different icons & colors
+    let seed = hash(name + c.title + idx);
+    let [icon1, icon2] = pickTwoDistinct(ICON_URLS, seed);
+    let [col1, col2]   = pickTwoDistinct(PALETTE, seed>>2);
+
+    // Special: ensure Sunday School second icon is different (it already is, but force swap once)
+    if(name === "children" && c.title.toLowerCase().includes("sunday")){
+      icon2 = ICON_URLS[(ICON_URLS.indexOf(icon1)+5) % ICON_URLS.length];
+      if(col2 === col1) col2 = PALETTE[(PALETTE.indexOf(col1)+2)%PALETTE.length];
+    }
+
     const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
     const price = c.price === 'ind.'
       ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
       : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
-    return `<article class="card">
-      ${renderIconsRow(c.icons)}
-      <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
-      <div class="title">${c.title}</div>
-      <div class="age-text">${c.age}</div>
-      <p class="desc">${c.desc}</p>
-      <div class="chips">${chips}</div>
-      ${price}
-    </article>`;
+
+    return `
+      <article class="card">
+        <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
+
+        <div class="icon-row" data-anim="icons">
+          <div class="icon-chip">
+            <span class="i" style="--iColor:${col1}; -webkit-mask-image:url('${icon1}'); mask-image:url('${icon1}');"></span>
+          </div>
+          <div class="icon-chip">
+            <span class="i" style="--iColor:${col2}; -webkit-mask-image:url('${icon2}'); mask-image:url('${icon2}');"></span>
+          </div>
+        </div>
+
+        <div class="title">${c.title}</div>
+        <div class="age-text">${c.age}</div>
+        <p class="desc">${c.desc}</p>
+        <div class="chips">${chips}</div>
+        ${price}
+      </article>`;
   }).join('');
 
-  // attach parallax to the newly rendered cards within this grid
-  grid.querySelectorAll('.card').forEach(attachIconParallax);
+  // attach animation to the freshly rendered cards in this grid
+  grid.querySelectorAll('.card').forEach(setupIconObscure);
 }
 ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
-/* Tabs */
+/* ---- “Obscure” follow-mouse animation (max 15px, fade when far) ---- */
+const MAX_OFFSET = 15;       // px (your 15px request)
+const MAX_DIST   = 250;      // distance where effect reaches full offset
+function setupIconObscure(card){
+  const row = card.querySelector('.icon-row');
+  if(!row) return;
+
+  function onMove(e){
+    const rect = card.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    row.querySelectorAll('.icon-chip').forEach(chip=>{
+      const r = chip.getBoundingClientRect();
+      const cx = (r.left + r.right)/2 - rect.left;
+      const cy = (r.top + r.bottom)/2 - rect.top;
+
+      const dx = mx - cx;
+      const dy = my - cy;
+      const dist = Math.hypot(dx,dy);
+      const t = Math.min(dist / MAX_DIST, 1);        // 0..1
+      const k = t * MAX_OFFSET;
+
+      // Move slightly toward mouse direction (same direction)
+      const len = dist || 1;
+      const tx = (dx/len) * k;
+      const ty = (dy/len) * k;
+
+      chip.style.transform = `translate(${tx}px, ${ty}px)`;
+      chip.style.opacity = String(1 - 0.4 * t);      // fades to 0.6 when far
+      chip.style.filter = `blur(${0.3 * t}px)`;      // tiny blur like “Obscure”
+    });
+  }
+  function onLeave(){
+    row.querySelectorAll('.icon-chip').forEach(chip=>{
+      chip.style.transform = `translate(0,0)`;
+      chip.style.opacity = '1';
+      chip.style.filter = 'blur(0px)';
+    });
+  }
+  card.addEventListener('mousemove', onMove, {passive:true});
+  card.addEventListener('mouseleave', onLeave);
+}
+
+/* ---- Tabs ---- */
 function showMain(which){
   const en = which === 'en';
   document.getElementById('tab-en').setAttribute('aria-selected', en);
@@ -372,51 +431,7 @@ document.getElementById('tab-art').addEventListener('click', ()=>showMain('art')
   document.getElementById(`sub-${id}`).addEventListener('click', ()=>showSub(id));
 });
 
-/* --------- Icon parallax on mouse move ---------- */
-function attachIconParallax(card){
-  const iconsRow = card.querySelector('.card-icons');
-  if(!iconsRow) return;
-  const icons = iconsRow.querySelectorAll('.icon-mask');
-  if(icons.length === 0) return;
-
-  const maxShift = 6;       // max pixels to move at edge
-  const minOpacity = 0.6;   // how much to fade at farthest point
-  const iconFactors = [1.0, 0.75]; // first icon moves slightly more
-
-  const supportsPointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
-
-  function onMove(e){
-    if(!supportsPointer) return;
-    const rect = iconsRow.getBoundingClientRect();
-    const cx = rect.left + rect.width/2;
-    const cy = rect.top + rect.height/2;
-
-    const dx = (e.clientX - cx) / (rect.width/2);   // -1..1
-    const dy = (e.clientY - cy) / (rect.height/2);  // -1..1
-    const dist = Math.min(1, Math.hypot(dx,dy));    // 0..1
-
-    const shiftX = dx * maxShift;
-    const shiftY = dy * maxShift;
-    const opacity = 1 - (1 - minOpacity) * dist;
-
-    icons.forEach((el, i)=>{
-      const f = iconFactors[i] ?? 0.7;
-      el.style.transform = `translate(${(shiftX*f).toFixed(2)}px, ${(shiftY*f).toFixed(2)}px)`;
-      el.style.opacity = opacity.toFixed(3);
-    });
-  }
-  function onLeave(){
-    icons.forEach(el=>{
-      el.style.transform = 'translate(0,0)';
-      el.style.opacity = '1';
-    });
-  }
-
-  card.addEventListener('mousemove', onMove);
-  card.addEventListener('mouseleave', onLeave);
-}
-
-/* Auto-resize for Wix iframe */
+/* ---- Auto-resize for Wix iframe ---- */
 (function () {
   function sendHeight() {
     requestAnimationFrame(() => {
