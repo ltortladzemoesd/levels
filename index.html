@@ -5,26 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Levels Academy – Courses Plugin</title>
   <style>
-    :root{
-      --bg:#f4f5f5;   /* page background */
-      --card:#aee2d7; /* card green */
-      --text:#10201a;
-      --muted:#2b3c34;
-      --shadow: 0 18px 30px rgba(0,0,0,.08);
-      --chip:#23B899; /* chips + selected main-tab text */
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;overflow-x:hidden}
-    body{font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+  :root{
+    --bg: transparent;   /* transparent page background */
+    --card:#aee2d7; 
+    --text:#10201a;
+    --muted:#2b3c34;
+    --shadow: 0 18px 30px rgba(0,0,0,.08);
+    --chip:#23B899;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;overflow-x:hidden}
+  body{
+    font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:var(--bg);
+    color:var(--text);
+  }
 
-    /* Frame: rounded card container */
-    .wrap{
-      max-width:100%;
-      margin:28px auto;
-      padding:0 20px 48px;
-      background:#ffffff;        /* white so the rounded corners are visible */
-      border-radius:20px;        /* requested 20px corners */
-    }
+  /* Frame container */
+  .wrap{
+    max-width:100%;
+    margin:28px auto;
+    padding:25px 20px;         /* 25px top & bottom, 20px sides */
+    background:#ffffff;
+    border-radius:20px;
+  }
+
 
     /* Main tabs: dark, thinner, equal width; desktop gets ~30% narrower + centered */
     .tabbar{display:flex;gap:20px;justify-content:center;width:100%;margin:22px auto}
