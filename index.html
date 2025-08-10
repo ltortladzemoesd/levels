@@ -24,13 +24,21 @@
 
     /* Main tabs: equal width, slightly larger than subtabs, thinner height */
     .tabbar{display:flex;gap:20px;justify-content:center;width:100%;margin-bottom:22px}
-    .main-tab{
-      flex:1;text-align:center;background:var(--bar);color:var(--text);
-      border:0;border-radius:999px;padding:16px 0;           /* thinner than before */
-      font-weight:500;font-size:20px;cursor:pointer;
-      transition:background .2s ease,color .2s ease, box-shadow .2s ease;
-      box-shadow:var(--shadow)
-    }
+    /* Main tabs: equal width, slightly larger than subtabs, now thinner */
+.main-tab {
+  flex: 1;
+  text-align: center;
+  background: var(--bar);
+  color: var(--text);
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 0; /* thinner vertically */
+  font-weight: 500;
+  font-size: 18px; /* slightly smaller text */
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+  box-shadow: var(--shadow);
+}
     .main-tab[aria-selected="true"]{background:var(--card);color:var(--text)}
     .main-tab:hover{opacity:.95}
 
