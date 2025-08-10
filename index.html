@@ -28,7 +28,7 @@ body{
 .wrap{
   max-width:100%;
   margin:28px auto;
-  padding:25px 20px;           /* 25px top/bottom as requested */
+  padding:25px 20px;
   background:#ffffff;
   border-radius:0 0 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
 }
@@ -96,12 +96,10 @@ body{
 }
 .icon-mask{
   width:28px;height:28px;display:inline-block;
-  background-color:#333;            /* will be overridden per-card */
-  /* color external SVGs via mask: */
+  background-color:#333;            /* will be overridden per-icon */
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
   -webkit-mask-position:center;mask-position:center;
   -webkit-mask-size:contain;mask-size:contain;
-  /* no shadow */
 }
 
 /* Title */
@@ -256,9 +254,24 @@ function kidsdesc(){
   return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
 }
 
+/* DATA
+   - Adults: 'Conversational English' REMOVED
+   - Sunday School: icons pinned and second icon changed (explicit pair below)
+*/
 const data = {
   children: [
-    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
+    {
+      title:"Sunday School",
+      age:"6 – 10 y.o.",
+      desc:kidsdesc(),
+      chips:["10 months","43 sessions","86 hours"],
+      price:"155", priceNote:"per month",
+      link:"https://levelscenter.wixstudio.com/my-site/blank-4",
+      icons: [
+        "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg", /* icon 1 */
+        "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg"  /* changed second icon */
+      ]
+    },
     { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
     { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
   ],
@@ -272,7 +285,6 @@ const data = {
   adults: [
     { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
     { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general" },
-    { title:"Conversational English", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"full course", link:"#adults-conv" },
     { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private" },
     { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro" },
     { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce" },
@@ -288,21 +300,24 @@ const data = {
 };
 const currency = "₾";
 
-/* helpers for random icons & colors (same color per card) */
+/* helpers for icons & colors */
 function pickTwoDistinct(arr){
   const a = Math.floor(Math.random()*arr.length);
   let b = Math.floor(Math.random()*arr.length);
   if (b===a) b = (b+1) % arr.length;
   return [arr[a], arr[b]];
 }
+function pickTwoDistinctColors(){
+  const [c1, c2] = pickTwoDistinct(ICON_COLORS);
+  return [c1, c2];
+}
 function iconSpan(url, color){
-  // Use CSS mask to color external SVG
   return `<span class="icon-mask" style="background-color:${color};-webkit-mask-image:url('${url}');mask-image:url('${url}');"></span>`;
 }
-function renderIconsRow(){
-  const [i1,i2] = pickTwoDistinct(ICON_URLS);
-  const color = ICON_COLORS[Math.floor(Math.random()*ICON_COLORS.length)];
-  return `<div class="card-icons">${iconSpan(i1,color)}${iconSpan(i2,color)}</div>`;
+function renderIconsRow(pinned){
+  const icons = pinned && pinned.length === 2 ? pinned : pickTwoDistinct(ICON_URLS);
+  const [col1, col2] = pickTwoDistinctColors();   // ensure different colors
+  return `<div class="card-icons">${iconSpan(icons[0], col1)}${iconSpan(icons[1], col2)}</div>`;
 }
 
 /* Render */
@@ -315,7 +330,7 @@ function renderGroup(name){
       ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
       : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
     return `<article class="card">
-      ${renderIconsRow()}
+      ${renderIconsRow(c.icons)}
       <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
       <div class="title">${c.title}</div>
       <div class="age-text">${c.age}</div>
