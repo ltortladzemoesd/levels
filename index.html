@@ -11,8 +11,7 @@
   --text:#10201a;
   --muted:#2b3c34;
   --shadow: 0 18px 30px rgba(0,0,0,.08);
-  --chip:#23B899;      /* green used in your UI */
-  --pill:#FFE453;      /* yellow you’ve used before */
+  --chip:#23B899;
   --title-size:24px;   /* title + price unified size */
 }
 
@@ -34,7 +33,7 @@ body{
   border-radius:0 0 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
 }
 
-/* Main tabs: revert pressed look; width matches subtabs on desktop */
+/* Main tabs */
 .tabbar{
   display:flex;
   gap:20px;
@@ -46,8 +45,8 @@ body{
 .main-tab{
   flex:1;
   text-align:center;
-  background:#333333;        /* dark bar always */
-  color:#ffffff;             /* unpressed text = white */
+  background:#333333;
+  color:#ffffff;
   border:0;border-radius:999px;
   padding:10px 0;
   font-weight:500;font-size:18px;
@@ -55,10 +54,7 @@ body{
   transition:color .2s ease,opacity .2s ease, box-shadow .2s ease;
   box-shadow:var(--shadow)
 }
-.main-tab[aria-selected="true"]{
-  background:#333333;        /* keep background */
-  color:var(--chip);         /* pressed text = green */
-}
+.main-tab[aria-selected="true"]{ background:#333333; color:var(--chip); }
 .main-tab:hover{opacity:.95}
 
 /* Subtabs */
@@ -82,7 +78,7 @@ body{
 .card{
   background:var(--card);
   border-radius:28px;
-  padding:46px 30px 30px; /* +16px top to give space for icons */
+  padding:30px;
   box-shadow:var(--shadow);
   position:relative;
   display:flex;
@@ -92,18 +88,23 @@ body{
 }
 .card:hover{transform:translateY(-2px) scale(1.01)}
 
-/* two small icons in the top-right (no shadow) */
+/* ICONS ROW (left, above title) */
 .card-icons{
-  position:absolute;top:14px;right:14px;
-  display:flex;gap:10px;z-index:1;
+  display:flex;
+  gap:10px;
+  margin-bottom:8px;
 }
-.card-icons .icon{
-  width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;
+.icon-mask{
+  width:28px;height:28px;display:inline-block;
+  background-color:#333;            /* will be overridden per-card */
+  /* color external SVGs via mask: */
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-position:center;mask-position:center;
+  -webkit-mask-size:contain;mask-size:contain;
+  /* no shadow */
 }
-.card-icons .icon svg{width:100%;height:100%;display:block}
-.card-icons .icon svg path{fill:currentColor}
 
-/* Title a bit larger and dark text */
+/* Title */
 .title{
   font-size:var(--title-size);
   line-height:1.2;
@@ -112,7 +113,7 @@ body{
   color:#333333;
 }
 
-/* Age line under title, italic, smaller, dark */
+/* Age line */
 .age-text{
   font-size:14px;
   font-style:italic;
@@ -120,6 +121,7 @@ body{
   margin-bottom:12px;
 }
 
+/* Description */
 .desc{
   color:var(--muted);
   margin:16px 0 18px;
@@ -140,7 +142,7 @@ body{
   color:#fff;
   border-radius:28px;
   padding:8px 12px;
-  font-weight:400; /* not bold */
+  font-weight:400;
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
   box-shadow:var(--shadow);
@@ -148,7 +150,7 @@ body{
   white-space:nowrap;
 }
 
-/* Price: same size as title, aligned right, dark text */
+/* Price: same size as title, aligned right */
 .price{
   display:block;
   text-align:right;
@@ -167,7 +169,7 @@ body{
 /* Hidden + overlay */
 .hidden{display:none !important}
 .card .card-overlay{
-  position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:2 /* above icons so card is fully clickable */
+  position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5
 }
 .card .card-overlay:focus{outline:none}
 
@@ -185,7 +187,7 @@ body{
   .subtabs{justify-content:space-between}
   .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
   .grid{grid-template-columns:1fr}
-  .card{padding:40px 20px 20px}
+  .card{padding:20px;min-height:auto}
   .desc{display:none}
   .chips{margin-top:8px}
   .title{font-size:clamp(20px,6vw,var(--title-size))}
@@ -218,13 +220,33 @@ body{
 </div>
 
 <script>
-/* ---------- Small icon set (simple shapes; color via currentColor) ---------- */
-const ICONS = {
-  Star:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M58.52,253c-8.26.27-13.1-6.33-11.09-13.76 3.79-14 8-27.92 12-41.87 2.68-9.3 5.4-18.6 8-27.91 2.16-7.55.85-11.23-5.38-16.16L9.74,105c-3.58-2.86-2.25-8.35 2.47-8.46l66.48-1.36c3.97-.08 5.84-2.2 7.31-6.68l21.23-63.56c2.14-6.43 9.58-6.28 11.9.37l23.24,69.58c1.56,4.68 3.96,6.59 8.8,6.68l64.17,1.21c5.89.11 8.46 7.35 3.34 11.35l-52.57,41.73c-3.91,3.09-4.65,6.03-3.2,11l19.56,67.66c1.76,6-4.41,10-9.65,6.2l-44.06-32.43c-3.83-2.82-6.5-2.54-10.93.71l-53.79,39c-4.02,2.92-9.48.75-8.86-4.78Z"/></svg>`,
-  Heart:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M3.24,252.3c-.05-2.09-.16-4.16-.16-6.23Q3,160.26,3,74.44C3,35,34.89,3.58,74.3,3A72.69,72.69,0,0,1,147.83,77.3c-.13,10.12-.08,20.25-.12,32.55,12.41-.47,24.43-1.85,36.35-1.22a72,72,0,0,1,58.21,109.76c-13.67,22.65-34.55,34.35-60.89,34.49-58.73.32-117.47-.1-176.2-.23A12.67,12.67,0,0,1,3.24,252.3Z"/></svg>`,
-  Check:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M101.08,152.1c-6.67-6.77-12.59-13-18.81-19-5.48-5.25-13.63-5.42-18.72-.81-5.7,5.17-6.8,13.24-1.29,18.92C75,164.36,88.32,177,102.3,190.67c12-12.36,24-24.95,36.31-37.33 16.18-16.34 32.56-32.48 48.77-48.79 8.15-8.19-.66-19.17-11.29-18.17-3.61.34-6.54,2.56-9.13,5.13l-61,60.94c-1.93,1.94-3.96,3.65-6.38,5.85Z"/></svg>`,
-  Sun:`<svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg"><path d="M151,113l87-36.17 2.3,8.21L157.1,121.6 253,133v8H157.1l88.26,36.94-3.56,9.79-88.71-36.57 36.1,87.65-9.63,4-37-89V253h-9.9V157.47l-35.86,87.86-5.09-2.46 36.42-88.4L14.37,180.9 10.24,171.31 99.5,134.25H3v-11.3H98.93L10.51,85.09l3.73-9.71 89.22,36.8-36-88 9.57-4.11 38.9,97.75V3h9.9v98.59l36.77-88.47 9.66,3.83-36.38,88.17 67.48-67.51 7.81,8Z"/></svg>`
-};
+/* ---------- icon URLs & colors ---------- */
+const ICON_URLS = [
+  "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
+  "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
+  "https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
+  "https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+  "https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg",
+  "https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+  "https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
+  "https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg",
+  "https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
+  "https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
+  "https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg",
+  "https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
+  "https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg",
+  "https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg",
+  "https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
+  "https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
+  "https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
+  "https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
+  "https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
+  "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg"
+];
+const ICON_COLORS = ["#3F85C6","#F1E073","#23B899","#333333","#F66E6E","#23B899","#FFFFFF"];
 
 /* Helper text first */
 function base(){
@@ -236,48 +258,54 @@ function kidsdesc(){
 
 const data = {
   children: [
-    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
-    { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7", icons:[{name:'Check', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
-    { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2", icons:[{name:'Heart', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
+    { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
+    { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
   ],
   teenagers: [
-    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
-    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
-    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private", icons:[{name:'Heart', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
-    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce", icons:[{name:'Star', color:'#23B899'},{name:'Check', color:'#FFE453'}] },
-    { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
+    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general" },
+    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
+    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
+    { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
   ],
   adults: [
-    { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
-    { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
-    { title:"Conversational English", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"full course", link:"#adults-conv", icons:[{name:'Heart', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
-    { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private", icons:[{name:'Heart', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
-    { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
-    { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce", icons:[{name:'Star', color:'#23B899'},{name:'Check', color:'#FFE453'}] },
+    { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
+    { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general" },
+    { title:"Conversational English", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"full course", link:"#adults-conv" },
+    { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private" },
+    { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro" },
+    { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce" },
   ],
   corporate: [
-    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6" },
   ],
   art: [
-    { title:"Painting & Graphics", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids", icons:[{name:'Star', color:'#23B899'},{name:'Heart', color:'#FFE453'}] },
-    { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen", icons:[{name:'Heart', color:'#23B899'},{name:'Sun', color:'#FFE453'}] },
-    { title:"Portfolio Creation",  age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio", icons:[{name:'Check', color:'#23B899'},{name:'Star', color:'#FFE453'}] },
+    { title:"Painting & Graphics", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids" },
+    { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen" },
+    { title:"Portfolio Creation",  age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio" },
   ],
 };
 const currency = "₾";
 
-/* Render */
-function renderIcons(pair){
-  if(!pair || !pair.length) return '';
-  return `<div class="card-icons">${
-    pair.slice(0,2).map(ic=>{
-      const svg = ICONS[ic.name] || '';
-      const color = ic.color || '#333';
-      return `<span class="icon" style="color:${color}">${svg}</span>`;
-    }).join('')
-  }</div>`;
+/* helpers for random icons & colors (same color per card) */
+function pickTwoDistinct(arr){
+  const a = Math.floor(Math.random()*arr.length);
+  let b = Math.floor(Math.random()*arr.length);
+  if (b===a) b = (b+1) % arr.length;
+  return [arr[a], arr[b]];
+}
+function iconSpan(url, color){
+  // Use CSS mask to color external SVG
+  return `<span class="icon-mask" style="background-color:${color};-webkit-mask-image:url('${url}');mask-image:url('${url}');"></span>`;
+}
+function renderIconsRow(){
+  const [i1,i2] = pickTwoDistinct(ICON_URLS);
+  const color = ICON_COLORS[Math.floor(Math.random()*ICON_COLORS.length)];
+  return `<div class="card-icons">${iconSpan(i1,color)}${iconSpan(i2,color)}</div>`;
 }
 
+/* Render */
 function renderGroup(name){
   const grid = document.querySelector(`[data-grid="${name}"]`);
   if(!grid) return;
@@ -287,7 +315,7 @@ function renderGroup(name){
       ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
       : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
     return `<article class="card">
-      ${renderIcons(c.icons)}
+      ${renderIconsRow()}
       <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
       <div class="title">${c.title}</div>
       <div class="age-text">${c.age}</div>
