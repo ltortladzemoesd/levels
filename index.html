@@ -6,16 +6,14 @@
 <title>Levels Academy – Courses Plugin</title>
 <style>
 :root{
-  --bg: transparent;   /* page background is transparent behind the frame */
-  --card:#aee2d7;      /* card green */
+  --bg: transparent;
+  --card:#aee2d7;
   --text:#10201a;
   --muted:#2b3c34;
   --shadow: 0 18px 30px rgba(0,0,0,.08);
   --chip:#23B899;
-  --title-size:24px;   /* title + price unified size */
+  --title-size:24px;
 }
-
-/* Reset */
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow-x:hidden}
 body{
@@ -23,30 +21,26 @@ body{
   background:var(--bg);
   color:var(--text);
 }
-
-/* Frame container: top corners 0, bottom 20px */
 .wrap{
   max-width:100%;
   margin:28px auto;
-  padding:25px 20px;           /* 25px top/bottom as requested */
+  padding:25px 20px;
   background:#ffffff;
-  border-radius:0 0 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
+  border-radius:0 0 20px 20px;
 }
-
-/* Main tabs: revert pressed look; width matches subtabs on desktop */
 .tabbar{
   display:flex;
   gap:20px;
   justify-content:center;
   margin-bottom:22px;
-  max-width:calc(4 * 200px + 3 * 14px); /* match 4 subtabs width + gaps */
+  max-width:calc(4 * 200px + 3 * 14px);
   margin-left:auto;margin-right:auto;
 }
 .main-tab{
   flex:1;
   text-align:center;
-  background:#333333;        /* dark bar always */
-  color:#ffffff;             /* unpressed text = white */
+  background:#333333;
+  color:#ffffff;
   border:0;border-radius:999px;
   padding:10px 0;
   font-weight:500;font-size:18px;
@@ -55,12 +49,10 @@ body{
   box-shadow:var(--shadow)
 }
 .main-tab[aria-selected="true"]{
-  background:#333333;        /* keep background */
-  color:var(--chip);         /* pressed text = green */
+  background:#333333;
+  color:var(--chip);
 }
 .main-tab:hover{opacity:.95}
-
-/* Subtabs */
 .subtabs{
   display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
 }
@@ -71,8 +63,6 @@ body{
 }
 .subtab-btn[aria-selected="true"]{background:var(--card)}
 .subtab-btn:hover{transform:scale(1.02)}
-
-/* Grid + Cards */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
@@ -90,16 +80,6 @@ body{
   transition:transform .2s ease;
 }
 .card:hover{transform:translateY(-2px) scale(1.01)}
-
-/* Icon row: two icons, no background */
-.icon-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
-.icon{width:32px;height:32px;display:inline-block;flex:0 0 auto;pointer-events:none;
-  transform:translate3d(0,0,0);filter:blur(0px);opacity:1;transition:filter .18s linear, opacity .18s linear}
-.icon img{width:100%;height:100%;display:block;object-fit:contain;background:transparent!important}
-/* Only the right icon animates */
-.icon.anim{will-change:transform, filter, opacity}
-
-/* Title a bit larger and dark text */
 .title{
   font-size:var(--title-size);
   line-height:1.2;
@@ -107,15 +87,12 @@ body{
   font-weight:900;
   color:#333333;
 }
-
-/* Age line under title, italic, smaller, dark */
 .age-text{
   font-size:14px;
   font-style:italic;
   color:#333333;
   margin-bottom:12px;
 }
-
 .desc{
   color:var(--muted);
   margin:16px 0 18px;
@@ -123,8 +100,6 @@ body{
   word-break:break-word;
   hyphens:auto;
 }
-
-/* Chips: equal widths, 3 per row */
 .chips{
   display:flex;
   flex-wrap:wrap;
@@ -136,15 +111,13 @@ body{
   color:#fff;
   border-radius:28px;
   padding:8px 12px;
-  font-weight:400; /* not bold */
+  font-weight:400;
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
   box-shadow:var(--shadow);
   font-size:14px;
   white-space:nowrap;
 }
-
-/* Price: same size as title, aligned right, dark text */
 .price{
   display:block;
   text-align:right;
@@ -159,20 +132,38 @@ body{
   color:#333333;
   margin-left:6px;
 }
-
-/* Hidden + overlay */
 .hidden{display:none !important}
 .card .card-overlay{
   position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5
 }
 .card .card-overlay:focus{outline:none}
 
+/* Icon styles */
+.icon-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:12px;
+}
+.icon-row img{
+  width:24px; /* 20% smaller than original 30px */
+  height:24px;
+  display:block;
+}
+
+/* Animation for right icon only */
+.icon-animate{
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.card:hover .icon-animate{
+  transform: translate(var(--tx,0px), var(--ty,0px));
+  opacity: var(--op,1);
+}
+
 /* Tablet */
 @media (min-width:641px) and (max-width:1024px){
   .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
   .card{min-height:440px}
 }
-
 /* Mobile */
 @media (max-width:640px){
   .wrap{padding:25px 14px}
@@ -182,21 +173,11 @@ body{
   .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px)}
   .grid{grid-template-columns:1fr}
   .card{padding:20px;min-height:auto}
-  .desc{display:none}           /* hide description on smartphones */
+  .desc{display:none}
   .chips{margin-top:8px}
   .title{font-size:clamp(20px,6vw,var(--title-size))}
   .price{font-size:clamp(20px,6vw,var(--title-size))}
 }
-
-/* ---------- Tints (approximate to requested hexes via filters) ---------- */
-/* Always neutralize to pure black first, then tint */
-.icon img{filter:brightness(0) saturate(100%)}
-.t-blue  img{filter:brightness(0) saturate(100%) invert(44%) sepia(23%) saturate(1471%) hue-rotate(185deg) brightness(92%) contrast(92%)}  /* ~ #3F85C6 */
-.t-yellow img{filter:brightness(0) saturate(100%) invert(86%) sepia(49%) saturate(626%) hue-rotate(355deg) brightness(104%) contrast(96%)} /* ~ #F1E073 */
-.t-teal img{filter:brightness(0) saturate(100%) invert(49%) sepia(78%) saturate(536%) hue-rotate(119deg) brightness(95%) contrast(88%)}   /* ~ #23B899 */
-.t-dark  img{filter:brightness(0) saturate(100%) invert(16%) sepia(3%) saturate(12%) hue-rotate(314deg) brightness(91%) contrast(85%)}   /* ~ #333333 */
-.t-red   img{filter:brightness(0) saturate(100%) invert(68%) sepia(22%) saturate(1196%) hue-rotate(307deg) brightness(97%) contrast(97%)}/* ~ #F66E6E */
-.t-white img{filter:invert(100%)} /* #FFFFFF */
 </style>
 </head>
 <body>
@@ -205,118 +186,87 @@ body{
     <button class="main-tab" id="tab-en" aria-selected="true">English Language Courses</button>
     <button class="main-tab" id="tab-art" aria-selected="false">Art Courses</button>
   </div>
-
   <div id="subtabs-en" class="subtabs" role="tablist">
     <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
     <button class="subtab-btn" id="sub-teenagers" aria-selected="false">teenagers</button>
     <button class="subtab-btn" id="sub-adults" aria-selected="false">adults</button>
     <button class="subtab-btn" id="sub-corporate" aria-selected="false">corporate</button>
   </div>
-
   <section id="panel-en" role="tabpanel">
     <div id="subpanel-children" role="tabpanel"><div class="grid" data-grid="children"></div></div>
     <div id="subpanel-teenagers" role="tabpanel" class="hidden"><div class="grid" data-grid="teenagers"></div></div>
     <div id="subpanel-adults" role="tabpanel" class="hidden"><div class="grid" data-grid="adults"></div></div>
     <div id="subpanel-corporate" role="tabpanel" class="hidden"><div class="grid" data-grid="corporate"></div></div>
   </section>
-
   <section id="panel-art" role="tabpanel" class="hidden"><div class="grid" data-grid="art"></div></section>
 </div>
 
 <script>
-/* Helper text first */
 function base(){
-  return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service.";
+  return "This is the space to describe the service...";
 }
 function kidsdesc(){
-  return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
+  return "A fun and interactive English course for children aged 6–10...";
 }
+
+/* Icon color palette swap (Children gets old Art colors, Art gets old Children colors) */
+const iconSets = {
+  children: [
+    {left:"/icons/art-icon1.svg", leftColor:"#FF7F50", right:"/icons/art-icon2.svg", rightColor:"#20B2AA"},
+    {left:"/icons/art-icon3.svg", leftColor:"#FFD700", right:"/icons/art-icon4.svg", rightColor:"#4682B4"}
+  ],
+  art: [
+    {left:"/icons/child-icon1.svg", leftColor:"#23B899", right:"/icons/child-icon2.svg", rightColor:"#E57373"},
+    {left:"/icons/child-icon3.svg", leftColor:"#FBC02D", right:"/icons/child-icon4.svg", rightColor:"#4A90E2"}
+  ]
+};
 
 const data = {
   children: [
-    { title:"Sunday School",   age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
-    { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
-    { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
+    { title:"Sunday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"#"},
+    { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"#"},
+    { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"150", priceNote:"per month", link:"#"},
   ],
   teenagers: [
-    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
-    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#teens-general" },
-    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
-    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
-    { title:"National Exam",   age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#teens-national" },
+    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#" },
+    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"220", priceNote:"per month", link:"#" },
+    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#" },
+    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#" },
+    { title:"National Exam", age:"from 16 y.o.", desc:base(), chips:["4 months","24 sessions","48 hours"], price:"220", priceNote:"per month", link:"#" }
   ],
   adults: [
-    { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
-    { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general" },
-    { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private" },
-    { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#adults-pro" },
-    { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce" },
+    { title:"IELTS", age:"from 18 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#" },
+    { title:"General English", age:"from 18 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#" },
+    { title:"Private Lessons", age:"from 18 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#" },
+    { title:"Professional English", age:"from 18 y.o.", desc:"The course is designed...", chips:["4 months","48 sessions","86 hours"], price:"320", priceNote:"per month", link:"#" },
+    { title:"FCE   PET   CAE", age:"from 18 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#" }
   ],
   corporate: [
-    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6" },
+    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#" }
   ],
   art: [
-    { title:"Painting & Graphics", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#art-kids" },
-    { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#art-teen" },
-    { title:"Portfolio Creation",  age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio" },
-  ],
+    { title:"Painting & Graphics", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"145", priceNote:"per month", link:"#" },
+    { title:"Painting & Graphics", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"225", priceNote:"per month", link:"#" },
+    { title:"Portfolio Creation", age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#" }
+  ]
 };
 const currency = "₾";
 
-/* Icon URLs */
-const ICON_URLS = [
-  "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
-  "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
-  "https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
-  "https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
-  "https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
-  "https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg",
-  "https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
-  "https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
-  "https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg",
-  "https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
-  "https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
-  "https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg",
-  "https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
-  "https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg",
-  "https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg",
-  "https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
-  "https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
-  "https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
-  "https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
-  "https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
-  "https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
-  "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
-  "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg",
-];
-
-/* color classes to choose from (two different per card) */
-const COLOR_CLASSES = ["t-blue","t-yellow","t-teal","t-dark","t-red","t-white"];
-
-/* pick two distinct items from an array */
-function pickTwoDistinct(arr){
-  const a = Math.floor(Math.random()*arr.length);
-  let b = Math.floor(Math.random()*arr.length);
-  if(b===a) b=(a+1)%arr.length;
-  return [arr[a], arr[b]];
-}
-
-/* Render */
 function renderGroup(name){
   const grid = document.querySelector(`[data-grid="${name}"]`);
   if(!grid) return;
-  grid.innerHTML = data[name].map(c=>{
-    const [icon1, icon2] = pickTwoDistinct(ICON_URLS);
-    const [color1, color2] = pickTwoDistinct(COLOR_CLASSES);
+  const icons = iconSets[name] || iconSets.children;
+  grid.innerHTML = data[name].map((c, i)=>{
     const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
     const price = c.price === 'ind.'
-      ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
-      : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
+      ? `<div class="price"><span>ind.</span><span class="per"> ${c.priceNote}</span></div>`
+      : `<div class="price"><span>${currency}${c.price}</span><span class="per"> ${c.priceNote}</span></div>`;
+    const leftIcon = icons[i % icons.length];
     return `<article class="card">
-      <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
+      <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener"></a>
       <div class="icon-row">
-        <span class="icon ${color1}"><img alt="" src="${icon1}" loading="lazy"></span>
-        <span class="icon anim ${color2}"><img alt="" src="${icon2}" loading="lazy"></span>
+        <img src="${leftIcon.left}" style="filter: drop-shadow(0 0 0 ${leftIcon.leftColor});">
+        <img class="icon-animate" src="${leftIcon.right}" style="filter: drop-shadow(0 0 0 ${leftIcon.rightColor});">
       </div>
       <div class="title">${c.title}</div>
       <div class="age-text">${c.age}</div>
@@ -328,49 +278,21 @@ function renderGroup(name){
 }
 ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
-/* “Obscure” animation (15px drift + blur/fade) — RIGHT ICON ONLY */
-function attachObscure(card){
-  const MAX_SHIFT = 15, MAX_BLUR = 6, MIN_OPACITY = 0.35, MAX_DIST = 200;
-  const icons = Array.from(card.querySelectorAll('.icon.anim')); /* animate only the right icon */
-  if(!icons.length) return;
-
-  const state = icons.map(()=>({tx:0,ty:0,blur:0,op:1,x:0,y:0,b:0,o:1}));
-  let raf=null;
-
-  function update(ev){
-    const rect = card.getBoundingClientRect();
-    const mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
-    icons.forEach((icon,i)=>{
-      const r = icon.getBoundingClientRect();
-      const cx = r.left - rect.left + r.width/2, cy = r.top - rect.top + r.height/2;
-      const dx = mx - cx, dy = my - cy, dist = Math.hypot(dx,dy);
-      const t = Math.min(dist/MAX_DIST,1), shift = MAX_SHIFT*t;
-      const nx = dist ? dx/dist : 0, ny = dist ? dy/dist : 0;
-      const s = state[i];
-      s.tx = nx*shift; s.ty = ny*shift; s.blur = MAX_BLUR*t; s.op = 1 - (1-MIN_OPACITY)*t;
-    });
-    if(!raf) loop();
-  }
-  function reset(){ state.forEach(s=>{s.tx=0;s.ty=0;s.blur=0;s.op=1}); if(!raf) loop(); }
-
-  function loop(){
-    raf = requestAnimationFrame(()=>{
-      let still=true, ease=0.18;
-      state.forEach((s,i)=>{
-        s.x += (s.tx - s.x)*ease; s.y += (s.ty - s.y)*ease;
-        s.b += (s.blur - s.b)*ease; s.o += (s.op - s.o)*ease;
-        const el = icons[i];
-        el.style.transform = `translate3d(${s.x}px,${s.y}px,0)`;
-        el.style.filter = `blur(${s.b}px)`; el.style.opacity = String(s.o);
-        if(Math.abs(s.tx-s.x)>0.1 || Math.abs(s.ty-s.y)>0.1 || Math.abs(s.blur-s.b)>0.1 || Math.abs(s.op-s.o)>0.01) still=false;
-      });
-      if(!still) loop(); else raf=null;
-    });
-  }
-  card.addEventListener('mousemove', update, {passive:true});
-  card.addEventListener('mouseleave', reset);
-}
-function attachAllObscure(){ document.querySelectorAll('.card').forEach(attachObscure); }
+/* Mouse-based animation for right icons */
+document.addEventListener('mousemove', e=>{
+  document.querySelectorAll('.icon-animate').forEach(icon=>{
+    const rect = icon.getBoundingClientRect();
+    const dx = (e.clientX - (rect.left + rect.width/2)) / 100;
+    const dy = (e.clientY - (rect.top + rect.height/2)) / 100;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const maxMove = 15;
+    const moveX = Math.max(Math.min(dx*maxMove, maxMove), -maxMove);
+    const moveY = Math.max(Math.min(dy*maxMove, maxMove), -maxMove);
+    icon.style.setProperty('--tx', `${moveX}px`);
+    icon.style.setProperty('--ty', `${moveY}px`);
+    icon.style.setProperty('--op', `${1 - dist/5}`);
+  });
+});
 
 /* Tabs */
 function showMain(which){
@@ -380,46 +302,18 @@ function showMain(which){
   document.getElementById('panel-en').classList.toggle('hidden', !en);
   document.getElementById('panel-art').classList.toggle('hidden', en);
   document.getElementById('subtabs-en').classList.toggle('hidden', !en);
-  attachAllObscure();
-  LA_sendHeight();
 }
 function showSub(which){
-  const ids = ['children','teenagers','adults','corporate'];
-  ids.forEach(id=>{
+  ['children','teenagers','adults','corporate'].forEach(id=>{
     document.getElementById(`sub-${id}`).setAttribute('aria-selected', id===which);
     document.getElementById(`subpanel-${id}`).classList.toggle('hidden', id!==which);
   });
-  attachAllObscure();
-  LA_sendHeight();
 }
 document.getElementById('tab-en').addEventListener('click', ()=>showMain('en'));
 document.getElementById('tab-art').addEventListener('click', ()=>showMain('art'));
 ['children','teenagers','adults','corporate'].forEach(id=>{
   document.getElementById(`sub-${id}`).addEventListener('click', ()=>showSub(id));
 });
-
-/* After initial render, bind animation */
-window.addEventListener('load', attachAllObscure);
-
-/* Auto-resize for Wix iframe */
-(function () {
-  function sendHeight() {
-    requestAnimationFrame(() => {
-      const h = Math.ceil(document.documentElement.scrollHeight);
-      if (window.parent) {
-        window.parent.postMessage({ type: 'LA_HEIGHT', height: h }, '*');
-      }
-    });
-  }
-  window.addEventListener('load', sendHeight);
-  document.addEventListener('DOMContentLoaded', sendHeight);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sendHeight);
-  new ResizeObserver(sendHeight).observe(document.body);
-  new MutationObserver(sendHeight).observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true });
-  window.addEventListener('resize', sendHeight);
-  setTimeout(sendHeight, 0);
-  window.LA_sendHeight = sendHeight;
-})();
 </script>
 </body>
 </html>
