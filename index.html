@@ -93,6 +93,7 @@ body{
   display:flex;
   gap:10px;
   margin-bottom:8px;
+  pointer-events:none; /* icons shouldn’t “eat” the hover */
 }
 .icon-mask{
   width:28px;height:28px;display:inline-block;
@@ -100,6 +101,8 @@ body{
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
   -webkit-mask-position:center;mask-position:center;
   -webkit-mask-size:contain;mask-size:contain;
+  transition:transform .15s ease, opacity .15s ease;  /* smooth micro-motion */
+  will-change:transform, opacity;
 }
 
 /* Title */
@@ -256,7 +259,7 @@ function kidsdesc(){
 
 /* DATA
    - Adults: 'Conversational English' REMOVED
-   - Sunday School: icons pinned and second icon changed (explicit pair below)
+   - Sunday School: icons pinned and second icon changed
 */
 const data = {
   children: [
@@ -268,8 +271,8 @@ const data = {
       price:"155", priceNote:"per month",
       link:"https://levelscenter.wixstudio.com/my-site/blank-4",
       icons: [
-        "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg", /* icon 1 */
-        "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg"  /* changed second icon */
+        "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
+        "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg"
       ]
     },
     { title:"Saturday School", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"155", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
@@ -300,7 +303,7 @@ const data = {
 };
 const currency = "₾";
 
-/* helpers for icons & colors */
+/* utility: pick 2 distinct array items */
 function pickTwoDistinct(arr){
   const a = Math.floor(Math.random()*arr.length);
   let b = Math.floor(Math.random()*arr.length);
@@ -320,7 +323,7 @@ function renderIconsRow(pinned){
   return `<div class="card-icons">${iconSpan(icons[0], col1)}${iconSpan(icons[1], col2)}</div>`;
 }
 
-/* Render */
+/* Render cards */
 function renderGroup(name){
   const grid = document.querySelector(`[data-grid="${name}"]`);
   if(!grid) return;
@@ -339,6 +342,9 @@ function renderGroup(name){
       ${price}
     </article>`;
   }).join('');
+
+  // attach parallax to the newly rendered cards within this grid
+  grid.querySelectorAll('.card').forEach(attachIconParallax);
 }
 ["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
@@ -365,6 +371,50 @@ document.getElementById('tab-art').addEventListener('click', ()=>showMain('art')
 ['children','teenagers','adults','corporate'].forEach(id=>{
   document.getElementById(`sub-${id}`).addEventListener('click', ()=>showSub(id));
 });
+
+/* --------- Icon parallax on mouse move ---------- */
+function attachIconParallax(card){
+  const iconsRow = card.querySelector('.card-icons');
+  if(!iconsRow) return;
+  const icons = iconsRow.querySelectorAll('.icon-mask');
+  if(icons.length === 0) return;
+
+  const maxShift = 6;       // max pixels to move at edge
+  const minOpacity = 0.6;   // how much to fade at farthest point
+  const iconFactors = [1.0, 0.75]; // first icon moves slightly more
+
+  const supportsPointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  function onMove(e){
+    if(!supportsPointer) return;
+    const rect = iconsRow.getBoundingClientRect();
+    const cx = rect.left + rect.width/2;
+    const cy = rect.top + rect.height/2;
+
+    const dx = (e.clientX - cx) / (rect.width/2);   // -1..1
+    const dy = (e.clientY - cy) / (rect.height/2);  // -1..1
+    const dist = Math.min(1, Math.hypot(dx,dy));    // 0..1
+
+    const shiftX = dx * maxShift;
+    const shiftY = dy * maxShift;
+    const opacity = 1 - (1 - minOpacity) * dist;
+
+    icons.forEach((el, i)=>{
+      const f = iconFactors[i] ?? 0.7;
+      el.style.transform = `translate(${(shiftX*f).toFixed(2)}px, ${(shiftY*f).toFixed(2)}px)`;
+      el.style.opacity = opacity.toFixed(3);
+    });
+  }
+  function onLeave(){
+    icons.forEach(el=>{
+      el.style.transform = 'translate(0,0)';
+      el.style.opacity = '1';
+    });
+  }
+
+  card.addEventListener('mousemove', onMove);
+  card.addEventListener('mouseleave', onLeave);
+}
 
 /* Auto-resize for Wix iframe */
 (function () {
