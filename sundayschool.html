@@ -2,162 +2,170 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Sunday School | Levels Academy</title>
   <meta name="description" content="A fun and interactive English learning program for children aged 6–10." />
   <style>
     :root{
+      /* Palette approximates the live page: soft bg, slate text, blue accents, gentle greens */
       --bg:#f7f9fb;
       --paper:#ffffff;
-      --ink:#0f172a;
-      --muted:#475569;
-      --brand:#0ea5e9;
-      --accent:#22c55e;
+      --ink:#0f172a;        /* headings */
+      --muted:#475569;      /* body text */
+      --brand:#0ea5e9;      /* blue accent */
+      --accent:#22c55e;     /* green accent */
       --ring:rgba(14,165,233,.35);
-      --card:#f1f5f9;
+      --card:#f1f5f9;       /* light card */
+      --border:#e2e8f0;
       --radius:16px;
-      --shadow: 0 10px 30px rgba(2,6,23,.08);
-      --maxw: 1100px;
+      --shadow:0 10px 28px rgba(2,6,23,.08);
+      --maxw:1100px;
+      --badge-bg:#e8fff4;   /* soft green background for tags */
+      --badge-br:#b7efd9;
+      --badge-tx:#0a3a2a;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
-      color:var(--ink);
-      background:var(--bg);
+      margin:0;background:var(--bg);color:var(--muted);
+      font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
       line-height:1.6;
     }
-    a{color:var(--brand);text-decoration:none}
-    a:hover{text-decoration:underline}
-    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
-    header{
-      position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(8px);
-      border-bottom:1px solid #e2e8f0;
+
+    .container{max-width:var(--maxw);margin:0 auto;padding:28px 22px}
+    h1,h2,h3{color:var(--ink)}
+    h1{font-size:clamp(28px,4.5vw,44px);line-height:1.15;margin:6px 0 12px}
+    h2{font-size:clamp(22px,3vw,28px);margin:6px 0 12px}
+    h3{font-size:clamp(18px,2.2vw,20px);margin:12px 0 8px}
+    p{margin:8px 0}
+
+    .lead{font-size:clamp(16px,2.4vw,18px)}
+
+    .tag{
+      display:inline-flex;align-items:center;gap:8px;
+      background:var(--badge-bg);border:1px solid var(--badge-br);color:var(--badge-tx);
+      padding:6px 10px;border-radius:999px;font-size:12px;font-weight:600;
     }
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
-    .brand .dot{width:10px;height:10px;border-radius:999px;background:var(--brand)}
-    .menu{display:flex;gap:18px;align-items:center}
-    .menu a{color:var(--muted);font-weight:600}
-    .cta{display:inline-block;background:var(--brand);color:#fff;padding:10px 16px;border-radius:10px;box-shadow:var(--shadow)}
-    .cta:hover{opacity:.95;text-decoration:none}
-    .hero{padding:48px 24px}
-    .title{font-size:clamp(28px,4vw,44px);line-height:1.15;margin:8px 0 10px}
-    .lead{color:var(--muted);font-size:clamp(16px,2.4vw,18px)}
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
-    .card{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
-    .tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#0a3a2a;background:#ddfbe9;border:1px solid #bcebd4;padding:6px 10px;border-radius:999px}
+    .tag .dot{width:8px;height:8px;border-radius:999px;background:var(--accent)}
+
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;margin-top:20px}
+    .card{background:var(--paper);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+
+    /* Facts with icons */
     .facts{display:grid;gap:12px}
-    .fact{background:var(--card);border-radius:12px;padding:14px}
-    .fact b{display:block;font-size:12px;color:#334155;text-transform:uppercase;letter-spacing:.03em}
-    h2{font-size:28px;margin:6px 0 12px}
-    h3{font-size:20px;margin:18px 0 8px}
-    details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;background:#fff}
+    .fact{
+      display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;
+      background:var(--card);border-radius:12px;padding:12px;border:1px solid var(--border);
+    }
+    .icon{
+      width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+      background:#e6f4ff;border:1px solid #cfe8ff; /* soft blue tile behind icons */
+      overflow:hidden;
+    }
+    .icon img{width:22px;height:22px;display:block}
+
+    /* FAQ */
+    details{border:1px solid var(--border);border-radius:12px;padding:12px 14px;background:#fff}
     details+details{margin-top:10px}
-    summary{cursor:pointer;font-weight:700;outline:none}
+    summary{cursor:pointer;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:10px}
+    summary .qicon{width:18px;height:18px;display:inline-block;vertical-align:middle}
+
+    /* Two-column */
     .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .offer{border:1px solid #e2e8f0;border-radius:14px;padding:16px;background:#fff}
-    .badge{-webkit-user-select:none;user-select:none;font-weight:800}
-    .cta-block{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    .offer{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff}
+    .badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:#e6fff0;border:1px solid #c7f3dd;color:#065f46;
+      border-radius:999px;padding:4px 10px;font-weight:800;font-size:12px;
+    }
+    .cta{display:inline-block;background:var(--brand);color:#fff;padding:10px 16px;border-radius:10px;box-shadow:var(--shadow);text-decoration:none;font-weight:700}
+    .cta:hover{opacity:.96}
+
+    /* Icon row accents */
+    .icon-row{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 2px}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#eef7ff;border:1px solid #d5e9ff;color:#0b3a60;
+      padding:8px 10px;border-radius:999px;font-size:12px;font-weight:600;
+    }
+    .pill img{width:18px;height:18px}
+
     img{max-width:100%;height:auto;border-radius:12px}
-    footer{margin-top:48px;border-top:1px solid #e2e8f0;background:#fff}
-    .foot{display:grid;gap:8px;padding:24px}
-    .social{display:flex;gap:14px;flex-wrap:wrap}
-    .chip{display:inline-block;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;padding:6px 10px;border-radius:999px;font-size:12px}
+
+    /* Focus styles */
+    :focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:10px}
+
     /* Mobile */
     @media (max-width: 900px){
       .grid{grid-template-columns:1fr}
-      .menu{display:none}
-      .hero{padding:28px 18px}
+      .two-col{grid-template-columns:1fr}
     }
-    /* Simple mobile menu */
-    .hamburger{display:none}
-    @media (max-width: 900px){
-      .hamburger{display:inline-flex;flex-direction:column;gap:4px}
-      .hamburger span{width:22px;height:2px;background:#0f172a}
-      .drawer{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:50}
-      .drawer.open{display:block}
-      .sheet{position:absolute;right:0;top:0;height:100%;width:min(84%,360px);background:#fff;box-shadow:var(--shadow);padding:22px}
-      .sheet a{display:block;padding:10px 0;color:#0f172a;border-bottom:1px solid #eef2f7}
-    }
-    /* Focus styles */
-    :focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:10px}
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="nav">
-      <div class="brand"><span class="dot"></span><span>Levels Academy</span></div>
-      <nav class="menu" aria-label="Primary">
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Courses</a>
-        <a href="#">Summer Programs</a>
-        <a class="cta" href="#enroll">Enroll</a>
-      </nav>
-      <button class="hamburger" aria-label="Open menu" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
+  <section class="container">
+    <span class="tag"><span class="dot"></span>Kids • English</span>
+    <h1>SUNDAY SCHOOL</h1>
+    <p class="lead">A fun and interactive English learning program for children aged 6–10, combining general and conversational English with experienced Georgian and native-speaking teachers. Engaging lessons, games, and activities make learning enjoyable and effective!</p>
 
-  <!-- Mobile drawer -->
-  <div id="drawer" class="drawer" onclick="toggleMenu()">
-    <div class="sheet" onclick="event.stopPropagation()">
-      <h3 style="margin:0 0 10px">Menu</h3>
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Courses</a>
-      <a href="#">Summer Programs</a>
-      <a href="#quiz">Quiz</a>
+    <!-- little icon accents (randomly chosen from your set) -->
+    <div class="icon-row" aria-hidden="true">
+      <span class="pill"><img src="https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg" alt="">Interactive</span>
+      <span class="pill"><img src="https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg" alt="">Games</span>
+      <span class="pill"><img src="https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg" alt="">Stories</span>
+      <span class="pill"><img src="https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg" alt="">Speaking</span>
+      <span class="pill"><img src="https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg" alt="">Listening</span>
     </div>
-  </div>
 
-  <!-- Hero -->
-  <section class="hero container">
-    <span class="tag">Kids • English</span>
-    <h1 class="title">SUNDAY SCHOOL</h1>
-    <p class="lead">
-      A fun and interactive English learning program for children aged 6–10, combining general and conversational English with experienced Georgian and native-speaking teachers. Engaging lessons, games, and activities make learning enjoyable and effective!
-    </p>
-    <div class="grid" style="margin-top:22px">
+    <div class="grid">
       <article class="card">
         <h2>About the Course</h2>
-        <p>
-          Levels Academy’s Sunday School English Course is a fun and engaging language program designed for children aged 6–10.
-          Our carefully structured lessons help young learners build a strong foundation in English while making learning an enjoyable experience.
-          Through interactive activities, storytelling, songs, and games, children develop essential language skills in a relaxed and supportive environment.
-        </p>
-        <p>
-          Our expert instructors use age-appropriate teaching techniques to encourage curiosity, confidence, and creativity in language learning. Whether your child is just starting or looking to improve their English, this course provides the perfect balance of education and fun!
-        </p>
+        <p>Levels Academy’s Sunday School English Course is a fun and engaging language program designed for children aged 6–10. Our carefully structured lessons help young learners build a strong foundation in English while making learning an enjoyable experience. Through interactive activities, storytelling, songs, and games, children develop essential language skills in a relaxed and supportive environment.</p>
+        <p>Our expert instructors use age-appropriate teaching techniques to encourage curiosity, confidence, and creativity in language learning. Whether your child is just starting or looking to improve their English, this course provides the perfect balance of education and fun!</p>
 
-        <h3 style="margin-top:18px">Frequently Asked Questions</h3>
+        <h3>Frequently Asked Questions</h3>
         <div class="faq">
           <details>
-            <summary>What will my child learn in this course?</summary>
+            <summary>
+              <img class="qicon" src="https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg" alt="">
+              What will my child learn in this course?
+            </summary>
             <div>Children will develop speaking, listening, reading, and writing skills through engaging lessons, games, and storytelling.</div>
           </details>
           <details>
-            <summary>What materials will my child use?</summary>
+            <summary>
+              <img class="qicon" src="https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg" alt="">
+              What materials will my child use?
+            </summary>
             <div>Each student receives a Cambridge University <em>Kids Box</em> and Oxford University <em>Family and Friends</em> textbooks, along with additional engaging learning materials.</div>
           </details>
           <details>
-            <summary>When does the course start?</summary>
+            <summary>
+              <img class="qicon" src="https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg" alt="">
+              When does the course start?
+            </summary>
             <div>New groups start regularly. Contact us to find out the next available start date and secure your child’s spot.</div>
           </details>
           <details>
-            <summary>How do you form groups?</summary>
+            <summary>
+              <img class="qicon" src="https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg" alt="">
+              How do you form groups?
+            </summary>
             <div>Groups are formed based on age and language proficiency to ensure the best learning environment for each child.</div>
           </details>
           <details>
-            <summary>How many levels will my child complete?</summary>
+            <summary>
+              <img class="qicon" src="https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg" alt="">
+              How many levels will my child complete?
+            </summary>
             <div>The number of levels depends on progress and attendance. Most students advance two levels per academic year.</div>
           </details>
           <details>
-            <summary>What is the lesson structure?</summary>
+            <summary>
+              <img class="qicon" src="https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg" alt="">
+              What is the lesson structure?
+            </summary>
             <div>
               Lesson Format:
               <ul>
@@ -171,20 +179,32 @@
 
       <aside class="card">
         <div class="facts">
-          <div class="fact"><b>Duration</b>1 Academic Year</div>
-          <div class="fact"><b>Age</b>6 – 10 y.o.</div>
-          <div class="fact"><b>Lessons per week</b>Once, on Sunday</div>
-          <div class="fact"><b>Lesson Duration</b>120 mins</div>
+          <div class="fact">
+            <span class="icon"><img src="https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg" alt=""></span>
+            <div><b style="display:block;color:#334155;text-transform:uppercase;letter-spacing:.03em;font-size:12px">Duration</b>1 Academic Year</div>
+          </div>
+          <div class="fact">
+            <span class="icon"><img src="https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg" alt=""></span>
+            <div><b style="display:block;color:#334155;text-transform:uppercase;letter-spacing:.03em;font-size:12px">Age</b>6 – 10 y.o.</div>
+          </div>
+          <div class="fact">
+            <span class="icon"><img src="https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg" alt=""></span>
+            <div><b style="display:block;color:#334155;text-transform:uppercase;letter-spacing:.03em;font-size:12px">Lessons per week</b>Once, on Sunday</div>
+          </div>
+          <div class="fact">
+            <span class="icon"><img src="https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg" alt=""></span>
+            <div><b style="display:block;color:#334155;text-transform:uppercase;letter-spacing:.03em;font-size:12px">Lesson Duration</b>120 mins</div>
+          </div>
         </div>
-        <div class="cta-block">
-          <a id="enroll" class="cta" href="#contact">Enroll</a>
-          <a class="chip" href="#quiz">Take the Quiz</a>
+        <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="cta" href="#enroll">Enroll</a>
+          <a class="cta" style="background:#10b981" href="#quiz">Take the Quiz</a>
         </div>
       </aside>
     </div>
   </section>
 
-  <!-- Certificate -->
+  <!-- Certificate + Offers -->
   <section class="container">
     <div class="two-col">
       <div class="card">
@@ -196,15 +216,15 @@
         <h2>Special Offers &amp; Savings</h2>
         <div class="two-col" style="grid-template-columns:1fr 1fr">
           <div class="offer">
-            <h3>Family Discount <span class="badge">-10%</span></h3>
+            <h3><img src="https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">Family Discount <span class="badge"><img src="https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg" alt="" style="width:14px;height:14px">-10%</span></h3>
             <p>Enroll more than one family member and enjoy a special discount! Learning together makes the experience more fun and effective.</p>
           </div>
           <div class="offer">
-            <h3>Student Discount <span class="badge">-10%</span></h3>
+            <h3><img src="https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">Student Discount <span class="badge"><img src="https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg" alt="" style="width:14px;height:14px">-10%</span></h3>
             <p>Are you a student? Get an exclusive discount on our courses and invest in your future with high-quality English training.</p>
           </div>
           <div class="offer" style="grid-column:1 / -1">
-            <h3>Bring a Friend Discount <span class="badge">-10%</span></h3>
+            <h3><img src="https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">Bring a Friend Discount <span class="badge"><img src="https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg" alt="" style="width:14px;height:14px">-10%</span></h3>
             <p>Learning is better with friends! Invite a friend to join the course and both of you will receive a discount on your enrollment.</p>
           </div>
         </div>
@@ -212,13 +232,16 @@
     </div>
   </section>
 
-  <!-- Quiz CTA -->
+  <!-- Quiz -->
   <section id="quiz" class="container">
     <div class="two-col">
       <div class="card">
         <h2>Test Your English Skills</h2>
         <p>Take our quick and free English language quiz to assess your proficiency level and discover the right course for you!</p>
-        <a class="cta" href="#quiz-link">Start Quiz</a>
+        <a class="cta" href="#quiz-link">
+          <img src="https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">
+          Start Quiz
+        </a>
       </div>
       <div class="card">
         <img src="https://static.wixstatic.com/media/d67a12_98a0120d964c4132baab42be7ce2ea65~mv2.png/v1/fill/w_980%2Ch_693%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/quiz.png" alt="Quiz illustration">
@@ -230,31 +253,19 @@
   <section class="container">
     <div class="card">
       <h2>Why Choose Levels Academy?</h2>
-      <p><b>Tailored Learning for Every Need</b><br />Our courses are customized for children, teenagers, adults, and corporate clients, ensuring each learner gets the right training for their goals.</p>
-      <p><b>Expert Trainers &amp; Proven Methods</b><br />Our highly qualified instructors use engaging, results-driven teaching techniques that guarantee practical language improvement.</p>
-      <p><b>Safe &amp; Supportive Environment</b><br />We create a positive and encouraging atmosphere where children feel comfortable, motivated, and excited to learn.</p>
+      <p>
+        <img src="https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">
+        <b>Tailored Learning for Every Need</b><br />Our courses are customized for children, teenagers, adults, and corporate clients, ensuring each learner gets the right training for their goals.
+      </p>
+      <p>
+        <img src="https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">
+        <b>Expert Trainers &amp; Proven Methods</b><br />Our highly qualified instructors use engaging, results-driven teaching techniques that guarantee practical language improvement.
+      </p>
+      <p>
+        <img src="https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg" alt="" style="width:18px;height:18px;vertical-align:-3px;margin-right:6px;">
+        <b>Safe &amp; Supportive Environment</b><br />We create a positive and encouraging atmosphere where children feel comfortable, motivated, and excited to learn.
+      </p>
     </div>
   </section>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container foot">
-      <div><strong>Levels Academy</strong> • © 2025</div>
-      <div class="social">
-        <a class="chip" href="#" aria-label="Facebook">Facebook</a>
-        <a class="chip" href="#" aria-label="Instagram">Instagram</a>
-        <a class="chip" href="#" aria-label="WhatsApp">WhatsApp</a>
-        <a class="chip" href="#" aria-label="LinkedIn">LinkedIn</a>
-      </div>
-      <small style="color:var(--muted)">This is a static replica for GitHub Pages. Replace # links with your real URLs.</small>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMenu(){
-      const d=document.getElementById('drawer');
-      d.classList.toggle('open');
-    }
-  </script>
 </body>
 </html>
