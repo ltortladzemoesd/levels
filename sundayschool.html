@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sunday School | Levels Academy</title>
+  <meta name="description" content="A fun and interactive English learning program for children aged 6–10." />
+  <style>
+    :root{
+      --bg:#f7f9fb;
+      --paper:#ffffff;
+      --ink:#0f172a;
+      --muted:#475569;
+      --brand:#0ea5e9;
+      --accent:#22c55e;
+      --ring:rgba(14,165,233,.35);
+      --card:#f1f5f9;
+      --radius:16px;
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+      --maxw: 1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--ink);
+      background:var(--bg);
+      line-height:1.6;
+    }
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--maxw);margin:0 auto;padding:24px}
+    header{
+      position:sticky;top:0;z-index:40;background:rgba(255,255,255,.9);backdrop-filter:saturate(180%) blur(8px);
+      border-bottom:1px solid #e2e8f0;
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.3px}
+    .brand .dot{width:10px;height:10px;border-radius:999px;background:var(--brand)}
+    .menu{display:flex;gap:18px;align-items:center}
+    .menu a{color:var(--muted);font-weight:600}
+    .cta{display:inline-block;background:var(--brand);color:#fff;padding:10px 16px;border-radius:10px;box-shadow:var(--shadow)}
+    .cta:hover{opacity:.95;text-decoration:none}
+    .hero{padding:48px 24px}
+    .title{font-size:clamp(28px,4vw,44px);line-height:1.15;margin:8px 0 10px}
+    .lead{color:var(--muted);font-size:clamp(16px,2.4vw,18px)}
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
+    .card{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+    .tag{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:#0a3a2a;background:#ddfbe9;border:1px solid #bcebd4;padding:6px 10px;border-radius:999px}
+    .facts{display:grid;gap:12px}
+    .fact{background:var(--card);border-radius:12px;padding:14px}
+    .fact b{display:block;font-size:12px;color:#334155;text-transform:uppercase;letter-spacing:.03em}
+    h2{font-size:28px;margin:6px 0 12px}
+    h3{font-size:20px;margin:18px 0 8px}
+    details{border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;background:#fff}
+    details+details{margin-top:10px}
+    summary{cursor:pointer;font-weight:700;outline:none}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .offer{border:1px solid #e2e8f0;border-radius:14px;padding:16px;background:#fff}
+    .badge{-webkit-user-select:none;user-select:none;font-weight:800}
+    .cta-block{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+    img{max-width:100%;height:auto;border-radius:12px}
+    footer{margin-top:48px;border-top:1px solid #e2e8f0;background:#fff}
+    .foot{display:grid;gap:8px;padding:24px}
+    .social{display:flex;gap:14px;flex-wrap:wrap}
+    .chip{display:inline-block;background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;padding:6px 10px;border-radius:999px;font-size:12px}
+    /* Mobile */
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .menu{display:none}
+      .hero{padding:28px 18px}
+    }
+    /* Simple mobile menu */
+    .hamburger{display:none}
+    @media (max-width: 900px){
+      .hamburger{display:inline-flex;flex-direction:column;gap:4px}
+      .hamburger span{width:22px;height:2px;background:#0f172a}
+      .drawer{display:none;position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:50}
+      .drawer.open{display:block}
+      .sheet{position:absolute;right:0;top:0;height:100%;width:min(84%,360px);background:#fff;box-shadow:var(--shadow);padding:22px}
+      .sheet a{display:block;padding:10px 0;color:#0f172a;border-bottom:1px solid #eef2f7}
+    }
+    /* Focus styles */
+    :focus-visible{outline:3px solid var(--ring);outline-offset:2px;border-radius:10px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="nav">
+      <div class="brand"><span class="dot"></span><span>Levels Academy</span></div>
+      <nav class="menu" aria-label="Primary">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Courses</a>
+        <a href="#">Summer Programs</a>
+        <a class="cta" href="#enroll">Enroll</a>
+      </nav>
+      <button class="hamburger" aria-label="Open menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div id="drawer" class="drawer" onclick="toggleMenu()">
+    <div class="sheet" onclick="event.stopPropagation()">
+      <h3 style="margin:0 0 10px">Menu</h3>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Courses</a>
+      <a href="#">Summer Programs</a>
+      <a href="#quiz">Quiz</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero container">
+    <span class="tag">Kids • English</span>
+    <h1 class="title">SUNDAY SCHOOL</h1>
+    <p class="lead">
+      A fun and interactive English learning program for children aged 6–10, combining general and conversational English with experienced Georgian and native-speaking teachers. Engaging lessons, games, and activities make learning enjoyable and effective!
+    </p>
+    <div class="grid" style="margin-top:22px">
+      <article class="card">
+        <h2>About the Course</h2>
+        <p>
+          Levels Academy’s Sunday School English Course is a fun and engaging language program designed for children aged 6–10.
+          Our carefully structured lessons help young learners build a strong foundation in English while making learning an enjoyable experience.
+          Through interactive activities, storytelling, songs, and games, children develop essential language skills in a relaxed and supportive environment.
+        </p>
+        <p>
+          Our expert instructors use age-appropriate teaching techniques to encourage curiosity, confidence, and creativity in language learning. Whether your child is just starting or looking to improve their English, this course provides the perfect balance of education and fun!
+        </p>
+
+        <h3 style="margin-top:18px">Frequently Asked Questions</h3>
+        <div class="faq">
+          <details>
+            <summary>What will my child learn in this course?</summary>
+            <div>Children will develop speaking, listening, reading, and writing skills through engaging lessons, games, and storytelling.</div>
+          </details>
+          <details>
+            <summary>What materials will my child use?</summary>
+            <div>Each student receives a Cambridge University <em>Kids Box</em> and Oxford University <em>Family and Friends</em> textbooks, along with additional engaging learning materials.</div>
+          </details>
+          <details>
+            <summary>When does the course start?</summary>
+            <div>New groups start regularly. Contact us to find out the next available start date and secure your child’s spot.</div>
+          </details>
+          <details>
+            <summary>How do you form groups?</summary>
+            <div>Groups are formed based on age and language proficiency to ensure the best learning environment for each child.</div>
+          </details>
+          <details>
+            <summary>How many levels will my child complete?</summary>
+            <div>The number of levels depends on progress and attendance. Most students advance two levels per academic year.</div>
+          </details>
+          <details>
+            <summary>What is the lesson structure?</summary>
+            <div>
+              Lesson Format:
+              <ul>
+                <li>60 minutes of General English</li>
+                <li>60 minutes of Conversational English</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <aside class="card">
+        <div class="facts">
+          <div class="fact"><b>Duration</b>1 Academic Year</div>
+          <div class="fact"><b>Age</b>6 – 10 y.o.</div>
+          <div class="fact"><b>Lessons per week</b>Once, on Sunday</div>
+          <div class="fact"><b>Lesson Duration</b>120 mins</div>
+        </div>
+        <div class="cta-block">
+          <a id="enroll" class="cta" href="#contact">Enroll</a>
+          <a class="chip" href="#quiz">Take the Quiz</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Certificate -->
+  <section class="container">
+    <div class="two-col">
+      <div class="card">
+        <h2>Certificate</h2>
+        <p>Upon successful completion of the course, you will receive an official certificate from Levels Academy, recognizing your achievements and progress in English language learning. ✅</p>
+        <img src="https://static.wixstatic.com/media/d67a12_3372581436844c4d8095beee5bebeac4~mv2.png/v1/fill/w_980%2Ch_693%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/certificate1.png" alt="Levels Academy Certificate">
+      </div>
+      <div class="card">
+        <h2>Special Offers &amp; Savings</h2>
+        <div class="two-col" style="grid-template-columns:1fr 1fr">
+          <div class="offer">
+            <h3>Family Discount <span class="badge">-10%</span></h3>
+            <p>Enroll more than one family member and enjoy a special discount! Learning together makes the experience more fun and effective.</p>
+          </div>
+          <div class="offer">
+            <h3>Student Discount <span class="badge">-10%</span></h3>
+            <p>Are you a student? Get an exclusive discount on our courses and invest in your future with high-quality English training.</p>
+          </div>
+          <div class="offer" style="grid-column:1 / -1">
+            <h3>Bring a Friend Discount <span class="badge">-10%</span></h3>
+            <p>Learning is better with friends! Invite a friend to join the course and both of you will receive a discount on your enrollment.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quiz CTA -->
+  <section id="quiz" class="container">
+    <div class="two-col">
+      <div class="card">
+        <h2>Test Your English Skills</h2>
+        <p>Take our quick and free English language quiz to assess your proficiency level and discover the right course for you!</p>
+        <a class="cta" href="#quiz-link">Start Quiz</a>
+      </div>
+      <div class="card">
+        <img src="https://static.wixstatic.com/media/d67a12_98a0120d964c4132baab42be7ce2ea65~mv2.png/v1/fill/w_980%2Ch_693%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/quiz.png" alt="Quiz illustration">
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose -->
+  <section class="container">
+    <div class="card">
+      <h2>Why Choose Levels Academy?</h2>
+      <p><b>Tailored Learning for Every Need</b><br />Our courses are customized for children, teenagers, adults, and corporate clients, ensuring each learner gets the right training for their goals.</p>
+      <p><b>Expert Trainers &amp; Proven Methods</b><br />Our highly qualified instructors use engaging, results-driven teaching techniques that guarantee practical language improvement.</p>
+      <p><b>Safe &amp; Supportive Environment</b><br />We create a positive and encouraging atmosphere where children feel comfortable, motivated, and excited to learn.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot">
+      <div><strong>Levels Academy</strong> • © 2025</div>
+      <div class="social">
+        <a class="chip" href="#" aria-label="Facebook">Facebook</a>
+        <a class="chip" href="#" aria-label="Instagram">Instagram</a>
+        <a class="chip" href="#" aria-label="WhatsApp">WhatsApp</a>
+        <a class="chip" href="#" aria-label="LinkedIn">LinkedIn</a>
+      </div>
+      <small style="color:var(--muted)">This is a static replica for GitHub Pages. Replace # links with your real URLs.</small>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu(){
+      const d=document.getElementById('drawer');
+      d.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>
