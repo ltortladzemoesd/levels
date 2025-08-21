@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Levels Academy – Courses Plugin</title>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg: transparent;   /* page background is transparent behind the frame */
@@ -31,6 +32,7 @@ body{
   background:#ffffff;            /* bottom stays white */
   border-radius:20px;
   overflow:hidden;               /* keeps rounded corners for both parts */
+  /* padding moved into header/content to allow two-tone background */
 }
 
 /* New top section (colored area behind main tabs + subtabs) */
@@ -45,7 +47,7 @@ body{
   padding:20px 20px 25px;        /* top=20px, left/right=20px, bottom=25px */
 }
 
-/* Main tabs */
+/* Main tabs: TEXT ONLY per request (no background) */
 .tabbar{
   display:flex;
   gap:20px;
@@ -57,18 +59,23 @@ body{
 .main-tab{
   flex:1;
   text-align:center;
-  background:#2B445B;        /* same as header background */
-  color:#ffffff;             /* default text color = white */
-  border:0;border-radius:999px;
-  padding:10px 0;
-  font-weight:500;font-size:18px;
+  /* font → Red Hat Display Extra Bold */
+  font-family:'Red Hat Display', sans-serif;
+  font-weight:800;
+  font-size:32px;                /* desktop default */
+  /* remove background/shape */
+  background:transparent;
+  color:#ffffff;                 /* default text color = white */
+  border:0;
+  border-radius:0;
+  padding:10px 0;                /* keep click target height */
   cursor:pointer;
   transition:color .2s ease,opacity .2s ease, box-shadow .2s ease, background .2s ease;
-  box-shadow:var(--shadow)
+  box-shadow:none;               /* no shadow for text-only */
 }
 .main-tab[aria-selected="true"]{
-  background:#2B445B;        /* keep same background */
-  color:#ADE2D7;             /* pressed text color */
+  background:transparent;        /* keep no background when pressed */
+  color:#ADE2D7;                 /* pressed text color */
 }
 .main-tab:hover{opacity:.95}
 
@@ -183,6 +190,8 @@ body{
 @media (min-width:641px) and (max-width:1024px){
   .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
   .card{min-height:440px}
+  /* main tab font size for tablet */
+  .main-tab{font-size:24px}
 }
 
 /* Mobile */
@@ -191,7 +200,11 @@ body{
   .wrap-header{padding:15px 10px}
   .wrap-content{padding:20px 10px 25px} /* keep top=20px on mobile too */
   .tabbar{flex-direction:column;max-width:none}
-  .main-tab{width:100%;max-width:none;font-size:18px;padding:14px 0}
+  .main-tab{
+    width:100%;max-width:none;
+    font-size:20px;             /* phone size */
+    padding:14px 0;
+  }
   .subtabs{justify-content:space-between}
   .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px);color:#000000;}
   .grid{grid-template-columns:1fr}
