@@ -28,9 +28,18 @@ body{
 .wrap{
   max-width:100%;
   margin:28px 0;
-  padding:25px 20px;           /* 25px top/bottom as requested */
-  background:#ffffff;
-  border-radius:20px 20px 20px 20px; /* TL 0, TR 0, BR 20, BL 20 */
+  padding:25px 20px;           /* keep original padding */
+  background:#ffffff;          /* bottom stays white */
+  border-radius:20px 20px 20px 20px; 
+  overflow:hidden;             /* ensure header color respects rounded corners */
+}
+
+/* NEW: colored header area that contains main tabs + subtabs */
+.wrap-header{
+  background:#2B445B;          /* requested color */
+  /* Extend to the wrap edges despite wrap padding */
+  margin:-25px -20px 0;        /* cancel wrap padding on top & sides */
+  padding:25px 20px;           /* preserve original inner spacing */
 }
 
 /* Main tabs: revert pressed look; width matches subtabs on desktop */
@@ -176,6 +185,7 @@ body{
 /* Mobile */
 @media (max-width:640px){
   .wrap{padding:15px 10px; border-radius:9px 9px 9px 9px;}
+  .wrap-header{margin:-15px -10px 0; padding:15px 10px;} /* align header color to mobile padding */
   .tabbar{flex-direction:column;max-width:none}
   .main-tab{width:100%;max-width:none;font-size:18px;padding:14px 0}
   .subtabs{justify-content:space-between}
@@ -201,16 +211,18 @@ body{
 </head>
 <body>
 <div class="wrap" id="app">
-  <div class="tabbar" role="tablist" aria-label="Course families">
-    <button class="main-tab" id="tab-en" aria-selected="true">English Language Courses</button>
-    <button class="main-tab" id="tab-art" aria-selected="false">Art Courses</button>
-  </div>
+  <div class="wrap-header">
+    <div class="tabbar" role="tablist" aria-label="Course families">
+      <button class="main-tab" id="tab-en" aria-selected="true">English Language Courses</button>
+      <button class="main-tab" id="tab-art" aria-selected="false">Art Courses</button>
+    </div>
 
-  <div id="subtabs-en" class="subtabs" role="tablist">
-    <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
-    <button class="subtab-btn" id="sub-teenagers" aria-selected="false">teenagers</button>
-    <button class="subtab-btn" id="sub-adults" aria-selected="false">adults</button>
-    <button class="subtab-btn" id="sub-corporate" aria-selected="false">corporate</button>
+    <div id="subtabs-en" class="subtabs" role="tablist">
+      <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
+      <button class="subtab-btn" id="sub-teenagers" aria-selected="false">teenagers</button>
+      <button class="subtab-btn" id="sub-adults" aria-selected="false">adults</button>
+      <button class="subtab-btn" id="sub-corporate" aria-selected="false">corporate</button>
+    </div>
   </div>
 
   <section id="panel-en" role="tabpanel">
