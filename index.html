@@ -31,49 +31,48 @@ body{
   background:#ffffff;            /* bottom stays white */
   border-radius:20px;
   overflow:hidden;               /* keeps rounded corners for both parts */
-  /* padding moved into header/content to allow two-tone background */
 }
 
 /* New top section (colored area behind main tabs + subtabs) */
 .wrap-header{
-  background:#2B445B;            /* 🔹 requested color */
+  background:#2B445B;            /* dark top area */
   padding:25px 20px;
 }
 
-/* Bottom section (cards area) */
+/* Bottom section (cards area) — top padding exactly 20px as requested */
 .wrap-content{
   background:#ffffff;
-  padding:25px 20px;
+  padding:20px 20px 25px;        /* top=20px, left/right=20px, bottom=25px */
 }
 
-/* Main tabs: revert pressed look; width matches subtabs on desktop */
+/* Main tabs */
 .tabbar{
   display:flex;
   gap:20px;
   justify-content:center;
   margin-bottom:22px;
-  max-width:calc(4 * 200px + 3 * 14px); /* match 4 subtabs width + gaps */
+  max-width:calc(4 * 200px + 3 * 14px);
   margin-left:auto;margin-right:auto;
 }
 .main-tab{
   flex:1;
   text-align:center;
-  background:#333333;        /* dark bar always */
-  color:#ffffff;             /* unpressed text = white */
+  background:#2B445B;        /* same as header background */
+  color:#ffffff;             /* default text color = white */
   border:0;border-radius:999px;
   padding:10px 0;
   font-weight:500;font-size:18px;
   cursor:pointer;
-  transition:color .2s ease,opacity .2s ease, box-shadow .2s ease;
+  transition:color .2s ease,opacity .2s ease, box-shadow .2s ease, background .2s ease;
   box-shadow:var(--shadow)
 }
 .main-tab[aria-selected="true"]{
-  background:#333333;        /* keep background */
-  color:var(--chip);         /* pressed text = green */
+  background:#2B445B;        /* keep same background */
+  color:#ADE2D7;             /* pressed text color */
 }
 .main-tab:hover{opacity:.95}
 
-/* Subtabs */
+/* Subtabs (UNCHANGED) */
 .subtabs{
   display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
 }
@@ -190,7 +189,7 @@ body{
 @media (max-width:640px){
   .wrap{border-radius:9px}
   .wrap-header{padding:15px 10px}
-  .wrap-content{padding:15px 10px}
+  .wrap-content{padding:20px 10px 25px} /* keep top=20px on mobile too */
   .tabbar{flex-direction:column;max-width:none}
   .main-tab{width:100%;max-width:none;font-size:18px;padding:14px 0}
   .subtabs{justify-content:space-between}
