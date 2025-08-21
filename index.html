@@ -4,16 +4,22 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Levels Academy – Courses Plugin</title>
-<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<!-- Red Hat Display (variable) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --bg: transparent;   /* page background is transparent behind the frame */
   --card:#aee2d7;      /* card green */
   --text:#10201a;
-  --muted:#2b3c34;
+  --muted:#2b3c34;     /* kept but overridden below where needed */
   --shadow: 0 18px 30px rgba(0,0,0,.08);
-  --chip:#23B899;
-  --title-size:24px;   /* title + price unified size */
+  --chip:#23B899;      /* not used for pills anymore, but kept for other accents */
+  --title-size:24px;   /* base for course title + price on desktop */
+  --brand-dark:#2B445B;
 }
 
 /* Reset */
@@ -32,22 +38,21 @@ body{
   background:#ffffff;            /* bottom stays white */
   border-radius:20px;
   overflow:hidden;               /* keeps rounded corners for both parts */
-  /* padding moved into header/content to allow two-tone background */
 }
 
-/* New top section (colored area behind main tabs + subtabs) */
+/* Top section (behind main tabs + subtabs) */
 .wrap-header{
-  background:#2B445B;            /* dark top area */
+  background:#2B445B;
   padding:25px 20px;
 }
 
-/* Bottom section (cards area) — top padding exactly 20px as requested */
+/* Bottom section (cards area) — top padding EXACTLY 20px */
 .wrap-content{
   background:#ffffff;
-  padding:20px 20px 25px;        /* top=20px, left/right=20px, bottom=25px */
+  padding:20px 20px 25px;        /* top=20px */
 }
 
-/* Main tabs: TEXT ONLY per request (no background) */
+/* Main tabs (already set previously as text-only) */
 .tabbar{
   display:flex;
   gap:20px;
@@ -59,34 +64,39 @@ body{
 .main-tab{
   flex:1;
   text-align:center;
-  /* font → Red Hat Display Extra Bold */
-  font-family:'Red Hat Display', sans-serif;
-  font-weight:800;
-  font-size:32px;                /* desktop default */
-  /* remove background/shape */
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:800;               /* ExtraBold */
+  font-size:32px;                /* desktop */
+  line-height:1.1;
+
   background:transparent;
-  color:#ffffff;                 /* default text color = white */
+  color:#ffffff;                 /* default text = white */
   border:0;
   border-radius:0;
-  padding:10px 0;                /* keep click target height */
+  padding:10px 0;
   cursor:pointer;
-  transition:color .2s ease,opacity .2s ease, box-shadow .2s ease, background .2s ease;
-  box-shadow:none;               /* no shadow for text-only */
+  transition:color .2s ease, opacity .2s ease;
+  box-shadow:none;
 }
-.main-tab[aria-selected="true"]{
-  background:transparent;        /* keep no background when pressed */
-  color:#ADE2D7;                 /* pressed text color */
-}
+.main-tab[aria-selected="true"]{ color:#ADE2D7; }
 .main-tab:hover{opacity:.95}
 
-/* Subtabs (UNCHANGED) */
+/* Subtabs — FONT + SIZES ONLY; behavior unchanged */
 .subtabs{
   display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
 }
 .subtab-btn{
   flex:0 1 200px;max-width:200px;text-align:center;padding:10px 0;border-radius:999px;
   border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);
-  font-weight:400;font-size:16px;transition:transform .15s ease,background .2s ease
+
+  /* New font + sizes */
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:400;               /* Regular */
+  font-size:21px;                /* desktop */
+  transition:transform .15s ease,background .2s ease
 }
 .subtab-btn[aria-selected="true"]{background:var(--card)}
 .subtab-btn:hover{transform:scale(1.02)}
@@ -118,32 +128,42 @@ body{
 /* Only the right icon animates */
 .icon.anim{will-change:transform, filter, opacity}
 
-/* Title a bit larger and dark text */
+/* Title → Red Hat Display ExtraBold, 24/22/20; color brand dark */
 .title{
-  font-size:var(--title-size);
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:800;               /* ExtraBold */
+  font-size:24px;                /* desktop */
   line-height:1.2;
   margin:4px 0 6px;
-  font-weight:900;
-  color:#333333;
+  color:var(--brand-dark);
 }
 
-/* Age line under title, italic, smaller, dark */
+/* Age line → Regular Italic, 16/14/12; color brand dark */
 .age-text{
-  font-size:14px;
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
   font-style:italic;
-  color:#333333;
+  font-weight:400;               /* Regular */
+  font-size:16px;                /* desktop */
+  color:var(--brand-dark);
   margin-bottom:12px;
 }
 
+/* Description → Light, 18/16/12; color brand dark (as per “all dark text”) */
 .desc{
-  color:var(--muted);
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:300;               /* Light */
+  font-size:18px;                /* desktop */
+  color:var(--brand-dark);
   margin:16px 0 18px;
   line-height:1.5;
   word-break:break-word;
   hyphens:auto;
 }
 
-/* Chips: equal widths, 3 per row */
+/* Chips → Regular 16/14/12; pill color #2B445B, text white */
 .chips{
   display:flex;
   flex-wrap:wrap;
@@ -151,31 +171,40 @@ body{
   margin-top:auto;
 }
 .chip{
-  background:var(--chip);
-  color:#fff;
+  background:#2B445B;           /* pill color */
+  color:#fff;                    /* keep text white */
   border-radius:28px;
   padding:8px 12px;
-  font-weight:400; /* not bold */
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:400;               /* Regular */
+  font-size:16px;                /* desktop */
+
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
   box-shadow:var(--shadow);
-  font-size:14px;
   white-space:nowrap;
 }
 
-/* Price: same size as title, aligned right, dark text */
+/* Price → same size as title; color brand dark */
 .price{
   display:block;
   text-align:right;
   margin-top:18px;
-  font-size:var(--title-size);
-  font-weight:900;
-  color:#333333;
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:800;               /* match title weight for parity */
+  font-size:24px;                /* desktop matches title */
+  color:var(--brand-dark);
 }
 .per{
-  font-size:14px;
-  font-weight:700;
-  color:#333333;
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:700;               /* keep bold look for per-label */
+  font-size:14px;                /* unchanged per request */
+  color:var(--brand-dark);
   margin-left:6px;
 }
 
@@ -190,8 +219,19 @@ body{
 @media (min-width:641px) and (max-width:1024px){
   .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
   .card{min-height:440px}
-  /* main tab font size for tablet */
+
+  /* main tabs from earlier step */
   .main-tab{font-size:24px}
+
+  /* Subtabs size = 18 */
+  .subtab-btn{font-size:18px}
+
+  /* Title 22, Age 14, Desc 16, Price 22, Chip 14 */
+  .title{font-size:22px}
+  .age-text{font-size:14px}
+  .desc{font-size:16px}
+  .price{font-size:22px}
+  .chip{font-size:14px}
 }
 
 /* Mobile */
@@ -199,23 +239,36 @@ body{
   .wrap{border-radius:9px}
   .wrap-header{padding:15px 10px}
   .wrap-content{padding:20px 10px 25px} /* keep top=20px on mobile too */
+
   .tabbar{flex-direction:column;max-width:none}
   .main-tab{
     width:100%;max-width:none;
-    font-size:20px;             /* phone size */
+    font-size:20px;             /* phone main tabs from earlier step */
     padding:14px 0;
   }
+
+  /* Subtabs size = 16; and switch “dark” mobile text to brand dark */
   .subtabs{justify-content:space-between}
-  .subtab-btn{flex:1 1 calc(50% - 7px);max-width:calc(50% - 7px);color:#000000;}
+  .subtab-btn{
+    flex:1 1 calc(50% - 7px);
+    max-width:calc(50% - 7px);
+    font-size:16px;
+    color:var(--brand-dark);    /* replaces previous #000000 */
+  }
+
   .grid{grid-template-columns:1fr}
   .card{padding:20px;min-height:auto}
-  .desc{display:none}           /* hide description on smartphones */
+  .desc{display:none}           /* keep original behavior: hide desc on phones */
   .chips{margin-top:8px}
-  .title{font-size:clamp(20px,6vw,var(--title-size))}
-  .price{font-size:clamp(20px,6vw,var(--title-size))}
+
+  /* Title 20, Age 12, Price 20, Chip 12 */
+  .title{font-size:20px}
+  .age-text{font-size:12px}
+  .price{font-size:20px}
+  .chip{font-size:12px}
 }
 
-/* ---------- Tints (approximate to requested hexes via filters) ---------- */
+/* ---------- Tints (icons) ---------- */
 /* Always neutralize to pure black first, then tint */
 .icon img{filter:brightness(0) saturate(100%)}
 .t-blue  img{filter:brightness(0) saturate(100%) invert(44%) sepia(23%) saturate(1471%) hue-rotate(185deg) brightness(92%) contrast(92%)}  /* ~ #3F85C6 */
@@ -478,3 +531,4 @@ window.addEventListener('load', attachAllObscure);
 </script>
 </body>
 </html>
+
