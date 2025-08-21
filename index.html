@@ -315,6 +315,18 @@ function base(){
 function kidsdesc(){
   return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
 }
+function ieltsdesc(){
+  return "A comprehensive IELTS preparation course with mock exams and expert guidance to help you achieve your target score.";
+}
+function genteendesc(){
+  return "A comprehensive IELTS preparation course with mock exams and expert guidance to help you achieve your target score.";
+}
+function privatedesc(){
+  return "Learn at your own pace with flexible one-on-one lessons tailored to your goals, available both online and at the academy.";
+}
+function fcedesc(){
+  return "This program prepares students for the Cambridge FCE, CAE, and PET exams through targeted training in reading, writing, listening, speaking, and grammar.";
+}
 
 const data = {
   children: [
@@ -323,24 +335,24 @@ const data = {
     { title:"General English", age:"6 – 10 y.o.", desc:kidsdesc(), chips:["10 months","43 sessions","86 hours"], price:"185", priceNote:"per month", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
   ],
   teenagers: [
-    { title:"IELTS", age:"from 16 y.o.", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
-    { title:"General English", age:"11 – 17 y.o.", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"285", priceNote:"per month", link:"#teens-general" },
-    { title:"Private Lessons", age:"from 11 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
-    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
+    { title:"IELTS", age:"from 16 y.o.", desc:ieltsdesc(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
+    { title:"General English", age:"11 – 17 y.o.", desc:genteendesc(), chips:["4 months","48 sessions","72 hours"], price:"285", priceNote:"per month", link:"#teens-general" },
+    { title:"Private Lessons", age:"from 11 y.o.", desc:privatedesc(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#teens-private" },
+    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:fcedesc(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#teens-fce" },
   ],
   adults: [
-    { title:"IELTS", age:"for adults", desc:base(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
+    { title:"IELTS", age:"for adults", desc:ieltsdesc(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"#adults-ielts" },
     { title:"General English", age:"for adults", desc:base(), chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"#adults-general" },
-    { title:"Private Lessons", age:"for adults", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private" },
+    { title:"Private Lessons", age:"for adults", desc:privatedesc(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"#adults-private" },
     { title:"Professional English", age:"for adults", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","96 hours"], price:"320", priceNote:"per month", link:"#adults-pro" },
-    { title:"FCE   PET   CAE", age:"for adults", desc:base(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce" },
+    { title:"FCE   PET   CAE", age:"for adults", desc:fcedesc(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"#adults-fce" },
   ],
   corporate: [
-    { title:"Corporate Courses", age:"for companies", desc:base(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6" },
+    { title:"Corporate Courses", age:"for companies", desc:"Tailored courses for companies, government entities, and teams of all levels, delivered by experienced trainers through interactive lessons, real-world scenarios, and flexible learning formats.", chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://levelscenter.wixstudio.com/my-site/blank-6" },
   ],
   art: [
-    { title:"Drawing & Painting", age:"7 – 15 y.o.", desc:base(), chips:["twice a week","8 sessions","12 hours"], price:"160", priceNote:"per month", link:"#art-kids" },
-    { title:"Drawing & Painting", age:"from 16 y.o.", desc:base(), chips:["twice a week","8 sessions","16 hours"], price:"160", priceNote:"per month", link:"#art-teen" },
+    { title:"Drawing & Painting", age:"7 – 15 y.o.", desc:"This program introduces children and teens to the fundamentals of drawing and painting, from composition and perspective to color and style, while encouraging creativity and self-expression.", chips:["twice a week","8 sessions","12 hours"], price:"160", priceNote:"per month", link:"#art-kids" },
+    { title:"Drawing & Painting", age:"from 16 y.o.", desc:"This program helps adults master the fundamentals and techniques of drawing and painting while developing their own artistic style. Guided by professional artists.", chips:["twice a week","8 sessions","16 hours"], price:"160", priceNote:"per month", link:"#art-teen" },
     { title:"Portfolio Creation",  age:"from 16 y.o.", desc:base(), chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"#art-portfolio" },
   ],
 };
