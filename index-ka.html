@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Levels Academy – კურსების მოდული</title>
+
+<!-- Red Hat Display (variable) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg: transparent;   /* page background is transparent behind the frame */
+  --card:#aee2d7;      /* card green */
+  --text:#10201a;
+  --muted:#2b3c34;     /* kept but overridden below where needed */
+  --shadow: 0 18px 30px rgba(0,0,0,.08);
+  --chip:#23B899;      /* not used for pills anymore, but kept for other accents */
+  --title-size:24px;   /* base for course title + price on desktop */
+  --brand-dark:#2B445B;
+}
+
+/* Reset */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden}
+body{
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* Frame container */
+.wrap{
+  max-width:100%;
+  margin:28px 0;
+  background:#ffffff;            /* bottom stays white */
+  border-radius:20px;
+  overflow:hidden;               /* keeps rounded corners for both parts */
+}
+
+/* Top section (behind main tabs + subtabs) */
+.wrap-header{
+  background:#2B445B;
+  padding:25px 20px;
+}
+
+/* Bottom section (cards area) — top padding EXACTLY 20px */
+.wrap-content{
+  background:#ffffff;
+  padding:20px 20px 25px;        /* top=20px */
+}
+
+/* Main tabs (text-only) */
+.tabbar{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  margin-bottom:22px;
+  max-width:calc(4 * 200px + 3 * 14px);
+  margin-left:auto;margin-right:auto;
+}
+.main-tab{
+  flex:1;
+  text-align:center;
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:800;               /* ExtraBold */
+  font-size:32px;                /* desktop */
+  line-height:1.1;
+
+  background:transparent;
+  color:#ffffff;                 /* default text = white */
+  border:0;
+  border-radius:0;
+  padding:10px 0;
+  cursor:pointer;
+  transition:color .2s ease, opacity .2s ease;
+  box-shadow:none;
+}
+.main-tab[aria-selected="true"]{ color:#ADE2D7; }
+.main-tab:hover{opacity:.95}
+
+/* Subtabs — font + sizes */
+.subtabs{
+  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
+}
+.subtab-btn{
+  flex:0 1 200px;max-width:200px;text-align:center;padding:10px 0;border-radius:999px;
+  border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:400;               /* Regular */
+  font-size:18px;                /* desktop */
+  transition:transform .15s ease,background .2s ease
+}
+.subtab-btn[aria-selected="true"]{background:var(--card)}
+.subtab-btn:hover{transform:scale(1.02)}
+
+/* Grid + Cards */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
+  gap:24px;
+}
+.card{
+  background:var(--card);
+  border-radius:28px;
+  padding:30px;
+  box-shadow:var(--shadow);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:380px;
+  transition:transform .2s ease;
+}
+.card:hover{transform:translateY(-2px) scale(1.01)}
+
+/* Icon row: two icons, no background */
+.icon-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
+.icon{width:32px;height:32px;display:inline-block;flex:0 0 auto;pointer-events:none;
+  transform:translate3d(0,0,0);filter:blur(0px);opacity:1;transition:filter .18s linear, opacity .18s linear}
+.icon img{width:100%;height:100%;display:block;object-fit:contain;background:transparent!important}
+/* Only the right icon animates */
+.icon.anim{will-change:transform, filter, opacity}
+
+/* Title → Red Hat Display ExtraBold, 24/22/20; color brand dark */
+.title{
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:800;               /* ExtraBold */
+  font-size:24px;                /* desktop */
+  line-height:1.2;
+  margin:4px 0 6px;
+  color:var(--brand-dark);
+}
+
+/* Age line → Regular Italic, 16/14/12; color brand dark */
+.age-text{
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-style:italic;
+  font-weight:400;               /* Regular */
+  font-size:16px;                /* desktop */
+  color:var(--brand-dark);
+  margin-bottom:12px;
+}
+
+/* Description → Light, 18/16/12; color brand dark */
+.desc{
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:300;               /* Light */
+  font-size:18px;                /* desktop */
+  color:var(--brand-dark);
+  margin:16px 0 18px;
+  line-height:1.5;
+  word-break:break-word;
+  hyphens:auto;
+}
+
+/* Chips → Regular 16/14/12; pill color #2B445B, text white */
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-top:auto;
+}
+.chip{
+  background:#2B445B;           /* pill color */
+  color:#fff;                    /* keep text white */
+  border-radius:28px;
+  padding:8px 12px;
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:400;               /* Regular */
+  font-size:16px;                /* desktop */
+
+  flex:1 1 calc(33.333% - 14px);
+  text-align:center;
+  box-shadow:var(--shadow);
+  white-space:nowrap;
+}
+
+/* Price → same size as title; color brand dark */
+.price{
+  display:block;
+  text-align:right;
+  margin-top:18px;
+
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:800;               /* match title weight */
+  font-size:24px;                /* desktop matches title */
+  color:var(--brand-dark);
+}
+.per{
+  font-family:"Red Hat Display", sans-serif;
+  font-optical-sizing:auto;
+  font-weight:700;
+  font-size:14px;
+  color:var(--brand-dark);
+  margin-left:6px;
+}
+
+/* Hidden + overlay */
+.hidden{display:none !important}
+.card .card-overlay{
+  position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5
+}
+.card .card-overlay:focus{outline:none}
+
+/* Tablet */
+@media (min-width:641px) and (max-width:1024px){
+  .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
+  .card{min-height:440px}
+
+  .main-tab{font-size:24px}
+  .subtab-btn{font-size:16px}
+
+  .title{font-size:22px}
+  .age-text{font-size:14px}
+  .desc{font-size:16px}
+  .price{font-size:22px}
+  .chip{font-size:14px}
+}
+
+/* Mobile */
+@media (max-width:640px){
+  .wrap{border-radius:9px}
+  .wrap-header{padding:15px 10px}
+  .wrap-content{padding:20px 10px 25px}
+
+  .tabbar{flex-direction:column;max-width:none}
+  .main-tab{
+    width:100%;max-width:none;
+    font-size:20px;
+    padding:14px 0;
+  }
+
+  .subtabs{justify-content:space-between}
+  .subtab-btn{
+    flex:1 1 calc(50% - 7px);
+    max-width:calc(50% - 7px);
+    font-size:16px;
+    color:var(--brand-dark);
+  }
+
+  .grid{grid-template-columns:1fr}
+  .card{padding:20px;min-height:auto}
+  .desc{display:none}
+  .chips{margin-top:8px}
+
+  .title{font-size:20px}
+  .age-text{font-size:12px}
+  .price{font-size:20px}
+  .chip{font-size:12px}
+}
+
+/* ---------- Brand Tints for Icons (approximate to target hexes) ---------- */
+/* Neutralize to black first */
+.icon img{filter:brightness(0) saturate(100%)}
+
+/* Apply brand tints */
+.t-grey  img{filter:brightness(0) saturate(100%) invert(16%) sepia(3%) saturate(12%) hue-rotate(314deg) brightness(91%) contrast(85%)}    /* #333333 */
+.t-green img{filter:brightness(0) saturate(100%) invert(49%) sepia(78%) saturate(536%) hue-rotate(119deg) brightness(95%) contrast(88%)}   /* #23B899 */
+.t-yellow img{filter:brightness(0) saturate(100%) invert(84%) sepia(86%) saturate(733%) hue-rotate(3deg) brightness(110%) contrast(101%)}  /* #FDE200 */
+.t-blue  img{filter:brightness(0) saturate(100%) invert(20%) sepia(14%) saturate(706%) hue-rotate(169deg) brightness(92%) contrast(90%)}   /* #2B445B */
+.t-red   img{filter:brightness(0) saturate(100%) invert(68%) sepia(22%) saturate(1196%) hue-rotate(307deg) brightness(97%) contrast(97%)}  /* #F66E6E */
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="wrap-header">
+    <div class="tabbar" role="tablist" aria-label="კურსების კატეგორიები">
+      <button class="main-tab" id="tab-en" aria-selected="true">ინგლისური ენის კურსები</button>
+      <button class="main-tab" id="tab-art" aria-selected="false">ხელოვნების კურსები</button>
+    </div>
+
+    <div id="subtabs-en" class="subtabs" role="tablist">
+      <button class="subtab-btn" id="sub-children" aria-selected="true">ბავშვები</button>
+      <button class="subtab-btn" id="sub-teenagers" aria-selected="false">მოზარდები</button>
+      <button class="subtab-btn" id="sub-adults" aria-selected="false">ზრდასრულები</button>
+      <button class="subtab-btn" id="sub-corporate" aria-selected="false">კორპორაციული</button>
+    </div>
+  </div>
+
+  <div class="wrap-content">
+    <section id="panel-en" role="tabpanel">
+      <div id="subpanel-children" role="tabpanel"><div class="grid" data-grid="children"></div></div>
+      <div id="subpanel-teenagers" role="tabpanel" class="hidden"><div class="grid" data-grid="teenagers"></div></div>
+      <div id="subpanel-adults" role="tabpanel" class="hidden"><div class="grid" data-grid="adults"></div></div>
+      <div id="subpanel-corporate" role="tabpanel" class="hidden"><div class="grid" data-grid="corporate"></div></div>
+    </section>
+
+    <section id="panel-art" role="tabpanel" class="hidden"><div class="grid" data-grid="art"></div></section>
+  </div>
+</div>
+
+<script>
+/* Helper text first */
+function base(){
+  return "აქ შეგიძლიათ აღწეროთ სერვისი და აუხსნათ, როგორ შეიძლება ის მომხმარებელმა გამოიყენოს. მოკლედ მიუთითეთ მნიშვნელოვანი დეტალები, მაგალითად: ფასი, ხანგრძლივობა, მდებარეობა და როგორ ხდება ჩანაწერი.";
+}
+function kidsdesc(){
+  return "ინტერაქტიული დაสนุกარი ინგლისური 6–10 წლის ბავშვებისთვის — კითხვის, წერილის, საუბრისა და მოსმენის მოდულებით ქართველ და მშობლიურენოვან მასწავლებლებთან.";
+}
+function ieltsdesc(){
+  return "კომპლექსური IELTS-ის მოსამზადებელი კურსი სასიმულაციო გამოცდებითა და ექსპერტების ხელმძღვანელობით, რომელიც დაგეხმარებათ სასურველი ქულის მიღწევაში.";
+}
+function genteendesc(){
+  return "11–17 წლის მოსწავლეებისთვის განკუთვნილი პროგრამა აერთიანებს აკადემიური ინგლისურის სწავლასა და  საუბრის პრაქტიკას, ამზადებს მოსწავლეებს რეალურ სიტუაციებში ეფექტურად კომუნიკირებაში.";
+}
+function privatedesc(){
+  return "ისწავლეთ თქვენთვის სასურველი ტემპით, თქვენს მიზნებზე მორგებული მოქნილი, ინდივიდუალური გაკვეთილებით, რომლებიც ხელმისაწვდომია როგორც ონლაინ, ასევე აკადემიაში.";
+}
+function fcedesc(){
+  return "ეს პროგრამა ამზადებს სტუდენტებს კემბრიჯის FCE, CAE და PET გამოცდებისთვის კითხვის, წერის, მოსმენის, საუბრისა და გრამატიკის მიზანმიმართული ტრენინგების მეშვეობით, CELTA-ს მიერ სერტიფიცირებული ქართველი და უცხოელი ინსტრუქტორების ხელმძღვანელობით.";
+}
+
+/* Data */
+const data = {
+  children: [
+    { title:"საკვირაო სკოლა",   age:"6 – 10 წლის", desc:"მხიარული და ინტერაქტიური ინგლისური ენის სასწავლო პროგრამა 6-10 წლის ბავშვებისთვის, რომელიც აერთიანებს ზოგად და საუბრით ინგლისურს გამოცდილი ქართველი და 'ნეითივ' მასწავლებლების ხელმძღვანელობით. მომხიბვლელი გაკვეთილები, თამაშები და აქტივობები სწავლას სასიამოვნოსა და შედეგიანს ხდის!", chips:["10 თვე","43 გაკვეთილი","86 საათი"], price:"185", priceNote:"თვეში", link:"https://levelscenter.wixstudio.com/my-site/blank-4" },
+    { title:"საშაბათო სკოლა", age:"6 – 10 წლის", desc:"მხიარული და ინტერაქტიური ინგლისური ენის სასწავლო პროგრამა 6-10 წლის ბავშვებისთვის, რომელიც აერთიანებს ზოგად და საუბრით ინგლისურს გამოცდილი ქართველი და 'ნეითივ' მასწავლებლების ხელმძღვანელობით. მომხიბვლელი გაკვეთილები, თამაშები და აქტივობები სწავლას სასიამოვნოსა და შედეგიანს ხდის!", chips:["10 თვე","43 გაკვეთილი","86 საათი"], price:"185", priceNote:"თვეში", link:"https://levelscenter.wixstudio.com/my-site/blank-7" },
+    { title:"ზოგადი ინგლისური", age:"6 – 10 წლის", desc:"ქართველი და ინგისურის 'ნეითივ' მასწავლებლების ხელმძღვანელობით, მოსწავლეები ასაკთან შესაბამისი მასალებისა და აქტივობების საშუალებით ავითარებს ინგლისური ენის ყველა ძირითად უნარს — კითხვას, წერას, გრამატიკას, ლექსიკას და საუბარს.", chips:["10 თვე","43 გაკვეთილი","86 საათი"], price:"185", priceNote:"თვეში", link:"https://levelscenter.wixstudio.com/my-site/blank-2" },
+  ],
+  teenagers: [
+    { title:"IELTS", age:"16 წლიდან", desc:ieltsdesc(), chips:["5 კვირა","15 გაკვეთილი","30 საათი"], price:"560", priceNote:"სრული კურსი", link:"https://levelscenter.wixstudio.com/my-site/blank-10" },
+    { title:"ზოგადი ინგლისური", age:"11 – 17 წლის", desc:genteendesc(), chips:["4 თვე","48 გაკვეთილი","72 საათი"], price:"285", priceNote:"თვეში", link:"#teens-general" },
+    { title:"ინდივიდუალური გაკვეთილები", age:"11 წლიდან", desc:privatedesc(), chips:["ინდივიდუალური","მორგებული","განრიგი"], price:"ind.", priceNote:"ინდივიდუალური ღირებულება", link:"#teens-private" },
+    { title:"FCE   PET   CAE", age:"16 წლიდან", desc:fcedesc(), chips:["5 კვირა","10 გაკვეთილი","15 საათი"], price:"350", priceNote:"თვეში", link:"#teens-fce" },
+  ],
+  adults: [
+    { title:"IELTS", age:"ზრდასრულები", desc:ieltsdesc(), chips:["5 კვირა","15 გაკვეთილი","30 საათი"], price:"560", priceNote:"სრული კურსი", link:"#adults-ielts" },
+    { title:"ზოგადი ინგლისური", age:"ზრდასრულები", desc:"ზრდასრულებისთვის შექმნილი პროგრამა, რომელიც აერთიანებს აკადემიურად ინგლისურ ენაში მომზადებას დინამიურ სასაუბრო პრაქტიკასთან ერთად, რეალურ ცხოვრებაში ეფექტური კომუნიკაციისთვის.", chips:["4 თვე","48 გაკვეთილი","72 საათი"], price:"225", priceNote:"თვეში", link:"#adults-general" },
+    { title:"ინდივიდუალური გაკვეთილები", age:"ზრდასრულები", desc:privatedesc(), chips:["ინდივიდუალური","მორგებული","განრიგი"], price:"ind.", priceNote:"ინდივიდუალური ღირებულება", link:"#adults-private" },
+    { title:"პროფესიული ინგლისური", age:"ზრდასრულები", desc:"კურსი შექმნილია იმისთვის, რომ განივითაროთ ინგლისური ენის ცოდნა და თავდაჯერებულობა ეფექტურად და გასაგებად გამოყენებისას სხვადასხვა პროფესიულ და ბიზნეს გარემოში.", chips:["4 თვე","48 გაკვეთილი","96 საათი"], price:"320", priceNote:"თვეში", link:"#adults-pro" },
+    { title:"FCE   PET   CAE", age:"ზრდასრულები", desc:fcedesc(), chips:["5 კვირა","10 გაკვეთილი","15 საათი"], price:"350", priceNote:"თვეში", link:"#adults-fce" },
+  ],
+  corporate: [
+    { title:"კორპორაციული კურსები", age:"კომპანიებისთვის", desc:"პროფესიონალებისთვის განკუთვნილი დინამიური და შედეგებზე ორიენტირებული ინგლისური ენის სასწავლო პროგრამა, რომელიც შექმნილია პროფესიულ გარემოში თავდაჯერებული კომუნიკაციისათვის.", chips:["ინდივიდუალური","მორგებული","განრიგი"], price:"ind.", priceNote:"ინდივიდუალური ღირებულება", link:"https://levelscenter.wixstudio.com/my-site/blank-6" },
+  ],
+  art: [
+    { title:"ხატვა და ფერწერა", age:"7 – 15 წლის", desc:"ეს პროგრამა ბავშვებსა და მოზარდებს აცნობს ხატვისა და ფერწერის საფუძვლებს, კომპოზიციას,  პერსპექტივას, ფერებსა და სტილებს.", chips:["კვირაში ორჯერ","8 გაკვეთილი","12 საათი"], price:"160", priceNote:"თვეში", link:"#art-kids" },
+    { title:"ხატვა და ფერწერა", age:"16 წლიდან", desc:"ეს პროგრამა ეხმარება ზრდასრულებს დაეუფლონ ხატვისა და ფერწერის საფუძვლებსა და ტექნიკას, ამავდროულად განავითარონ საკუთარი მხატვრული სტილი.", chips:["კვირაში ორჯერ","8 გაკვეთილი","16 საათი"], price:"160", priceNote:"თვეში", link:"#art-teen" },
+    { title:"პორტფოლიოს შექმნა",  age:"16 წლიდან", desc:"ეს პროგრამა ხელოვნების მომავალ სტუდენტებს გამოცდილი მხატვრებისა და პროფესორების ხელმძღვანელობით პროფესიული პორტფოლიოს შექმნაში ეხმარება.", chips:["ინდივიდუალური","მორგებული","განრიგი"], price:"500", priceNote:"სრული კურსი", link:"#art-portfolio" },
+  ],
+};
+const currency = "₾";
+
+/* (Optional) URLs list retained for fallback/randomization in non-specified courses */
+const ICON_URLS = [
+  "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
+  "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
+  "https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
+  "https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+  "https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg",
+  "https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+  "https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
+  "https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg",
+  "https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
+  "https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
+  "https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg",
+  "https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
+  "https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg",
+  "https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg",
+  "https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
+  "https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
+  "https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
+  "https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
+  "https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
+  "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+  "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg",
+  "https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg"
+];
+
+/* Fixed color class names for mapping */
+const COLOR_CLASS = {
+  grey:  "t-grey",
+  green: "t-green",
+  yellow:"t-yellow",
+  blue:  "t-blue",
+  red:   "t-red"
+};
+
+/* Specific icon/color mapping per course (title|age) */
+const ICON_MAP = {
+  /* Children */
+  "კვირის სკოლა|6 – 10 წლის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_0f868671821742e299174e01de6785ea.svg", color:COLOR_CLASS.green },
+    { url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg", color:COLOR_CLASS.yellow }
+  ],
+  "შაბათის სკოლა|6 – 10 წლის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_0f868671821742e299174e01de6785ea.svg", color:COLOR_CLASS.blue },
+    { url:"https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg", color:COLOR_CLASS.red }
+  ],
+  "ზოგადი ინგლისური|6 – 10 წლის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg", color:COLOR_CLASS.grey },
+    { url:"https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg", color:COLOR_CLASS.yellow }
+  ],
+
+  /* Teenagers */
+  "IELTS|16 წლიდან": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg", color:COLOR_CLASS.yellow },
+    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+  ],
+  "ზოგადი ინგლისური|11 – 17 წლის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg", color:COLOR_CLASS.blue },
+    { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.yellow }
+  ],
+  "ინდივიდუალური გაკვეთილები|11 წლიდან": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg", color:COLOR_CLASS.green },
+    { url:"https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg", color:COLOR_CLASS.blue }
+  ],
+  "FCE   PET   CAE|16 წლიდან": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg", color:COLOR_CLASS.red },
+    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+  ],
+
+  /* Adults */
+  "IELTS|მოზრდილებისთვის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966დ8faf302a2e2f.svg", color:COLOR_CLASS.yellow },
+    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+  ],
+  "ზოგადი ინგლისური|მოზრდილებისთვის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg", color:COLOR_CLASS.green },
+    { url:"https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg", color:COLOR_CLASS.yellow }
+  ],
+  "ინდივიდუალური გაკვეთილები|მოზრდილებისთვის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg", color:COLOR_CLASS.green },
+    { url:"https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg", color:COLOR_CLASS.blue }
+  ],
+  "პროფესიული ინგლისური|მოზრდილებისთვის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg", color:COLOR_CLASS.blue },
+    { url:"https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg", color:COLOR_CLASS.yellow }
+  ],
+  "FCE   PET   CAE|მოზრდილებისთვის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg", color:COLOR_CLASS.red },
+    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+  ],
+
+  /* Corporate */
+  "კორპორატიული კურსები|კომპანიებისთვის": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.green },
+    { url:"https://static.wixstatic.com/shapes/d67a12_2e0დ63c7f1084d19966d8faf302a2e2f.svg", color:COLOR_CLASS.yellow }
+  ]
+};
+
+/* Fallback: pick two distinct items (used only for groups you didn't specify, e.g., art) */
+function pickTwoDistinct(arr){
+  const a = Math.floor(Math.random()*arr.length);
+  let b = Math.floor(Math.random()*arr.length);
+  if(b===a) b=(a+1)%arr.length;
+  return [arr[a], arr[b]];
+}
+
+/* Render */
+function renderGroup(name){
+  const grid = document.querySelector(`[data-grid="${name}"]`);
+  if(!grid) return;
+  grid.innerHTML = data[name].map((c, idx)=>{
+    const key = `${c.title}|${c.age}`;
+    let icon1, icon2;
+
+    if (ICON_MAP[key]) {
+      const pair = ICON_MAP[key];
+      icon1 = pair[0];
+      icon2 = pair[1];
+    } else {
+      /* Unspecified course (e.g., art) => harmless fallback */
+      const [u1,u2] = pickTwoDistinct(ICON_URLS);
+      const fallbackColors = ["t-blue","t-yellow","t-green","t-grey","t-red"];
+      const [c1,c2] = pickTwoDistinct(fallbackColors);
+      icon1 = { url:u1, color:c1 };
+      icon2 = { url:u2, color:c2 };
+    }
+
+    const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
+    const price = c.price === 'ind.'
+      ? `<div class="price"><span>ინდ.</span><span class="per">  ინდივიდუალური ღირებულება</span></div>`
+      : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
+    return `<article class="card">
+      <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="გახსენით ${c.title}"></a>
+      <div class="icon-row">
+        <span class="icon ${icon1.color}"><img alt="" src="${icon1.url}" loading="lazy"></span>
+        <span class="icon anim ${icon2.color}"><img alt="" src="${icon2.url}" loading="lazy"></span>
+      </div>
+      <div class="title">${c.title}</div>
+      <div class="age-text">${c.age}</div>
+      <p class="desc">${c.desc}</p>
+      <div class="chips">${chips}</div>
+      ${price}
+    </article>`;
+  }).join('');
+}
+["children","teenagers","adults","corporate","art"].forEach(renderGroup);
+
+/* “Obscure” animation (15px drift + blur/fade) — RIGHT ICON ONLY */
+function attachObscure(card){
+  const MAX_SHIFT = 15, MAX_BLUR = 6, MIN_OPACITY = 0.35, MAX_DIST = 200;
+  const icons = Array.from(card.querySelectorAll('.icon.anim'));
+  if(!icons.length) return;
+
+  const state = icons.map(()=>({tx:0,ty:0,blur:0,op:1,x:0,y:0,b:0,o:1}));
+  let raf=null;
+
+  function update(ev){
+    const rect = card.getBoundingClientRect();
+    const mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
+    icons.forEach((icon,i)=>{
+      const r = icon.getBoundingClientRect();
+      const cx = r.left - rect.left + r.width/2, cy = r.top - rect.top + r.height/2;
+      const dx = mx - cx, dy = my - cy, dist = Math.hypot(dx,dy);
+      const t = Math.min(dist/MAX_DIST,1), shift = MAX_SHIFT*t;
+      const nx = dist ? dx/dist : 0, ny = dist ? dy/dist : 0;
+      const s = state[i];
+      s.tx = nx*shift; s.ty = ny*shift; s.blur = MAX_BLUR*t; s.op = 1 - (1-MIN_OPACITY)*t;
+    });
+    if(!raf) loop();
+  }
+  function reset(){ state.forEach(s=>{s.tx=0;s.ty=0;s.blur=0;s.op=1}); if(!raf) loop(); }
+
+  function loop(){
+    raf = requestAnimationFrame(()=>{
+      let still=true, ease=0.18;
+      state.forEach((s,i)=>{
+        s.x += (s.tx - s.x)*ease; s.y += (s.ty - s.y)*ease;
+        s.b += (s.blur - s.b)*ease; s.o += (s.op - s.o)*ease;
+        const el = icons[i];
+        el.style.transform = `translate3d(${s.x}px,${s.y}px,0)`;
+        el.style.filter = `blur(${s.b}px)`; el.style.opacity = String(s.o);
+        if(Math.abs(s.tx-s.x)>0.1 || Math.abs(s.ty-s.y)>0.1 || Math.abs(s.blur-s.b)>0.1 || Math.abs(s.op-s.o)>0.01) still=false;
+      });
+      if(!still) loop(); else raf=null;
+    });
+  }
+  card.addEventListener('mousemove', update, {passive:true});
+  card.addEventListener('mouseleave', reset);
+}
+function attachAllObscure(){ document.querySelectorAll('.card').forEach(attachObscure); }
+
+/* Tabs */
+function showMain(which){
+  const en = which === 'en';
+  document.getElementById('tab-en').setAttribute('aria-selected', en);
+  document.getElementById('tab-art').setAttribute('aria-selected', !en);
+  document.getElementById('panel-en').classList.toggle('hidden', !en);
+  document.getElementById('panel-art').classList.toggle('hidden', en);
+  document.getElementById('subtabs-en').classList.toggle('hidden', !en);
+  attachAllObscure();
+  LA_sendHeight();
+}
+function showSub(which){
+  const ids = ['children','teenagers','adults','corporate'];
+  ids.forEach(id=>{
+    document.getElementById(`sub-${id}`).setAttribute('aria-selected', id===which);
+    document.getElementById(`subpanel-${id}`).classList.toggle('hidden', id!==which);
+  });
+  attachAllObscure();
+  LA_sendHeight();
+}
+document.getElementById('tab-en').addEventListener('click', ()=>showMain('en'));
+document.getElementById('tab-art').addEventListener('click', ()=>showMain('art'));
+['children','teenagers','adults','corporate'].forEach(id=>{
+  document.getElementById(`sub-${id}`).addEventListener('click', ()=>showSub(id));
+});
+
+/* After initial render, bind animation */
+window.addEventListener('load', attachAllObscure);
+
+/* Auto-resize for Wix iframe */
+(function () {
+  function sendHeight() {
+    requestAnimationFrame(() => {
+      const h = Math.ceil(document.documentElement.scrollHeight);
+      if (window.parent) {
+        window.parent.postMessage({ type: 'LA_HEIGHT', height: h }, '*');
+      }
+    });
+  }
+  window.addEventListener('load', sendHeight);
+  document.addEventListener('DOMContentLoaded', sendHeight);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sendHeight);
+  new ResizeObserver(sendHeight).observe(document.body);
+  new MutationObserver(sendHeight).observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true });
+  window.addEventListener('resize', sendHeight);
+  setTimeout(sendHeight, 0);
+  window.LA_sendHeight = sendHeight;
+})();
+</script>
+</body>
+</html>
