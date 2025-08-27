@@ -13,12 +13,12 @@
 <style>
 :root{
   --bg: transparent;   /* page background is transparent behind the frame */
-  --card:#aee2d7;      /* card green */
+  --card:#aee2d7;      /* card green (still used for selected subtabs) */
   --text:#10201a;
-  --muted:#2b3c34;     /* kept but overridden below where needed */
+  --muted:#2b3c34;
   --shadow: 0 18px 30px rgba(0,0,0,.08);
-  --chip:#23B899;      /* not used for pills anymore, but kept for other accents */
-  --title-size:24px;   /* base for course title + price on desktop */
+  --chip:#23B899;
+  --title-size:24px;
   --brand-dark:#2B445B;
 }
 
@@ -35,21 +35,21 @@ body{
 .wrap{
   max-width:100%;
   margin:28px 0;
-  background:#ffffff;            /* bottom stays white */
+  background:#ffffff;
   border-radius:20px;
-  overflow:hidden;               /* keeps rounded corners for both parts */
+  overflow:hidden;
 }
 
 /* Top section (behind main tabs + subtabs) */
 .wrap-header{
-  background:#2B445B;
+  background:#23B899;
   padding:25px 20px;
 }
 
 /* Bottom section (cards area) — top padding EXACTLY 20px */
 .wrap-content{
-  background:#ffffff;
-  padding:20px 20px 25px;        /* top=20px */
+  background:#23B899;
+  padding:20px 20px 25px;
 }
 
 /* Main tabs (text-only) */
@@ -67,12 +67,12 @@ body{
 
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
-  font-weight:800;               /* ExtraBold */
-  font-size:32px;                /* desktop */
+  font-weight:800;
+  font-size:32px;
   line-height:1.1;
 
   background:transparent;
-  color:#ffffff;                 /* default text = white */
+  color:#ffffff;
   border:0;
   border-radius:0;
   padding:10px 0;
@@ -80,7 +80,7 @@ body{
   transition:color .2s ease, opacity .2s ease;
   box-shadow:none;
 }
-.main-tab[aria-selected="true"]{ color:#ADE2D7; }
+.main-tab[aria-selected="true"]{ color:#2B445B; } /* match Georgian version */
 .main-tab:hover{opacity:.95}
 
 /* Subtabs — font + sizes */
@@ -93,8 +93,8 @@ body{
 
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
-  font-weight:400;               /* Regular */
-  font-size:18px;                /* desktop */
+  font-weight:400;
+  font-size:18px;
   transition:transform .15s ease,background .2s ease
 }
 .subtab-btn[aria-selected="true"]{background:var(--card)}
@@ -107,7 +107,7 @@ body{
   gap:24px;
 }
 .card{
-  background:var(--card);
+  background:#fff;                          /* white by default */
   border-radius:28px;
   padding:30px;
   box-shadow:var(--shadow);
@@ -115,9 +115,10 @@ body{
   display:flex;
   flex-direction:column;
   min-height:380px;
-  transition:transform .2s ease;
+  transition: background-color .22s ease, transform .2s ease, box-shadow .2s ease;
 }
 .card:hover{transform:translateY(-2px) scale(1.01)}
+.card:hover{ background:#ADE2D7; }          /* hover to green tint */
 
 /* Icon row: two icons, no background */
 .icon-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
@@ -127,34 +128,34 @@ body{
 /* Only the right icon animates */
 .icon.anim{will-change:transform, filter, opacity}
 
-/* Title → Red Hat Display ExtraBold, 24/22/20; color brand dark */
+/* Title */
 .title{
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
-  font-weight:800;               /* ExtraBold */
-  font-size:24px;                /* desktop */
+  font-weight:800;
+  font-size:24px;
   line-height:1.2;
   margin:4px 0 6px;
   color:var(--brand-dark);
 }
 
-/* Age line → Regular Italic, 16/14/12; color brand dark */
+/* Age line */
 .age-text{
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
   font-style:italic;
-  font-weight:400;               /* Regular */
-  font-size:16px;                /* desktop */
+  font-weight:400;
+  font-size:16px;
   color:var(--brand-dark);
   margin-bottom:12px;
 }
 
-/* Description → Light, 18/16/12; color brand dark */
+/* Description */
 .desc{
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
-  font-weight:300;               /* Light */
-  font-size:18px;                /* desktop */
+  font-weight:300;
+  font-size:18px;
   color:var(--brand-dark);
   margin:16px 0 18px;
   line-height:1.5;
@@ -162,7 +163,7 @@ body{
   hyphens:auto;
 }
 
-/* Chips → Regular 16/14/12; pill color #2B445B, text white */
+/* Chips */
 .chips{
   display:flex;
   flex-wrap:wrap;
@@ -170,15 +171,15 @@ body{
   margin-top:auto;
 }
 .chip{
-  background:#2B445B;           /* pill color */
-  color:#fff;                    /* keep text white */
+  background:#2B445B;
+  color:#fff;
   border-radius:28px;
   padding:8px 12px;
 
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
-  font-weight:400;               /* Regular */
-  font-size:16px;                /* desktop */
+  font-weight:400;
+  font-size:14px;                /* 14 / 14 / 12 */
 
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
@@ -186,7 +187,7 @@ body{
   white-space:nowrap;
 }
 
-/* Price → same size as title; color brand dark */
+/* Price */
 .price{
   display:block;
   text-align:right;
@@ -194,8 +195,8 @@ body{
 
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
-  font-weight:800;               /* match title weight */
-  font-size:24px;                /* desktop matches title */
+  font-weight:800;
+  font-size:24px;
   color:var(--brand-dark);
 }
 .per{
@@ -226,7 +227,7 @@ body{
   .age-text{font-size:14px}
   .desc{font-size:16px}
   .price{font-size:22px}
-  .chip{font-size:14px}
+  .chip{font-size:14px}          /* keep 14 on tablet */
 }
 
 /* Mobile */
@@ -258,14 +259,11 @@ body{
   .title{font-size:20px}
   .age-text{font-size:12px}
   .price{font-size:20px}
-  .chip{font-size:12px}
+  .chip{font-size:12px}          /* 12 on mobile */
 }
 
 /* ---------- Brand Tints for Icons (approximate to target hexes) ---------- */
-/* Neutralize to black first */
 .icon img{filter:brightness(0) saturate(100%)}
-
-/* Apply brand tints */
 .t-grey  img{filter:brightness(0) saturate(100%) invert(16%) sepia(3%) saturate(12%) hue-rotate(314deg) brightness(91%) contrast(85%)}    /* #333333 */
 .t-green img{filter:brightness(0) saturate(100%) invert(49%) sepia(78%) saturate(536%) hue-rotate(119deg) brightness(95%) contrast(88%)}   /* #23B899 */
 .t-yellow img{filter:brightness(0) saturate(100%) invert(84%) sepia(86%) saturate(733%) hue-rotate(3deg) brightness(110%) contrast(101%)}  /* #FDE200 */
@@ -450,10 +448,24 @@ const ICON_MAP = {
   "Corporate Courses|for companies": [
     { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.green },
     { url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg", color:COLOR_CLASS.yellow }
+  ],
+
+  /* Art (added to mirror Georgian mapping) */
+  "Drawing & Painting|7 – 15 y.o.": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg", color:COLOR_CLASS.blue },
+    { url:"https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg", color:COLOR_CLASS.red }
+  ],
+  "Drawing & Painting|from 16 y.o.": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg", color:COLOR_CLASS.green },
+    { url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg", color:COLOR_CLASS.yellow }
+  ],
+  "Portfolio Creation|from 16 y.o.": [
+    { url:"https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg", color:COLOR_CLASS.red },
+    { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.yellow }
   ]
 };
 
-/* Fallback: pick two distinct items (used only for groups you didn't specify, e.g., art) */
+/* Fallback: pick two distinct items (used only if a course isn't in ICON_MAP) */
 function pickTwoDistinct(arr){
   const a = Math.floor(Math.random()*arr.length);
   let b = Math.floor(Math.random()*arr.length);
@@ -474,7 +486,7 @@ function renderGroup(name){
       icon1 = pair[0];
       icon2 = pair[1];
     } else {
-      /* Unspecified course (e.g., art) => harmless fallback */
+      /* Unspecified course (e.g., new item) => fallback */
       const [u1,u2] = pickTwoDistinct(ICON_URLS);
       const fallbackColors = ["t-blue","t-yellow","t-green","t-grey","t-red"];
       const [c1,c2] = pickTwoDistinct(fallbackColors);
@@ -597,4 +609,3 @@ window.addEventListener('load', attachAllObscure);
 </script>
 </body>
 </html>
-
