@@ -48,7 +48,7 @@ body{
 
 /* Bottom section (cards area) — top padding EXACTLY 20px */
 .wrap-content{
-  background:#ffffff;
+  background:#23B899;
   padding:20px 20px 25px;        /* top=20px */
 }
 
@@ -107,7 +107,7 @@ body{
   gap:24px;
 }
 .card{
-  background: rgba(174,226,215,.50);
+  background:#fff;
   border-radius:28px;
   padding:30px;
   box-shadow:var(--shadow);
@@ -115,9 +115,10 @@ body{
   display:flex;
   flex-direction:column;
   min-height:380px;
-  transition:transform .2s ease;
+  transition: background-color .22s ease, transform .2s ease, box-shadow .2s ease;
 }
 .card:hover{transform:translateY(-2px) scale(1.01)}
+.card:hover{ background:#ADE2D7; }
 
 /* Icon row: two icons, no background */
 .icon-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
