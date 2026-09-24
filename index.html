@@ -12,8 +12,8 @@
 
 <style>
 :root{
-  --bg: transparent;   /* page background is transparent behind the frame */
-  --card:#aee2d7;      /* card green (still used for selected subtabs) */
+  --bg: transparent;
+  --card:#aee2d7;
   --text:#10201a;
   --muted:#2b3c34;
   --shadow: 0 18px 30px rgba(0,0,0,.08);
@@ -40,27 +40,29 @@ body{
   overflow:hidden;
 }
 
-/* Top section (behind main tabs + subtabs) */
+/* Top section */
 .wrap-header{
   background:#23B899;
   padding:25px 20px;
 }
 
-/* Bottom section (cards area) — top padding EXACTLY 20px */
+/* Bottom section */
 .wrap-content{
   background:#23B899;
   padding:20px 20px 25px;
 }
 
-/* Main tabs (text-only) */
+/* Main tabs */
 .tabbar{
   display:flex;
   gap:20px;
   justify-content:center;
   margin-bottom:22px;
   max-width:calc(4 * 200px + 3 * 14px);
-  margin-left:auto;margin-right:auto;
+  margin-left:auto;
+  margin-right:auto;
 }
+
 .main-tab{
   flex:1;
   text-align:center;
@@ -80,16 +82,34 @@ body{
   transition:color .2s ease, opacity .2s ease;
   box-shadow:none;
 }
-.main-tab[aria-selected="true"]{ color:#2B445B; } /* match Georgian version */
-.main-tab:hover{opacity:.95}
 
-/* Subtabs — font + sizes */
-.subtabs{
-  display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:22px
+.main-tab[aria-selected="true"]{
+  color:#2B445B;
 }
+
+.main-tab:hover{
+  opacity:.95
+}
+
+/* Subtabs */
+.subtabs{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-bottom:22px
+}
+
 .subtab-btn{
-  flex:0 1 200px;max-width:200px;text-align:center;padding:10px 0;border-radius:999px;
-  border:0;cursor:pointer;background:#fff;box-shadow:var(--shadow);
+  flex:0 1 200px;
+  max-width:200px;
+  text-align:center;
+  padding:10px 0;
+  border-radius:999px;
+  border:0;
+  cursor:pointer;
+  background:#fff;
+  box-shadow:var(--shadow);
 
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
@@ -97,8 +117,14 @@ body{
   font-size:18px;
   transition:transform .15s ease,background .2s ease
 }
-.subtab-btn[aria-selected="true"]{background:var(--card)}
-.subtab-btn:hover{transform:scale(1.02)}
+
+.subtab-btn[aria-selected="true"]{
+  background:var(--card)
+}
+
+.subtab-btn:hover{
+  transform:scale(1.02)
+}
 
 /* Grid + Cards */
 .grid{
@@ -106,8 +132,9 @@ body{
   grid-template-columns:repeat(auto-fill,minmax(420px,1fr));
   gap:24px;
 }
+
 .card{
-  background:#fff;                          /* white by default */
+  background:#fff;
   border-radius:28px;
   padding:30px;
   box-shadow:var(--shadow);
@@ -115,18 +142,48 @@ body{
   display:flex;
   flex-direction:column;
   min-height:380px;
-  transition: background-color .22s ease, transform .2s ease, box-shadow .2s ease;
+  transition:background-color .22s ease, transform .2s ease, box-shadow .2s ease;
 }
-.card:hover{transform:translateY(-2px) scale(1.01)}
-.card:hover{ background:#ADE2D7; }          /* hover to green tint */
 
-/* Icon row: two icons, no background */
-.icon-row{display:flex;gap:10px;margin-bottom:10px;align-items:center}
-.icon{width:32px;height:32px;display:inline-block;flex:0 0 auto;pointer-events:none;
-  transform:translate3d(0,0,0);filter:blur(0px);opacity:1;transition:filter .18s linear, opacity .18s linear}
-.icon img{width:100%;height:100%;display:block;object-fit:contain;background:transparent!important}
-/* Only the right icon animates */
-.icon.anim{will-change:transform, filter, opacity}
+.card:hover{
+  transform:translateY(-2px) scale(1.01)
+}
+
+.card:hover{
+  background:#ADE2D7;
+}
+
+/* Icon row */
+.icon-row{
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+  align-items:center
+}
+
+.icon{
+  width:32px;
+  height:32px;
+  display:inline-block;
+  flex:0 0 auto;
+  pointer-events:none;
+  transform:translate3d(0,0,0);
+  filter:blur(0px);
+  opacity:1;
+  transition:filter .18s linear, opacity .18s linear
+}
+
+.icon img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+  background:transparent!important
+}
+
+.icon.anim{
+  will-change:transform, filter, opacity
+}
 
 /* Title */
 .title{
@@ -139,7 +196,7 @@ body{
   color:var(--brand-dark);
 }
 
-/* Age line */
+/* Age */
 .age-text{
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
@@ -170,6 +227,7 @@ body{
   gap:14px;
   margin-top:auto;
 }
+
 .chip{
   background:#2B445B;
   color:#fff;
@@ -179,7 +237,7 @@ body{
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
   font-weight:400;
-  font-size:14px;                /* 14 / 14 / 12 */
+  font-size:14px;
 
   flex:1 1 calc(33.333% - 14px);
   text-align:center;
@@ -199,6 +257,7 @@ body{
   font-size:24px;
   color:var(--brand-dark);
 }
+
 .per{
   font-family:"Red Hat Display", sans-serif;
   font-optical-sizing:auto;
@@ -209,41 +268,95 @@ body{
 }
 
 /* Hidden + overlay */
-.hidden{display:none !important}
-.card .card-overlay{
-  position:absolute;inset:0;border-radius:28px;display:block;text-decoration:none;z-index:5
+.hidden{
+  display:none !important
 }
-.card .card-overlay:focus{outline:none}
+
+.card .card-overlay{
+  position:absolute;
+  inset:0;
+  border-radius:28px;
+  display:block;
+  text-decoration:none;
+  z-index:5
+}
+
+.card .card-overlay:focus{
+  outline:none
+}
 
 /* Tablet */
 @media (min-width:641px) and (max-width:1024px){
-  .grid{grid-template-columns:repeat(2, minmax(0, 1fr));gap:22px}
-  .card{min-height:440px}
 
-  .main-tab{font-size:24px}
-  .subtab-btn{font-size:16px}
+  .grid{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:22px
+  }
 
-  .title{font-size:22px}
-  .age-text{font-size:14px}
-  .desc{font-size:16px}
-  .price{font-size:22px}
-  .chip{font-size:14px}          /* keep 14 on tablet */
+  .card{
+    min-height:440px
+  }
+
+  .main-tab{
+    font-size:24px
+  }
+
+  .subtab-btn{
+    font-size:16px
+  }
+
+  .title{
+    font-size:22px
+  }
+
+  .age-text{
+    font-size:14px
+  }
+
+  .desc{
+    font-size:16px
+  }
+
+  .price{
+    font-size:22px
+  }
+
+  .chip{
+    font-size:14px
+  }
 }
 
 /* Mobile */
 @media (max-width:640px){
-  .wrap{border-radius:9px}
-  .wrap-header{padding:15px 10px}
-  .wrap-content{padding:20px 10px 25px}
 
-  .tabbar{flex-direction:column;max-width:none}
+  .wrap{
+    border-radius:9px
+  }
+
+  .wrap-header{
+    padding:15px 10px
+  }
+
+  .wrap-content{
+    padding:20px 10px 25px
+  }
+
+  .tabbar{
+    flex-direction:column;
+    max-width:none
+  }
+
   .main-tab{
-    width:100%;max-width:none;
+    width:100%;
+    max-width:none;
     font-size:20px;
     padding:14px 0;
   }
 
-  .subtabs{justify-content:space-between}
+  .subtabs{
+    justify-content:space-between
+  }
+
   .subtab-btn{
     flex:1 1 calc(50% - 7px);
     max-width:calc(50% - 7px);
@@ -251,137 +364,504 @@ body{
     color:var(--brand-dark);
   }
 
-  .grid{grid-template-columns:1fr}
-  .card{padding:20px;min-height:auto}
-  .desc{display:none}
-  .chips{margin-top:8px}
+  .grid{
+    grid-template-columns:1fr
+  }
 
-  .title{font-size:20px}
-  .age-text{font-size:12px}
-  .price{font-size:20px}
-  .chip{font-size:12px}          /* 12 on mobile */
+  .card{
+    padding:20px;
+    min-height:auto
+  }
+
+  .desc{
+    display:none
+  }
+
+  .chips{
+    margin-top:8px
+  }
+
+  .title{
+    font-size:20px
+  }
+
+  .age-text{
+    font-size:12px
+  }
+
+  .price{
+    font-size:20px
+  }
+
+  .chip{
+    font-size:12px
+  }
 }
 
-/* ---------- Brand Tints for Icons (approximate to target hexes) ---------- */
-.icon img{filter:brightness(0) saturate(100%)}
-.t-grey  img{filter:brightness(0) saturate(100%) invert(16%) sepia(3%) saturate(12%) hue-rotate(314deg) brightness(91%) contrast(85%)}    /* #333333 */
-.t-green img{filter:brightness(0) saturate(100%) invert(49%) sepia(78%) saturate(536%) hue-rotate(119deg) brightness(95%) contrast(88%)}   /* #23B899 */
-.t-yellow img{filter:brightness(0) saturate(100%) invert(84%) sepia(86%) saturate(733%) hue-rotate(3deg) brightness(110%) contrast(101%)}  /* #FDE200 */
-.t-blue  img{filter:brightness(0) saturate(100%) invert(20%) sepia(14%) saturate(706%) hue-rotate(169deg) brightness(92%) contrast(90%)}   /* #2B445B */
-.t-red   img{filter:brightness(0) saturate(100%) invert(68%) sepia(22%) saturate(1196%) hue-rotate(307deg) brightness(97%) contrast(97%)}  /* #F66E6E */
+/* ---------- Brand Tints for Icons ---------- */
+.icon img{
+  filter:brightness(0) saturate(100%)
+}
+
+.t-grey img{
+  filter:brightness(0) saturate(100%) invert(16%) sepia(3%) saturate(12%) hue-rotate(314deg) brightness(91%) contrast(85%)
+}
+
+.t-green img{
+  filter:brightness(0) saturate(100%) invert(49%) sepia(78%) saturate(536%) hue-rotate(119deg) brightness(95%) contrast(88%)
+}
+
+.t-yellow img{
+  filter:brightness(0) saturate(100%) invert(84%) sepia(86%) saturate(733%) hue-rotate(3deg) brightness(110%) contrast(101%)
+}
+
+.t-blue img{
+  filter:brightness(0) saturate(100%) invert(20%) sepia(14%) saturate(706%) hue-rotate(169deg) brightness(92%) contrast(90%)
+}
+
+.t-red img{
+  filter:brightness(0) saturate(100%) invert(68%) sepia(22%) saturate(1196%) hue-rotate(307deg) brightness(97%) contrast(97%)
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap" id="app">
+
   <div class="wrap-header">
+
     <div class="tabbar" role="tablist" aria-label="Course families">
-      <button class="main-tab" id="tab-en" aria-selected="true">English Language Courses</button>
-      <button class="main-tab" id="tab-art" aria-selected="false">Art Courses</button>
+
+      <button
+        class="main-tab"
+        id="tab-en"
+        aria-selected="true">
+        English Language Courses
+      </button>
+
+      <button
+        class="main-tab"
+        id="tab-art"
+        aria-selected="false">
+        Art Courses
+      </button>
+
     </div>
 
-    <div id="subtabs-en" class="subtabs" role="tablist">
-      <button class="subtab-btn" id="sub-children" aria-selected="true">children</button>
-      <button class="subtab-btn" id="sub-teenagers" aria-selected="false">teenagers</button>
-      <button class="subtab-btn" id="sub-adults" aria-selected="false">adults</button>
-      <button class="subtab-btn" id="sub-corporate" aria-selected="false">corporate</button>
+
+    <div
+      id="subtabs-en"
+      class="subtabs"
+      role="tablist">
+
+      <button
+        class="subtab-btn"
+        id="sub-children"
+        aria-selected="true">
+        children
+      </button>
+
+      <button
+        class="subtab-btn"
+        id="sub-teenagers"
+        aria-selected="false">
+        teenagers
+      </button>
+
+      <button
+        class="subtab-btn"
+        id="sub-adults"
+        aria-selected="false">
+        adults
+      </button>
+
+      <button
+        class="subtab-btn"
+        id="sub-corporate"
+        aria-selected="false">
+        corporate
+      </button>
+
     </div>
+
   </div>
+
 
   <div class="wrap-content">
-    <section id="panel-en" role="tabpanel">
-      <div id="subpanel-children" role="tabpanel"><div class="grid" data-grid="children"></div></div>
-      <div id="subpanel-teenagers" role="tabpanel" class="hidden"><div class="grid" data-grid="teenagers"></div></div>
-      <div id="subpanel-adults" role="tabpanel" class="hidden"><div class="grid" data-grid="adults"></div></div>
-      <div id="subpanel-corporate" role="tabpanel" class="hidden"><div class="grid" data-grid="corporate"></div></div>
+
+    <section
+      id="panel-en"
+      role="tabpanel">
+
+      <div
+        id="subpanel-children"
+        role="tabpanel">
+        <div
+          class="grid"
+          data-grid="children">
+        </div>
+      </div>
+
+      <div
+        id="subpanel-teenagers"
+        role="tabpanel"
+        class="hidden">
+        <div
+          class="grid"
+          data-grid="teenagers">
+        </div>
+      </div>
+
+      <div
+        id="subpanel-adults"
+        role="tabpanel"
+        class="hidden">
+        <div
+          class="grid"
+          data-grid="adults">
+        </div>
+      </div>
+
+      <div
+        id="subpanel-corporate"
+        role="tabpanel"
+        class="hidden">
+        <div
+          class="grid"
+          data-grid="corporate">
+        </div>
+      </div>
+
     </section>
 
-    <section id="panel-art" role="tabpanel" class="hidden"><div class="grid" data-grid="art"></div></section>
+
+    <section
+      id="panel-art"
+      role="tabpanel"
+      class="hidden">
+
+      <div
+        class="grid"
+        data-grid="art">
+      </div>
+
+    </section>
+
   </div>
+
 </div>
 
+
 <script>
+
 /* Helper text first */
+
 function base(){
   return "This is the space to describe the service and explain how customers or clients can benefit from it. It’s an opportunity to add a short description that includes relevant details, like pricing, duration, location and how to book the service.";
 }
+
 function kidsdesc(){
   return "A fun and interactive English course for children aged 6–10, combining reading, writing, speaking, and listening skills with expert Georgian and native-speaking teachers.";
 }
+
 function ieltsdesc(){
   return "A comprehensive IELTS preparation course with mock exams and expert guidance to help you achieve your target score.";
 }
+
 function genteendesc(){
   return "Designed for learners aged 11–17, the program combines academic English training with dynamic speaking practice, preparing students for international exams and helping them communicate effectively in real-life situations.";
 }
+
 function privatedesc(){
   return "Learn at your own pace with flexible one-on-one lessons tailored to your goals, available both online and at the academy.";
 }
+
 function fcedesc(){
   return "This program prepares students for the Cambridge FCE, CAE, and PET exams through targeted training in reading, writing, listening, speaking, and grammar.";
 }
 
+
 /* Data */
+
 const data = {
+
   children: [
-    { title:"Sunday School",   age:"6 – 10 y.o.", desc:"Our Sunday School program offers children a fun and interactive way to learn English once a week. Lessons combine language skills with games, activities, and projects that make learning enjoyable while building confidence and communication skills.", chips:["10 months","43 sessions","86 hours"], price:"185", priceNote:"per month", link:"https://www.levels.ge/sunday-school" },
-    { title:"Saturday School", age:"6 – 10 y.o.", desc:"Saturday School provides children with intensive English practice in a friendly and engaging environment. With a mix of academic learning and interactive activities, students strengthen their reading, writing, speaking, and listening skills in just one day a week.", chips:["10 months","43 sessions","86 hours"], price:"185", priceNote:"per month", link:"https://www.levels.ge/saturday-school" },
-    { title:"General English", age:"6 – 10 y.o.", desc:"This program develops all core English skills—reading, writing, grammar, vocabulary, and speaking—through age-appropriate materials and activities. With guidance from Georgian and native-speaking teachers, children build a strong foundation in English and the confidence to use it in everyday situations.", chips:["10 months","43 sessions","86 hours"], price:"185", priceNote:"per month", link:"https://www.levels.ge/english-for-children" },
-    { title:"Private Lessons", age:"6 – 10 y.o.", desc:privatedesc(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://www.levels.ge/private-lessons" },
+
+    {
+      title:"Sunday School",
+      age:"6 – 10 y.o.",
+      desc:"Our Sunday School program offers children a fun and interactive way to learn English once a week. Lessons combine language skills with games, activities, and projects that make learning enjoyable while building confidence and communication skills.",
+      chips:["10 months","43 sessions","86 hours"],
+      price:"185",
+      priceNote:"per month",
+      link:"https://www.levels.ge/sunday-school"
+    },
+
+    {
+      title:"Saturday School",
+      age:"6 – 10 y.o.",
+      desc:"Saturday School provides children with intensive English practice in a friendly and engaging environment. With a mix of academic learning and interactive activities, students strengthen their reading, writing, speaking, and listening skills in just one day a week.",
+      chips:["10 months","43 sessions","86 hours"],
+      price:"185",
+      priceNote:"per month",
+      link:"https://www.levels.ge/saturday-school"
+    },
+
+    {
+      title:"General English",
+      age:"6 – 10 y.o.",
+      desc:"This program develops all core English skills—reading, writing, grammar, vocabulary, and speaking—through age-appropriate materials and activities. With guidance from Georgian and native-speaking teachers, children build a strong foundation in English and the confidence to use it in everyday situations.",
+      chips:["10 months","43 sessions","86 hours"],
+      price:"185",
+      priceNote:"per month",
+      link:"https://www.levels.ge/english-for-children"
+    },
+
+    {
+      title:"Private Lessons",
+      age:"6 – 10 y.o.",
+      desc:privatedesc(),
+      chips:["individual","tailored","schedule"],
+      price:"ind.",
+      priceNote:"tailored pricing",
+      link:"https://www.levels.ge/private-lessons"
+    },
+
   ],
+
+
   teenagers: [
-    { title:"IELTS", age:"from 16 y.o.", desc:ieltsdesc(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://www.levels.ge/ielts" },
-    { title:"General English", age:"11 – 17 y.o.", desc:genteendesc(), chips:["4 months","48 sessions","72 hours"], price:"285", priceNote:"per month", link:"https://www.levels.ge/english-for-teens" },
-    { title:"Private Lessons", age:"from 11 y.o.", desc:privatedesc(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://www.levels.ge/private-lessons" },
-    { title:"FCE   PET   CAE", age:"from 16 y.o.", desc:fcedesc(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"https://www.levels.ge/fce-pet-cae" },
+
+    {
+      title:"IELTS",
+      age:"from 16 y.o.",
+      desc:ieltsdesc(),
+      chips:["5 weeks","15 sessions","30 hours"],
+      price:"560",
+      priceNote:"full course",
+      link:"https://www.levels.ge/ielts"
+    },
+
+    {
+      title:"General English",
+      age:"11 – 17 y.o.",
+      desc:genteendesc(),
+      chips:["4 months","48 sessions","72 hours"],
+      price:"285",
+      priceNote:"per month",
+      link:"https://www.levels.ge/english-for-teens"
+    },
+
+    {
+      title:"Private Lessons",
+      age:"from 11 y.o.",
+      desc:privatedesc(),
+      chips:["individual","tailored","schedule"],
+      price:"ind.",
+      priceNote:"tailored pricing",
+      link:"https://www.levels.ge/private-lessons"
+    },
+
+    {
+      title:"FCE   PET   CAE",
+      age:"from 16 y.o.",
+      desc:fcedesc(),
+      chips:["5 weeks","10 sessions","15 hours"],
+      price:"350",
+      priceNote:"per month",
+      link:"https://www.levels.ge/fce-pet-cae"
+    },
+
   ],
+
+
   adults: [
-    { title:"IELTS", age:"for adults", desc:ieltsdesc(), chips:["5 weeks","15 sessions","30 hours"], price:"560", priceNote:"full course", link:"https://www.levels.ge/ielts" },
-    { title:"General English", age:"for adults", desc:"Designed for adult learners, the program combines academic English training with dynamic speaking practice, preparing students to communicate effectively in real-life situations.", chips:["4 months","48 sessions","72 hours"], price:"225", priceNote:"per month", link:"https://www.levels.ge/english-for-adults" },
-    { title:"Private Lessons", age:"for adults", desc:privatedesc(), chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://www.levels.ge/private-lessons" },
-    { title:"Professional English", age:"for adults", desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.", chips:["4 months","48 sessions","96 hours"], price:"320", priceNote:"per month", link:"https://www.levels.ge/business-english" },
-    { title:"FCE   PET   CAE", age:"for adults", desc:fcedesc(), chips:["5 weeks","10 sessions","15 hours"], price:"350", priceNote:"per month", link:"https://www.levels.ge/fce-pet-cae" },
+
+    {
+      title:"IELTS",
+      age:"for adults",
+      desc:ieltsdesc(),
+      chips:["5 weeks","15 sessions","30 hours"],
+      price:"560",
+      priceNote:"full course",
+      link:"https://www.levels.ge/ielts"
+    },
+
+    {
+      title:"General English",
+      age:"for adults",
+      desc:"Designed for adult learners, the program combines academic English training with dynamic speaking practice, preparing students to communicate effectively in real-life situations.",
+      chips:["4 months","48 sessions","72 hours"],
+      price:"225",
+      priceNote:"per month",
+      link:"https://www.levels.ge/english-for-adults"
+    },
+
+    {
+      title:"Private Lessons",
+      age:"for adults",
+      desc:privatedesc(),
+      chips:["individual","tailored","schedule"],
+      price:"ind.",
+      priceNote:"tailored pricing",
+      link:"https://www.levels.ge/private-lessons"
+    },
+
+    {
+      title:"Professional English",
+      age:"for adults",
+      desc:"The course is designed for you to develop proficiency and confidence in using English effectively and clearly across diverse professional and business settings.",
+      chips:["4 months","48 sessions","96 hours"],
+      price:"320",
+      priceNote:"per month",
+      link:"https://www.levels.ge/business-english"
+    },
+
+    {
+      title:"FCE   PET   CAE",
+      age:"for adults",
+      desc:fcedesc(),
+      chips:["5 weeks","10 sessions","15 hours"],
+      price:"350",
+      priceNote:"per month",
+      link:"https://www.levels.ge/fce-pet-cae"
+    },
+
   ],
+
+
   corporate: [
-    { title:"Corporate Courses", age:"for companies", desc:"Tailored courses for companies, government entities, and teams of all levels, delivered by experienced trainers through interactive lessons, real-world scenarios, and flexible learning formats.", chips:["individual","tailored","schedule"], price:"ind.", priceNote:"tailored pricing", link:"https://www.levels.ge/corporate-english" },
+
+    {
+      title:"Corporate Courses",
+      age:"for companies",
+      desc:"Tailored courses for companies, government entities, and teams of all levels, delivered by experienced trainers through interactive lessons, real-world scenarios, and flexible learning formats.",
+      chips:["individual","tailored","schedule"],
+      price:"ind.",
+      priceNote:"tailored pricing",
+      link:"https://www.levels.ge/corporate-english"
+    },
+
   ],
+
+
   art: [
-    { title:"Drawing & Painting", age:"5-8 y.o.", desc:"This program introduces children to the fundamentals of drawing and painting, from composition and perspective to color and style, while encouraging creativity and self-expression.", chips:["once a week","4 sessions","4 hours"], price:"160", priceNote:"per month", link:"https://www.levels.ge/drawing-kids" },
-    { title:"Drawing & Painting", age:"9-12 y.o.", desc:"This program introduces children to the fundamentals of drawing and painting, from composition and perspective to color and style, while encouraging creativity and self-expression. Guided by experienced artists, students build strong technical skills and present their work at a final exhibition.", chips:["twice a week","8 sessions","16 hours"], price:"160", priceNote:"per month", link:"https://www.levels.ge/drawing-9-12" },
-    { title:"Drawing & Painting", age:"13-18 y.o.", desc:"This program helps teenagers master the fundamentals and techniques of drawing and painting while developing their own artistic style. Guided by professional artists, participants explore both classical exercises and creative projects, culminating in a final exhibition and certificate.", chips:["twice a week","8 sessions","16 hours"], price:"160", priceNote:"per month", link:"https://www.levels.ge/drawing-13-18" },
-    { title:"Portfolio Creation",  age:"from 16 y.o.", desc:"This program helps aspiring art students create a professional portfolio under the guidance of experienced artists and professors. Alongside portfolio preparation, students receive free admission support for our partner universities, including Istituto Marangoni and Nuova Accademia di Belle Arti (NABA).", chips:["individual","tailored","schedule"], price:"500", priceNote:"full course", link:"https://www.levels.ge/portfolio-creation" },
+
+    {
+      title:"Drawing & Painting",
+      age:"5-8 y.o.",
+      desc:"This program introduces children to the fundamentals of drawing and painting, from composition and perspective to color and style, while encouraging creativity and self-expression.",
+      chips:["once a week","4 sessions","4 hours"],
+      price:"160",
+      priceNote:"per month",
+      link:"https://www.levels.ge/drawing-kids"
+    },
+
+    {
+      title:"Drawing & Painting",
+      age:"9-12 y.o.",
+      desc:"This program introduces children to the fundamentals of drawing and painting, from composition and perspective to color and style, while encouraging creativity and self-expression. Guided by experienced artists, students build strong technical skills and present their work at a final exhibition.",
+      chips:["twice a week","8 sessions","16 hours"],
+      price:"160",
+      priceNote:"per month",
+      link:"https://www.levels.ge/drawing-9-12"
+    },
+
+    {
+      title:"Drawing & Painting",
+      age:"13-18 y.o.",
+      desc:"This program helps teenagers master the fundamentals and techniques of drawing and painting while developing their own artistic style. Guided by professional artists, participants explore both classical exercises and creative projects, culminating in a final exhibition and certificate.",
+      chips:["twice a week","8 sessions","16 hours"],
+      price:"160",
+      priceNote:"per month",
+      link:"https://www.levels.ge/drawing-13-18"
+    },
+
+    {
+      title:"Portfolio Creation",
+      age:"from 16 y.o.",
+      desc:"This program helps aspiring art students create a professional portfolio under the guidance of experienced artists and professors. Alongside portfolio preparation, students receive free admission support for our partner universities, including Istituto Marangoni and Nuova Accademia di Belle Arti (NABA).",
+      chips:["individual","tailored","schedule"],
+      price:"500",
+      priceNote:"full course",
+      link:"https://www.levels.ge/portfolio-creation"
+    },
+
+    {
+      title:"Contemporary Visual Arts",
+      age:"from 16 y.o.",
+      desc:"This course provides a guided introduction to the diverse world of contemporary visual art. The program covers key directions in contemporary art, artwork analysis, visual codes, theoretical texts, and the development of an individual creative vision.",
+      chips:["12 sessions","once a week","certificate"],
+      price:"ind.",
+      priceNote:"tailored pricing",
+      link:"https://www.levels.ge/contemporary-visual-arts"
+    },
+
   ],
+
 };
+
 const currency = "₾";
 
-/* (Optional) URLs list retained for fallback/randomization in non-specified courses */
+
+/* URLs list retained for fallback/randomization */
+
 const ICON_URLS = [
+
   "https://static.wixstatic.com/shapes/d67a12_08ba7d04bbfa4eb4846183d144607fc6.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_255981ca0e25498187d18a8ed2cbacc2.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_1d3f46a9d59249d79842477b1ec36e9e.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_d29181cff83b4d3db6c83b914a7f4a8e.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_8090e3ab006f42979be897df8ac54ba3.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_cc6f51e05c3747bb83525a699f98bbff.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg",
+
   "https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg"
+
 ];
 
+
 /* Fixed color class names for mapping */
+
 const COLOR_CLASS = {
   grey:  "t-grey",
   green: "t-green",
@@ -390,224 +870,831 @@ const COLOR_CLASS = {
   red:   "t-red"
 };
 
-/* Specific icon/color mapping per course (title|age) */
+
+/* Specific icon/color mapping per course */
+
 const ICON_MAP = {
+
   /* Children */
+
   "Sunday School|6 – 10 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_0f868671821742e299174e01de6785ea.svg", color:COLOR_CLASS.green },
-    { url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_0f868671821742e299174e01de6785ea.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
+
   "Saturday School|6 – 10 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_0f868671821742e299174e01de6785ea.svg", color:COLOR_CLASS.blue },
-    { url:"https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg", color:COLOR_CLASS.red }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_0f868671821742e299174e01de6785ea.svg",
+      color:COLOR_CLASS.blue
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_c5cebe3adf72471b8b12f66d72173a49.svg",
+      color:COLOR_CLASS.red
+    }
   ],
+
   "General English|6 – 10 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg", color:COLOR_CLASS.grey },
-    { url:"https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
+      color:COLOR_CLASS.grey
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_097c4490809b417d9ad58aca69cd0afb.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
+
 
   /* Teenagers */
+
   "IELTS|from 16 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg", color:COLOR_CLASS.yellow },
-    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+      color:COLOR_CLASS.yellow
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+      color:COLOR_CLASS.green
+    }
   ],
+
   "General English|11 – 17 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg", color:COLOR_CLASS.blue },
-    { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_438f5aae79b6441691cfe6199eff0b3b.svg",
+      color:COLOR_CLASS.blue
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
+
   "Private Lessons|from 11 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg", color:COLOR_CLASS.green },
-    { url:"https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg", color:COLOR_CLASS.blue }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
+      color:COLOR_CLASS.blue
+    }
   ],
+
   "FCE   PET   CAE|from 16 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg", color:COLOR_CLASS.red },
-    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
+      color:COLOR_CLASS.red
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+      color:COLOR_CLASS.green
+    }
   ],
+
 
   /* Adults */
+
   "IELTS|for adults": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg", color:COLOR_CLASS.yellow },
-    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+      color:COLOR_CLASS.yellow
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+      color:COLOR_CLASS.green
+    }
   ],
+
   "General English|for adults": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg", color:COLOR_CLASS.green },
-    { url:"https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_86b1b02733564e2c9077f9ee263984ee.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_68d6a2f87fd24e46b956dd4948936728.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
+
   "Private Lessons|for adults": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg", color:COLOR_CLASS.green },
-    { url:"https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg", color:COLOR_CLASS.blue }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_9ede4972c6b04083975e5d02ff4c092a.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_62e750d204fe42739dd23f531ac4b4f4.svg",
+      color:COLOR_CLASS.blue
+    }
   ],
+
   "Professional English|for adults": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg", color:COLOR_CLASS.blue },
-    { url:"https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_e8867e6413bc4ca3bf103ca27bdebc27.svg",
+      color:COLOR_CLASS.blue
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_b8c025c6c0cf4ac6b1e91c8e47490720.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
+
   "FCE   PET   CAE|for adults": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg", color:COLOR_CLASS.red },
-    { url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg", color:COLOR_CLASS.green }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_040c94dfc68541a591e83deda47eb62f.svg",
+      color:COLOR_CLASS.red
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_154ac8119c4b4d8dbe969ac29d14141f.svg",
+      color:COLOR_CLASS.green
+    }
   ],
+
 
   /* Corporate */
+
   "Corporate Courses|for companies": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.green },
-    { url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_2e0d63c7f1084d19966d8faf302a2e2f.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
 
-  /* Art (added to mirror Georgian mapping) */
+
+  /* Art */
+
   "Drawing & Painting|7 – 15 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg", color:COLOR_CLASS.blue },
-    { url:"https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg", color:COLOR_CLASS.red }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_1dccc2c219c94a10aa5303a12d7cfc9d.svg",
+      color:COLOR_CLASS.blue
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_cc34244547fc40928fc03881a9a03281.svg",
+      color:COLOR_CLASS.red
+    }
   ],
+
   "Drawing & Painting|from 16 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg", color:COLOR_CLASS.green },
-    { url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+      color:COLOR_CLASS.yellow
+    }
   ],
+
   "Portfolio Creation|from 16 y.o.": [
-    { url:"https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg", color:COLOR_CLASS.red },
-    { url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg", color:COLOR_CLASS.yellow }
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_eecc7354a15c40879ebb4d52c69ec10d.svg",
+      color:COLOR_CLASS.red
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_57991b3e753648b3a695519407a01c1a.svg",
+      color:COLOR_CLASS.yellow
+    }
+  ],
+
+  "Contemporary Visual Arts|from 16 y.o.": [
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_74b43991e42449909401bce92d8a2621.svg",
+      color:COLOR_CLASS.green
+    },
+    {
+      url:"https://static.wixstatic.com/shapes/d67a12_c9de44b3002d412ea00d70f440891cbb.svg",
+      color:COLOR_CLASS.yellow
+    }
   ]
+
 };
 
-/* Fallback: pick two distinct items (used only if a course isn't in ICON_MAP) */
+
+/* Fallback */
+
 function pickTwoDistinct(arr){
-  const a = Math.floor(Math.random()*arr.length);
-  let b = Math.floor(Math.random()*arr.length);
-  if(b===a) b=(a+1)%arr.length;
-  return [arr[a], arr[b]];
+
+  const a =
+    Math.floor(Math.random()*arr.length);
+
+  let b =
+    Math.floor(Math.random()*arr.length);
+
+  if(b===a){
+    b=(a+1)%arr.length;
+  }
+
+  return [arr[a],arr[b]];
 }
+
 
 /* Render */
+
 function renderGroup(name){
-  const grid = document.querySelector(`[data-grid="${name}"]`);
+
+  const grid =
+    document.querySelector(
+      `[data-grid="${name}"]`
+    );
+
   if(!grid) return;
-  grid.innerHTML = data[name].map((c, idx)=>{
-    const key = `${c.title}|${c.age}`;
-    let icon1, icon2;
 
-    if (ICON_MAP[key]) {
-      const pair = ICON_MAP[key];
-      icon1 = pair[0];
-      icon2 = pair[1];
-    } else {
-      /* Unspecified course (e.g., new item) => fallback */
-      const [u1,u2] = pickTwoDistinct(ICON_URLS);
-      const fallbackColors = ["t-blue","t-yellow","t-green","t-grey","t-red"];
-      const [c1,c2] = pickTwoDistinct(fallbackColors);
-      icon1 = { url:u1, color:c1 };
-      icon2 = { url:u2, color:c2 };
-    }
 
-    const chips = c.chips.map(ch=>`<span class="chip">${ch}</span>`).join('');
-    const price = c.price === 'ind.'
-      ? `<div class="price"><span>ind.</span><span class="per">  tailored pricing</span></div>`
-      : `<div class="price"><span>${currency}${c.price}</span><span class="per">  ${c.priceNote}</span></div>`;
-    return `<article class="card">
-      <a class="card-overlay" href="${c.link}" target="_blank" rel="noopener" aria-label="Open ${c.title}"></a>
-      <div class="icon-row">
-        <span class="icon ${icon1.color}"><img alt="" src="${icon1.url}" loading="lazy"></span>
-        <span class="icon anim ${icon2.color}"><img alt="" src="${icon2.url}" loading="lazy"></span>
-      </div>
-      <div class="title">${c.title}</div>
-      <div class="age-text">${c.age}</div>
-      <p class="desc">${c.desc}</p>
-      <div class="chips">${chips}</div>
-      ${price}
-    </article>`;
-  }).join('');
+  grid.innerHTML =
+    data[name].map((c,idx)=>{
+
+      const key =
+        `${c.title}|${c.age}`;
+
+      let icon1,icon2;
+
+
+      if(ICON_MAP[key]){
+
+        const pair =
+          ICON_MAP[key];
+
+        icon1 =
+          pair[0];
+
+        icon2 =
+          pair[1];
+
+      }else{
+
+        const [u1,u2] =
+          pickTwoDistinct(
+            ICON_URLS
+          );
+
+        const fallbackColors =
+          [
+            "t-blue",
+            "t-yellow",
+            "t-green",
+            "t-grey",
+            "t-red"
+          ];
+
+        const [c1,c2] =
+          pickTwoDistinct(
+            fallbackColors
+          );
+
+        icon1 =
+          {
+            url:u1,
+            color:c1
+          };
+
+        icon2 =
+          {
+            url:u2,
+            color:c2
+          };
+
+      }
+
+
+      const chips =
+        c.chips
+          .map(
+            ch =>
+              `<span class="chip">${ch}</span>`
+          )
+          .join('');
+
+
+      const price =
+        c.price === 'ind.'
+          ?
+            `<div class="price">
+              <span>ind.</span>
+              <span class="per"> tailored pricing</span>
+            </div>`
+          :
+            `<div class="price">
+              <span>${currency}${c.price}</span>
+              <span class="per"> ${c.priceNote}</span>
+            </div>`;
+
+
+      return `
+        <article class="card">
+
+          <a
+            class="card-overlay"
+            href="${c.link}"
+            target="_blank"
+            rel="noopener"
+            aria-label="Open ${c.title}">
+          </a>
+
+          <div class="icon-row">
+
+            <span class="icon ${icon1.color}">
+              <img
+                alt=""
+                src="${icon1.url}"
+                loading="lazy">
+            </span>
+
+            <span class="icon anim ${icon2.color}">
+              <img
+                alt=""
+                src="${icon2.url}"
+                loading="lazy">
+            </span>
+
+          </div>
+
+          <div class="title">
+            ${c.title}
+          </div>
+
+          <div class="age-text">
+            ${c.age}
+          </div>
+
+          <p class="desc">
+            ${c.desc}
+          </p>
+
+          <div class="chips">
+            ${chips}
+          </div>
+
+          ${price}
+
+        </article>
+      `;
+
+    }).join('');
+
 }
-["children","teenagers","adults","corporate","art"].forEach(renderGroup);
 
-/* “Obscure” animation (15px drift + blur/fade) — RIGHT ICON ONLY */
+
+/* Render all groups */
+
+[
+  "children",
+  "teenagers",
+  "adults",
+  "corporate",
+  "art"
+].forEach(renderGroup);
+
+
+/* “Obscure” animation */
+
 function attachObscure(card){
-  const MAX_SHIFT = 15, MAX_BLUR = 6, MIN_OPACITY = 0.35, MAX_DIST = 200;
-  const icons = Array.from(card.querySelectorAll('.icon.anim'));
+
+  const MAX_SHIFT = 15;
+  const MAX_BLUR = 6;
+  const MIN_OPACITY = 0.35;
+  const MAX_DIST = 200;
+
+  const icons =
+    Array.from(
+      card.querySelectorAll('.icon.anim')
+    );
+
   if(!icons.length) return;
 
-  const state = icons.map(()=>({tx:0,ty:0,blur:0,op:1,x:0,y:0,b:0,o:1}));
+
+  const state =
+    icons.map(
+      () => ({
+        tx:0,
+        ty:0,
+        blur:0,
+        op:1,
+        x:0,
+        y:0,
+        b:0,
+        o:1
+      })
+    );
+
+
   let raf=null;
 
+
   function update(ev){
-    const rect = card.getBoundingClientRect();
-    const mx = ev.clientX - rect.left, my = ev.clientY - rect.top;
+
+    const rect =
+      card.getBoundingClientRect();
+
+    const mx =
+      ev.clientX - rect.left;
+
+    const my =
+      ev.clientY - rect.top;
+
+
     icons.forEach((icon,i)=>{
-      const r = icon.getBoundingClientRect();
-      const cx = r.left - rect.left + r.width/2, cy = r.top - rect.top + r.height/2;
-      const dx = mx - cx, dy = my - cy, dist = Math.hypot(dx,dy);
-      const t = Math.min(dist/MAX_DIST,1), shift = MAX_SHIFT*t;
-      const nx = dist ? dx/dist : 0, ny = dist ? dy/dist : 0;
-      const s = state[i];
-      s.tx = nx*shift; s.ty = ny*shift; s.blur = MAX_BLUR*t; s.op = 1 - (1-MIN_OPACITY)*t;
+
+      const r =
+        icon.getBoundingClientRect();
+
+      const cx =
+        r.left -
+        rect.left +
+        r.width/2;
+
+      const cy =
+        r.top -
+        rect.top +
+        r.height/2;
+
+
+      const dx =
+        mx - cx;
+
+      const dy =
+        my - cy;
+
+      const dist =
+        Math.hypot(dx,dy);
+
+      const t =
+        Math.min(
+          dist/MAX_DIST,
+          1
+        );
+
+      const shift =
+        MAX_SHIFT*t;
+
+      const nx =
+        dist ? dx/dist : 0;
+
+      const ny =
+        dist ? dy/dist : 0;
+
+
+      const s =
+        state[i];
+
+
+      s.tx =
+        nx*shift;
+
+      s.ty =
+        ny*shift;
+
+      s.blur =
+        MAX_BLUR*t;
+
+      s.op =
+        1 -
+        (1-MIN_OPACITY)*t;
+
     });
+
+
     if(!raf) loop();
+
   }
-  function reset(){ state.forEach(s=>{s.tx=0;s.ty=0;s.blur=0;s.op=1}); if(!raf) loop(); }
+
+
+  function reset(){
+
+    state.forEach(
+      s=>{
+        s.tx=0;
+        s.ty=0;
+        s.blur=0;
+        s.op=1;
+      }
+    );
+
+    if(!raf) loop();
+
+  }
+
 
   function loop(){
-    raf = requestAnimationFrame(()=>{
-      let still=true, ease=0.18;
-      state.forEach((s,i)=>{
-        s.x += (s.tx - s.x)*ease; s.y += (s.ty - s.y)*ease;
-        s.b += (s.blur - s.b)*ease; s.o += (s.op - s.o)*ease;
-        const el = icons[i];
-        el.style.transform = `translate3d(${s.x}px,${s.y}px,0)`;
-        el.style.filter = `blur(${s.b}px)`; el.style.opacity = String(s.o);
-        if(Math.abs(s.tx-s.x)>0.1 || Math.abs(s.ty-s.y)>0.1 || Math.abs(s.blur-s.b)>0.1 || Math.abs(s.op-s.o)>0.01) still=false;
+
+    raf =
+      requestAnimationFrame(()=>{
+
+        let still=true;
+        const ease=0.18;
+
+
+        state.forEach((s,i)=>{
+
+          s.x +=
+            (s.tx-s.x)*ease;
+
+          s.y +=
+            (s.ty-s.y)*ease;
+
+          s.b +=
+            (s.blur-s.b)*ease;
+
+          s.o +=
+            (s.op-s.o)*ease;
+
+
+          const el =
+            icons[i];
+
+
+          el.style.transform =
+            `translate3d(${s.x}px,${s.y}px,0)`;
+
+          el.style.filter =
+            `blur(${s.b}px)`;
+
+          el.style.opacity =
+            String(s.o);
+
+
+          if(
+            Math.abs(s.tx-s.x)>0.1 ||
+            Math.abs(s.ty-s.y)>0.1 ||
+            Math.abs(s.blur-s.b)>0.1 ||
+            Math.abs(s.op-s.o)>0.01
+          ){
+            still=false;
+          }
+
+        });
+
+
+        if(!still){
+          loop();
+        }else{
+          raf=null;
+        }
+
       });
-      if(!still) loop(); else raf=null;
-    });
+
   }
-  card.addEventListener('mousemove', update, {passive:true});
-  card.addEventListener('mouseleave', reset);
+
+
+  card.addEventListener(
+    'mousemove',
+    update,
+    {passive:true}
+  );
+
+  card.addEventListener(
+    'mouseleave',
+    reset
+  );
+
 }
-function attachAllObscure(){ document.querySelectorAll('.card').forEach(attachObscure); }
+
+
+function attachAllObscure(){
+
+  document
+    .querySelectorAll('.card')
+    .forEach(attachObscure);
+
+}
+
 
 /* Tabs */
+
 function showMain(which){
-  const en = which === 'en';
-  document.getElementById('tab-en').setAttribute('aria-selected', en);
-  document.getElementById('tab-art').setAttribute('aria-selected', !en);
-  document.getElementById('panel-en').classList.toggle('hidden', !en);
-  document.getElementById('panel-art').classList.toggle('hidden', en);
-  document.getElementById('subtabs-en').classList.toggle('hidden', !en);
+
+  const en =
+    which === 'en';
+
+
+  document
+    .getElementById('tab-en')
+    .setAttribute(
+      'aria-selected',
+      en
+    );
+
+
+  document
+    .getElementById('tab-art')
+    .setAttribute(
+      'aria-selected',
+      !en
+    );
+
+
+  document
+    .getElementById('panel-en')
+    .classList
+    .toggle(
+      'hidden',
+      !en
+    );
+
+
+  document
+    .getElementById('panel-art')
+    .classList
+    .toggle(
+      'hidden',
+      en
+    );
+
+
+  document
+    .getElementById('subtabs-en')
+    .classList
+    .toggle(
+      'hidden',
+      !en
+    );
+
+
   attachAllObscure();
+
   LA_sendHeight();
+
 }
+
+
 function showSub(which){
-  const ids = ['children','teenagers','adults','corporate'];
+
+  const ids =
+    [
+      'children',
+      'teenagers',
+      'adults',
+      'corporate'
+    ];
+
+
   ids.forEach(id=>{
-    document.getElementById(`sub-${id}`).setAttribute('aria-selected', id===which);
-    document.getElementById(`subpanel-${id}`).classList.toggle('hidden', id!==which);
+
+    document
+      .getElementById(`sub-${id}`)
+      .setAttribute(
+        'aria-selected',
+        id===which
+      );
+
+
+    document
+      .getElementById(`subpanel-${id}`)
+      .classList
+      .toggle(
+        'hidden',
+        id!==which
+      );
+
   });
+
+
   attachAllObscure();
+
   LA_sendHeight();
+
 }
-document.getElementById('tab-en').addEventListener('click', ()=>showMain('en'));
-document.getElementById('tab-art').addEventListener('click', ()=>showMain('art'));
-['children','teenagers','adults','corporate'].forEach(id=>{
-  document.getElementById(`sub-${id}`).addEventListener('click', ()=>showSub(id));
+
+
+document
+  .getElementById('tab-en')
+  .addEventListener(
+    'click',
+    ()=>showMain('en')
+  );
+
+
+document
+  .getElementById('tab-art')
+  .addEventListener(
+    'click',
+    ()=>showMain('art')
+  );
+
+
+[
+  'children',
+  'teenagers',
+  'adults',
+  'corporate'
+].forEach(id=>{
+
+  document
+    .getElementById(`sub-${id}`)
+    .addEventListener(
+      'click',
+      ()=>showSub(id)
+    );
+
 });
 
-/* After initial render, bind animation */
-window.addEventListener('load', attachAllObscure);
+
+/* After initial render */
+
+window.addEventListener(
+  'load',
+  attachAllObscure
+);
+
 
 /* Auto-resize for Wix iframe */
-(function () {
-  function sendHeight() {
-    requestAnimationFrame(() => {
-      const h = Math.ceil(document.documentElement.scrollHeight);
-      if (window.parent) {
-        window.parent.postMessage({ type: 'LA_HEIGHT', height: h }, '*');
+
+(function(){
+
+  function sendHeight(){
+
+    requestAnimationFrame(()=>{
+
+      const h =
+        Math.ceil(
+          document.documentElement.scrollHeight
+        );
+
+
+      if(window.parent){
+
+        window.parent.postMessage(
+          {
+            type:'LA_HEIGHT',
+            height:h
+          },
+          '*'
+        );
+
       }
+
     });
+
   }
-  window.addEventListener('load', sendHeight);
-  document.addEventListener('DOMContentLoaded', sendHeight);
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sendHeight);
-  new ResizeObserver(sendHeight).observe(document.body);
-  new MutationObserver(sendHeight).observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true });
-  window.addEventListener('resize', sendHeight);
-  setTimeout(sendHeight, 0);
-  window.LA_sendHeight = sendHeight;
+
+
+  window.addEventListener(
+    'load',
+    sendHeight
+  );
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    sendHeight
+  );
+
+
+  if(
+    document.fonts &&
+    document.fonts.ready
+  ){
+    document.fonts.ready.then(
+      sendHeight
+    );
+  }
+
+
+  new ResizeObserver(
+    sendHeight
+  ).observe(
+    document.body
+  );
+
+
+  new MutationObserver(
+    sendHeight
+  ).observe(
+    document.body,
+    {
+      subtree:true,
+      childList:true,
+      attributes:true,
+      characterData:true
+    }
+  );
+
+
+  window.addEventListener(
+    'resize',
+    sendHeight
+  );
+
+
+  setTimeout(
+    sendHeight,
+    0
+  );
+
+
+  window.LA_sendHeight =
+    sendHeight;
+
 })();
+
 </script>
+
 </body>
 </html>
